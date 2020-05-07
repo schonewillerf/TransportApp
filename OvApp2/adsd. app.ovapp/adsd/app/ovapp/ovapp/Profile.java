@@ -1,4 +1,4 @@
-package adsd.app.ovapp;
+package adsd.app.ovapp.ovapp;
 
 public class Profile {
 
