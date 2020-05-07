@@ -136,7 +136,7 @@ public class TestFrame {
 		lbReminders.setBounds(360, 322, 94, 20);
 		panelProfile.add(lbReminders);
 		
-		JLabel lbimageCard = new JLabel("New label");
+		JLabel lbimageCard = new JLabel();
 		lbimageCard.setBounds(11, 274, 34, 26);
 		panelProfile.add(lbimageCard);
 		
