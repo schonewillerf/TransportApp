@@ -12,6 +12,9 @@ import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
+import javax.swing.UIManager;
+import java.awt.SystemColor;
+import java.awt.Color;
 
 public class TestFrame {
 
@@ -55,10 +58,12 @@ public class TestFrame {
 		frame.getContentPane().add(tabbedPane);
 		
 		JPanel panelProfile = new JPanel();
+		panelProfile.setBackground(UIManager.getColor("Tree.background"));
 		tabbedPane.addTab("Profiel", null, panelProfile, null);
 		panelProfile.setLayout(null);
 		
 		JLabel lbimage = new JLabel();
+		lbimage.setBackground(UIManager.getColor("ToolBar.highlight"));
 		lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));
 		lbimage.setBounds(24, 21, 207, 222);
 		panelProfile.add(lbimage);
@@ -69,76 +74,108 @@ public class TestFrame {
 		
 		JLabel label = new JLabel("Name:");
 		label.setFont(new Font("Tahoma", Font.BOLD, 11));
-		label.setBounds(241, 100, 74, 20);
+		label.setBounds(55, 322, 74, 20);
 		panelProfile.add(label);
 		
 		JLabel label_1 = new JLabel("Age:");
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		label_1.setBounds(241, 131, 74, 20);
+		label_1.setBounds(55, 353, 74, 20);
 		panelProfile.add(label_1);
 		
 		JLabel label_2 = new JLabel("City:");
 		label_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		label_2.setBounds(241, 162, 74, 20);
+		label_2.setBounds(55, 390, 74, 20);
 		panelProfile.add(label_2);
 		
 		JLabel label_3 = new JLabel("Streetname:");
 		label_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-		label_3.setBounds(241, 193, 74, 20);
+		label_3.setBounds(55, 421, 74, 20);
 		panelProfile.add(label_3);
 		
 		JLabel label_4 = new JLabel("Jack Piraat");
 		label_4.setHorizontalAlignment(SwingConstants.LEFT);
-		label_4.setBounds(322, 103, 132, 14);
+		label_4.setBounds(141, 325, 132, 14);
 		panelProfile.add(label_4);
 		
 		JLabel label_5 = new JLabel("23");
 		label_5.setHorizontalAlignment(SwingConstants.LEFT);
-		label_5.setBounds(325, 134, 140, 14);
+		label_5.setBounds(139, 356, 140, 14);
 		panelProfile.add(label_5);
 		
 		JLabel label_6 = new JLabel("Amsterdam");
 		label_6.setHorizontalAlignment(SwingConstants.LEFT);
-		label_6.setBounds(325, 165, 140, 14);
+		label_6.setBounds(139, 393, 140, 14);
 		panelProfile.add(label_6);
 		
 		JLabel label_7 = new JLabel("Kattenburg 12");
 		label_7.setHorizontalAlignment(SwingConstants.LEFT);
-		label_7.setBounds(325, 196, 140, 14);
+		label_7.setBounds(139, 424, 140, 14);
 		panelProfile.add(label_7);
 		
 		JLabel lbMyCard = new JLabel("My Card:");
 		lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbMyCard.setBounds(55, 274, 74, 20);
+		lbMyCard.setBounds(55, 281, 74, 20);
 		panelProfile.add(lbMyCard);
 		
 		JLabel lbMySubscription = new JLabel("My subcription:");
 		lbMySubscription.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbMySubscription.setBounds(43, 439, 118, 20);
+		lbMySubscription.setBounds(55, 467, 118, 20);
 		panelProfile.add(lbMySubscription);
 		
 		JTextPane textPane = new JTextPane();
-		textPane.setBounds(32, 470, 372, 111);
+		textPane.setBackground(new Color(211, 211, 211));
+		textPane.setBounds(24, 505, 386, 111);
 		panelProfile.add(textPane);
 		
 		JLabel lbFavorites = new JLabel("Favorieten:");
 		lbFavorites.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbFavorites.setBounds(380, 243, 74, 20);
+		lbFavorites.setBounds(301, 43, 74, 20);
 		panelProfile.add(lbFavorites);
 		
 		JLabel lbSaved = new JLabel("Opgeslagen:");
 		lbSaved.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbSaved.setBounds(369, 291, 74, 20);
+		lbSaved.setBounds(301, 85, 74, 20);
 		panelProfile.add(lbSaved);
 		
 		JLabel lbReminders = new JLabel("Herinneringen:");
 		lbReminders.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lbReminders.setBounds(360, 322, 94, 20);
+		lbReminders.setBounds(301, 138, 94, 20);
 		panelProfile.add(lbReminders);
 		
 		JLabel lbimageCard = new JLabel();
-		lbimageCard.setBounds(11, 274, 34, 26);
+		lbimageCard.setIcon(new ImageIcon(OvApp.class.getResource("/resources/mycard.png")));
+		lbimageCard.setBounds(21, 281, 24, 20);
 		panelProfile.add(lbimageCard);
+		
+		JLabel lbPencil = new JLabel();
+		lbPencil.setHorizontalAlignment(SwingConstants.LEFT);
+		lbPencil.setIcon(new ImageIcon(OvApp.class.getResource("/resources/toolpencil.png")));
+		lbPencil.setBounds(24, 467, 24, 27);
+		panelProfile.add(lbPencil);
+		
+		JLabel lbHome = new JLabel();
+		lbHome.setIcon(new ImageIcon(OvApp.class.getResource("/resources/homecolor.png")));
+		lbHome.setHorizontalAlignment(SwingConstants.LEFT);
+		lbHome.setBounds(24, 383, 24, 27);
+		panelProfile.add(lbHome);
+		
+		JLabel lbFavoritesimage = new JLabel();
+		lbFavoritesimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/favorites.png")));
+		lbFavoritesimage.setHorizontalAlignment(SwingConstants.LEFT);
+		lbFavoritesimage.setBounds(267, 43, 24, 27);
+		panelProfile.add(lbFavoritesimage);
+		
+		JLabel lbSavedimage = new JLabel();
+		lbSavedimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/saved.png")));
+		lbSavedimage.setHorizontalAlignment(SwingConstants.LEFT);
+		lbSavedimage.setBounds(267, 85, 24, 27);
+		panelProfile.add(lbSavedimage);
+		
+		JLabel lblReminderimage = new JLabel();
+		lblReminderimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/reminder.png")));
+		lblReminderimage.setHorizontalAlignment(SwingConstants.LEFT);
+		lblReminderimage.setBounds(267, 131, 24, 27);
+		panelProfile.add(lblReminderimage);
 		
 		
 		JPanel panelTravelPlanner = new JPanel();
