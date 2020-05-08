@@ -209,9 +209,9 @@ public class TestFrame {
 		JButton btnMetro = new JButton("");
 		btnMetro.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Metro_50.png")));
 		
-		JButton btnShowTrip = new JButton("Plan Trip");
+		JButton btnShowTrip = new JButton("Zoeken");
 		
-		JButton btnSearchNow = new JButton("Now");
+		JButton btnSearchNow = new JButton("Nu");
 		
 		JSpinner SpnrDateAndTime = new JSpinner();
 		SpnrDateAndTime.setModel(new SpinnerDateModel(new Date(1588888800000L), null, null, Calendar.DAY_OF_YEAR));
@@ -222,9 +222,9 @@ public class TestFrame {
 		textFldDeparture = new JTextField();
 		textFldDeparture.setColumns(10);
 		
-		JLabel lblDeparture = new JLabel("Departure:");
+		JLabel lblDeparture = new JLabel("Vertrek:");
 		
-		JLabel lblDestination = new JLabel("Destination:");
+		JLabel lblDestination = new JLabel("Bestemming:");
 		GroupLayout gl_panelTravelPlanner = new GroupLayout(panelTravelPlanner);
 		gl_panelTravelPlanner.setHorizontalGroup(
 			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
