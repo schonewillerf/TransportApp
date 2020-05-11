@@ -1,5 +1,5 @@
 package adsd.app.ovapp.ovapp;
-//asdasdas
+
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
@@ -18,22 +18,19 @@ import java.awt.Color;
 import javax.swing.JMenu;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerDateModel;
-import java.util.Date;
-import java.util.Calendar;
-
+//test
 public class TestFrame {
 
 	private JFrame frame;
-	private JTextField txtFieldDeparture;
-	private JTextField txtFldDestination;
-
-	
+	private JTabbedPane tabbedPane;
+	private JPanel panelProfile;
+	private JPanel panelTravelPlanner;
+	private JPanel panelLocation;
+	private JPanel panelMap;
+	private JPanel panelDelays;
+	private JPanel panelFavorites;
+	private JPanel panelSaved;
+	private JPanel panelReminder;
 
 	/**
 	 * Launch the application.
@@ -55,14 +52,24 @@ public class TestFrame {
 	 * Create the application.
 	 */
 	
-	public void SwitchPanels(JTabbedPane tabbedPane)
+	public void SwitchPanels()
 	{
 		tabbedPane.removeAll();
-		tabbedPane.repaint();
-		tabbedPane.revalidate();
+		
 	}
+	
+	public void AddPanels()
+	{
+		tabbedPane.addTab("Profiel", null, panelProfile, null);
+		tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
+		tabbedPane.addTab("Locatie", null, panelLocation, null);
+		tabbedPane.addTab("Kaart", null, panelMap, null);
+		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
+	}
+	
 	public TestFrame() {
 		initialize();
+		
 	}
 
 	/**
@@ -76,114 +83,43 @@ public class TestFrame {
 		frame.getContentPane().setLayout(null);
 		
 		//tabbedpane
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 11, 485, 655);
 		frame.getContentPane().add(tabbedPane);
 		
 		
 		//panels
-		JPanel panelProfile = new JPanel();
+		panelProfile = new JPanel();
 		panelProfile.setBackground(Color.WHITE);
 		tabbedPane.addTab("Profiel", null, panelProfile, null);
 		panelProfile.setLayout(null);
 		
 		
-		JPanel panelTravelPlanner = new JPanel();
+		panelTravelPlanner = new JPanel();
 		tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
 		
-		JButton btnMetro = new JButton("");
-		btnMetro.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Metro_50.png")));
-		
-		JButton btnTram = new JButton("");
-		btnTram.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Tram_50.png")));
-		
-		JButton btnBus = new JButton("");
-		btnBus.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/bus_50.png")));
-		
-		JButton btnTrain = new JButton("");
-		btnTrain.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/train_50.png")));
-		
-		JLabel lblDeparture = new JLabel("Vertrek:");
-		
-		JLabel lblDestination = new JLabel("Bestemming:");
-		
-		txtFieldDeparture = new JTextField();
-		txtFieldDeparture.setColumns(10);
-		
-		txtFldDestination = new JTextField();
-		txtFldDestination.setColumns(10);
-		
-		JSpinner SpnrDateAndTime = new JSpinner();
-		SpnrDateAndTime.setModel(new SpinnerDateModel(new Date(1589148000000L), null, null, Calendar.DAY_OF_YEAR));
-		
-		JButton btnNow = new JButton("Nu");
-		
-		JButton btnShowTrip = new JButton("Zoeken");
-		GroupLayout gl_panelTravelPlanner = new GroupLayout(panelTravelPlanner);
-		gl_panelTravelPlanner.setHorizontalGroup(
-			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelTravelPlanner.createSequentialGroup()
-					.addGap(58)
-					.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panelTravelPlanner.createSequentialGroup()
-							.addComponent(btnMetro)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnTram, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnBus, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
-							.addComponent(lblDeparture)
-							.addComponent(txtFieldDeparture, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblDestination)
-							.addComponent(txtFldDestination, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-							.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(btnShowTrip, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(Alignment.LEADING, gl_panelTravelPlanner.createSequentialGroup()
-									.addComponent(SpnrDateAndTime, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnNow, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)))))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnTrain, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(80, Short.MAX_VALUE))
-		);
-		gl_panelTravelPlanner.setVerticalGroup(
-			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelTravelPlanner.createSequentialGroup()
-					.addGap(127)
-					.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnTrain, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnBus, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnTram, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnMetro))
-					.addGap(58)
-					.addComponent(lblDeparture)
-					.addGap(18)
-					.addComponent(txtFieldDeparture, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblDestination)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(txtFldDestination, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(50)
-					.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.BASELINE)
-						.addComponent(SpnrDateAndTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNow))
-					.addGap(34)
-					.addComponent(btnShowTrip, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(111, Short.MAX_VALUE))
-		);
-		panelTravelPlanner.setLayout(gl_panelTravelPlanner);
-		
-		JPanel panelLocation = new JPanel();
+		panelLocation = new JPanel();
 		tabbedPane.addTab("Locatie", null, panelLocation, null);
 		
-		JPanel panelMap = new JPanel();
+		panelMap = new JPanel();
 		tabbedPane.addTab("Kaart", null, panelMap, null);
 		
-		JPanel panelDelays = new JPanel();
+		panelDelays = new JPanel();
 		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
 		
-		JPanel panelFavorites = new JPanel();
+		panelFavorites = new JPanel();
 		panelFavorites.setBackground(Color.WHITE);
+		
+		panelSaved = new JPanel();
+		panelSaved.setBackground(Color.WHITE);
+		panelSaved.setLayout(null);
+		
+		panelReminder = new JPanel();
+		panelReminder.setBackground(Color.WHITE);
+		panelReminder.setLayout(null);
+		
+	
+		
 		/*
 		tabbedPane.add(panelFavorites);
 		tabbedPane.addTab("Favorieten", null ,panelFavorites, null);
@@ -287,34 +223,22 @@ public class TestFrame {
 		panelProfile.add(btnPencil);
 		
 		JButton btnCard = new JButton();
+		btnCard.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+			}
+		});
 		btnCard.setForeground(Color.WHITE);
 		btnCard.setBackground(Color.WHITE);
 		btnCard.setIcon(new ImageIcon(OvApp.class.getResource("/resources/mycard.png")));
 		btnCard.setBounds(24, 278, 29, 23);
 		panelProfile.add(btnCard);
 		
-		
-		JButton btnBack = new JButton("Terug ");
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedPane.addTab("Profiel", null, panelProfile, null);
-				tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
-				tabbedPane.addTab("Locatie", null, panelLocation, null);
-				tabbedPane.addTab("Kaart", null, panelMap, null);
-				tabbedPane.addTab("Vertragingen", null, panelDelays, null);
-				
-				tabbedPane.remove(panelFavorites);
-				
-			}
-		});
-		btnBack.setBounds(364, 28, 89, 23);
-		panelFavorites.add(btnBack);
-		
 		JButton btnFavorites = new JButton();
 		btnFavorites.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				tabbedPane.removeAll();
+				SwitchPanels();
 				tabbedPane.add(panelFavorites);
 				tabbedPane.addTab("Favorieten", null ,panelFavorites, null);
 			}
@@ -327,6 +251,16 @@ public class TestFrame {
 		panelProfile.add(btnFavorites);
 		
 		JButton btnSaved = new JButton();
+		btnSaved.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				SwitchPanels();
+				tabbedPane.add(panelSaved);
+				tabbedPane.addTab("Opgeslagen", null ,panelSaved, null);
+				
+				
+			}
+		});
 		btnSaved.setForeground(Color.WHITE);
 		btnSaved.setBackground(Color.WHITE);
 		btnSaved.setIcon(new ImageIcon(OvApp.class.getResource("/resources/saved.png")));
@@ -334,11 +268,57 @@ public class TestFrame {
 		panelProfile.add(btnSaved);
 		
 		JButton btnReminder = new JButton();
+		btnReminder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				SwitchPanels();
+				tabbedPane.add(panelReminder);
+				tabbedPane.addTab("Herinneringen", null , panelReminder, null);
+			}
+		});
 		btnReminder.setForeground(Color.WHITE);
 		btnReminder.setBackground(Color.WHITE);
 		btnReminder.setIcon(new ImageIcon(OvApp.class.getResource("/resources/reminder.png")));
 		btnReminder.setBounds(262, 135, 29, 23);
 		panelProfile.add(btnReminder);
+		
+		//buttons "back"
+		JButton btnBackFavorites = new JButton("Terug ");
+		btnBackFavorites.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddPanels();
+				tabbedPane.remove(panelFavorites);
+				
+			}
+		});
+		btnBackFavorites.setBounds(364, 28, 89, 23);
+		panelFavorites.add(btnBackFavorites);
+		
+		JButton btnBackSaved = new JButton("Terug");
+		btnBackSaved.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddPanels();
+				tabbedPane.remove(panelSaved);
+				
+			}
+		});
+		btnBackSaved.setBounds(332, 57, 89, 23);
+		panelSaved.add(btnBackSaved);
+		
+		JButton btnBackReminder = new JButton("Terug");
+		btnBackReminder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddPanels();
+				tabbedPane.remove(panelReminder);
+				
+			}
+		});
+		btnBackReminder.setBounds(316, 30, 89, 23);
+		panelReminder.add(btnBackReminder);
+		
+		
+		
+		
 		
 
 		
