@@ -18,10 +18,20 @@ import java.awt.Color;
 import javax.swing.JMenu;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTextField;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import java.util.Date;
+import java.util.Calendar;
 
 public class TestFrame {
 
 	private JFrame frame;
+	private JTextField txtFieldDeparture;
+	private JTextField txtFldDestination;
 
 	
 
@@ -80,6 +90,88 @@ public class TestFrame {
 		
 		JPanel panelTravelPlanner = new JPanel();
 		tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
+		
+		JButton btnMetro = new JButton("");
+		btnMetro.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Metro_50.png")));
+		
+		JButton btnTram = new JButton("");
+		btnTram.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Tram_50.png")));
+		
+		JButton btnBus = new JButton("");
+		btnBus.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/bus_50.png")));
+		
+		JButton btnTrain = new JButton("");
+		btnTrain.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/train_50.png")));
+		
+		JLabel lblDeparture = new JLabel("Vertrek:");
+		
+		JLabel lblDestination = new JLabel("Bestemming:");
+		
+		txtFieldDeparture = new JTextField();
+		txtFieldDeparture.setColumns(10);
+		
+		txtFldDestination = new JTextField();
+		txtFldDestination.setColumns(10);
+		
+		JSpinner SpnrDateAndTime = new JSpinner();
+		SpnrDateAndTime.setModel(new SpinnerDateModel(new Date(1589148000000L), null, null, Calendar.DAY_OF_YEAR));
+		
+		JButton btnNow = new JButton("Nu");
+		
+		JButton btnShowTrip = new JButton("Zoeken");
+		GroupLayout gl_panelTravelPlanner = new GroupLayout(panelTravelPlanner);
+		gl_panelTravelPlanner.setHorizontalGroup(
+			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTravelPlanner.createSequentialGroup()
+					.addGap(58)
+					.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelTravelPlanner.createSequentialGroup()
+							.addComponent(btnMetro)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnTram, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnBus, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
+							.addComponent(lblDeparture)
+							.addComponent(txtFieldDeparture, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblDestination)
+							.addComponent(txtFldDestination, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(btnShowTrip, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(Alignment.LEADING, gl_panelTravelPlanner.createSequentialGroup()
+									.addComponent(SpnrDateAndTime, GroupLayout.PREFERRED_SIZE, 121, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnNow, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)))))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnTrain, GroupLayout.PREFERRED_SIZE, 81, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(80, Short.MAX_VALUE))
+		);
+		gl_panelTravelPlanner.setVerticalGroup(
+			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTravelPlanner.createSequentialGroup()
+					.addGap(127)
+					.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnTrain, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnBus, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnTram, GroupLayout.PREFERRED_SIZE, 57, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnMetro))
+					.addGap(58)
+					.addComponent(lblDeparture)
+					.addGap(18)
+					.addComponent(txtFieldDeparture, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblDestination)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(txtFldDestination, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(50)
+					.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.BASELINE)
+						.addComponent(SpnrDateAndTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNow))
+					.addGap(34)
+					.addComponent(btnShowTrip, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(111, Short.MAX_VALUE))
+		);
+		panelTravelPlanner.setLayout(gl_panelTravelPlanner);
 		
 		JPanel panelLocation = new JPanel();
 		tabbedPane.addTab("Locatie", null, panelLocation, null);
