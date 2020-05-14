@@ -25,6 +25,7 @@ import javax.swing.JMenu;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.awt.event.ActionEvent;
 import javax.swing.JEditorPane;
 
@@ -49,6 +50,8 @@ public class TestFrame
 	private JEditorPane dtrpnAmsterdam;
 	private JEditorPane dtrpnKattenburg;
 	private JEditorPane editorPane_4; 
+	private JLabel lblDistance;
+	
 	
 	/**
 	 * Launch the application.
@@ -380,6 +383,27 @@ public class TestFrame
 		JLabel lblDestination = new JLabel("Aankomst:");
 		
 		JButton btnPlanTrip = new JButton("Zoeken");
+		btnPlanTrip.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				if (String.valueOf("Amersfoort").equals(txtFieldDeparture.getText()) && String.valueOf("Amsterdam").equals(txtFieldDestination.getText()))
+				{
+					lblDistance.setText("Afstand: 69 km");
+				}
+				else if (String.valueOf("Amsterdam").equals(txtFieldDeparture.getText()) && String.valueOf("Rotterdam").equals(txtFieldDestination.getText()))
+				{
+					lblDistance.setText("Afstand: 75 km");
+				}
+				else 
+				{
+					System.out.println("Afstand houden!");
+					Random num = new Random();
+					int myDistance = num.nextInt(50)+10;// Generate random int 
+					lblDistance.setText(String.format("Afstand: %s km", myDistance));
+				}
+			}
+		});
 		//an option to input date and time
 		JSpinner SpnrDateTime = new JSpinner();
 		SpnrDateTime.setModel(new SpinnerDateModel(new Date(1589234400000L), null, null, Calendar.DAY_OF_YEAR));
@@ -392,6 +416,9 @@ public class TestFrame
 		//automatically groups the buttons at the same height.
 		txtFieldDestination = new JTextField();
 		txtFieldDestination.setColumns(10);
+		
+		lblDistance= new JLabel("");
+		
 		GroupLayout gl_panelTravelPlanner = new GroupLayout(panelTravelPlanner);
 		gl_panelTravelPlanner.setHorizontalGroup(
 			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
@@ -416,8 +443,9 @@ public class TestFrame
 								.addComponent(btnPlanTrip, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
 								.addComponent(lblDeparture, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
 								.addComponent(txtFieldDeparture)
-								.addComponent(txtFieldDestination, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDestination))))
+								.addComponent(txtFieldDestination, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+								.addComponent(lblDestination)
+								.addComponent(lblDistance, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addContainerGap(54, Short.MAX_VALUE))
 		);
 		gl_panelTravelPlanner.setVerticalGroup(
@@ -443,7 +471,9 @@ public class TestFrame
 						.addComponent(btnNow))
 					.addGap(28)
 					.addComponent(btnPlanTrip, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(124, Short.MAX_VALUE))
+					.addGap(34)
+					.addComponent(lblDistance, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(54, Short.MAX_VALUE))
 		);
 		panelTravelPlanner.setLayout(gl_panelTravelPlanner);
 		
