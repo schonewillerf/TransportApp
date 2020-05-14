@@ -8,20 +8,21 @@ public class Profile {
     private String lastname;
     private String streetName;
     private String residence;
+    private String card;
 
 
 
 
     public Profile()
     {
-        this(0, 0, null, null, null,null);
+        this(0, 0, null, null, null,null, null);
     }
 
 
     public Profile(int id, String firstName,
                    String lastname)
     {
-        this(0,0, null, null, null,null);
+        this(0,0, null, null, null,null, null);
     }
 
     public Profile(int id,
@@ -29,16 +30,18 @@ public class Profile {
                    String firstName,
                    String lastname,
                    String streetName,
-                   String residence
-                   )
+                   String residence,
+                   String card
+    )
 
     {
         this.id = id;
         this.age = age;
         this.firstName = firstName;
-        this.lastname = firstName;
-        this.streetName = streetName;
         this.lastname = lastname;
+        this.streetName = streetName;
+        this.residence = residence;
+        this.card = card;
     }
 
 
@@ -103,4 +106,15 @@ public class Profile {
     {
         return this.residence;
     }
+
+    public void setCard(String card)
+    {
+        this.card = card;
+    }
+
+    public String getCard()
+    {
+        return this.card;
+    }
 }
+
