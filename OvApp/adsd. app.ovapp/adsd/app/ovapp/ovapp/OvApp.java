@@ -1,90 +1,58 @@
 package adsd.app.ovapp.ovapp;
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 
-import javax.swing.AbstractButton;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
-
-import junit.framework.Test;
-
-import javax.swing.JLabel;
-import javax.swing.JList;
-
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.awt.SystemColor;
-import javax.swing.JButton;
-import javax.swing.JEditorPane;
-
-import java.awt.ScrollPane;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-
-import adsd.app.ovapp.bus.BusTime;
-import adsd.app.ovapp.metro.MetroTime;
-import adsd.app.ovapp.train.TrainDataModel;
-import adsd.app.ovapp.train.TrainTime;
-import adsd.app.ovapp.tram.TramTime;
-
-import java.awt.Toolkit;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JButton;
+import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpinnerDateModel;
 import javax.swing.UIManager;
-import javax.swing.border.LineBorder;
-import javax.swing.JTree;
+import java.awt.SystemColor;
+import java.awt.Color;
+import javax.swing.JMenu;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.Date;
+import java.awt.event.ActionEvent;
 
-public class OvApp {
-	
-																					//constructor verwijzing
-	private static TrainTime traintime;												//werkt hetzelfde als een extender alleen nu kan je meerdere files koppelen
-	private static TrainDataModel traindatamodel;
-	private static BusTime bustime;
-	private static TramTime tramtime;
-	
+public class OvApp
+{
+
 	private JFrame frame;
-	private JTable table;
-	private ArrayList<BusTime> busTimesList = getArrivalTimesBus(); 
-	private ArrayList<TrainTime> trainTimesList = getArrivalTimesTrain();
-	private ArrayList<TramTime> tramTimesList = getArrivalTimesTram();
-	private ArrayList<MetroTime> metroTimesList = getArrivalTimesMetro();
-	
-	private String [] tableColumns = {"Vertrektijd","Aankomsttijd",  "Platform", "Station", "Bestemming", "Route"};
-	
-	private DefaultTableModel busmodel = new DefaultTableModel(tableColumns,0);
-	private DefaultTableModel trainmodel = new DefaultTableModel(tableColumns,0);
-	private DefaultTableModel metromodel = new DefaultTableModel(tableColumns,0);
-	private DefaultTableModel trammodel = new DefaultTableModel(tableColumns,0);
-	
-	/**
-	 * Launch the application.
-	 */
-	
+	private JTabbedPane tabbedPane;
+	private JPanel panelProfile;
+	private JPanel panelTravelPlanner;
+	private JPanel panelLocation;
+	private JPanel panelMap;
+	private JPanel panelDelays;
+	private JPanel panelFavorites;
+	private JPanel panelSaved;
+	private JPanel panelReminder;
+	private JTextField txtFieldDeparture;
+	private JTextField txtFieldDestination;
 
-    		
-	public static void NewScreen() 													//de mainstream kan omgezet worden naar newscreen om de verwijzing van program compleet te maken
-	{																			
+	
+	public static void NewScreen() 
+	{
 		EventQueue.invokeLater(new Runnable() 
 		{
 			public void run() 
 			{
 				try 
 				{
-					OvApp window = new OvApp(traintime, traindatamodel);
+					OvApp window = new OvApp();
 					window.frame.setVisible(true);
 				} catch (Exception e) 
 				{
@@ -94,351 +62,401 @@ public class OvApp {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
-	public OvApp(TrainTime tt, TrainDataModel tdm) 
-	{
-		traintime = tt;
-		traindatamodel = tdm;
-		initialize();
-		//addRowToJTableTrain();
-		//addRowToJTableBus(); 
-	}
-
 	
+	public void SwitchPanels()
+	{
+		tabbedPane.removeAll();
+		
+	}
+	
+	public void AddPanels()
+	{
+		tabbedPane.addTab("Profiel", null, panelProfile, null);
+		tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
+		tabbedPane.addTab("Locatie", null, panelLocation, null);
+		tabbedPane.addTab("Kaart", null, panelMap, null);
+		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
+	}
+	
+	public OvApp() 
+	{
+		frame = new JFrame();
+		frame.setBounds(100, 100, 521, 716);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(OvApp.class.getResource("/resources/train_128.png")));
+		frame.getContentPane().setLayout(null);
+		
+		//tabbedpane
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(10, 11, 485, 655);
+		frame.getContentPane().add(tabbedPane);
+		
+		initialize();
+		createEvents();
+		Panel_Profile();
+		Panel_TravelPlanner();
+		Panel_Location();
+		Panel_Map();
+		Panel_Delays();
+	
+	}
+	
+	public void Panel_Profile() 
+	{
+		
+				panelProfile = new JPanel();
+				panelProfile.setBackground(Color.WHITE);
+				tabbedPane.addTab("Profiel", null, panelProfile, null);
+				panelProfile.setLayout(null);
+				//Labels
+				JLabel lbimage = new JLabel();
+				lbimage.setBackground(UIManager.getColor("ToolBar.highlight"));
+				lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));
+				lbimage.setBounds(24, 21, 207, 222);
+				panelProfile.add(lbimage);
+				
+				JLabel label = new JLabel("Naam:");
+				label.setFont(new Font("Tahoma", Font.BOLD, 11));
+				label.setBounds(55, 322, 74, 20);
+				panelProfile.add(label);
+				
+				JLabel label_1 = new JLabel("Leeftijd:");
+				label_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+				label_1.setBounds(55, 353, 74, 20);
+				panelProfile.add(label_1);
+				
+				JLabel label_2 = new JLabel("Stad:");
+				label_2.setFont(new Font("Tahoma", Font.BOLD, 11));
+				label_2.setBounds(55, 390, 74, 20);
+				panelProfile.add(label_2);
+				
+				JLabel label_3 = new JLabel("Straatnaam:");
+				label_3.setFont(new Font("Tahoma", Font.BOLD, 11));
+				label_3.setBounds(55, 421, 74, 20);
+				panelProfile.add(label_3);
+				
+				JLabel label_4 = new JLabel("Jack Piraat");
+				label_4.setHorizontalAlignment(SwingConstants.LEFT);
+				label_4.setBounds(141, 325, 132, 14);
+				panelProfile.add(label_4);
+				
+				JLabel label_5 = new JLabel("23");
+				label_5.setHorizontalAlignment(SwingConstants.LEFT);
+				label_5.setBounds(139, 356, 140, 14);
+				panelProfile.add(label_5);
+				
+				JLabel label_6 = new JLabel("Amsterdam");
+				label_6.setHorizontalAlignment(SwingConstants.LEFT);
+				label_6.setBounds(139, 393, 140, 14);
+				panelProfile.add(label_6);
+				
+				JLabel label_7 = new JLabel("Kattenburg 12");
+				label_7.setHorizontalAlignment(SwingConstants.LEFT);
+				label_7.setBounds(139, 424, 140, 14);
+				panelProfile.add(label_7);
+				
+				JLabel lbMyCard = new JLabel("Kaart:");
+				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbMyCard.setBounds(55, 281, 74, 20);
+				panelProfile.add(lbMyCard);
+				
+				JLabel lbMySubscription = new JLabel("Mijn beschrijving:");
+				lbMySubscription.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbMySubscription.setBounds(55, 467, 118, 20);
+				panelProfile.add(lbMySubscription);
+				
+				JLabel lbFavorites = new JLabel("Favorieten:");
+				lbFavorites.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbFavorites.setBounds(301, 43, 74, 20);
+				panelProfile.add(lbFavorites);
+				
+				JLabel lbSaved = new JLabel("Opgeslagen:");
+				lbSaved.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbSaved.setBounds(301, 85, 74, 20);
+				panelProfile.add(lbSaved);
+				
+				JLabel lbReminders = new JLabel("Herinneringen:");
+				lbReminders.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbReminders.setBounds(301, 138, 94, 20);
+				panelProfile.add(lbReminders);
+				
+				JLabel lbHome = new JLabel();
+				lbHome.setIcon(new ImageIcon(OvApp.class.getResource("/resources/homecolor.png")));
+				lbHome.setHorizontalAlignment(SwingConstants.LEFT);
+				lbHome.setBounds(24, 383, 24, 27);
+				panelProfile.add(lbHome);
+				
+				//textpanes
+				JTextPane textPane = new JTextPane();
+				textPane.setBackground(new Color(211, 211, 211));
+				textPane.setBounds(24, 505, 386, 111);
+				panelProfile.add(textPane);
+				
+				//buttons
+				JButton button = new JButton("Wijzig profiel");
+				button.setBounds(24, 243, 124, 20);
+				panelProfile.add(button);
+				
+				JButton btnPencil = new JButton("");
+				btnPencil.setForeground(Color.WHITE);
+				btnPencil.setBackground(Color.WHITE);
+				btnPencil.setIcon(new ImageIcon(OvApp.class.getResource("/resources/toolpencil.png")));
+				btnPencil.setBounds(24, 464, 24, 23);
+				panelProfile.add(btnPencil);
+				
+				JButton btnCard = new JButton();
+				btnCard.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+					
+					}
+				});
+				btnCard.setForeground(Color.WHITE);
+				btnCard.setBackground(Color.WHITE);
+				btnCard.setIcon(new ImageIcon(OvApp.class.getResource("/resources/mycard.png")));
+				btnCard.setBounds(24, 278, 29, 23);
+				panelProfile.add(btnCard);
+				
+				JButton btnFavorites = new JButton();
+				btnFavorites.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						
+						SwitchPanels();
+						tabbedPane.add(panelFavorites);
+						tabbedPane.addTab("Favorieten", null ,panelFavorites, null);
+					}
+				});
+				
+				btnFavorites.setForeground(Color.WHITE);
+				btnFavorites.setBackground(Color.WHITE);
+				btnFavorites.setIcon(new ImageIcon(OvApp.class.getResource("/resources/favorites.png")));
+				btnFavorites.setBounds(262, 43, 29, 23);
+				panelProfile.add(btnFavorites);
+				
+				JButton btnSaved = new JButton();
+				btnSaved.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						SwitchPanels();
+						tabbedPane.add(panelSaved);
+						tabbedPane.addTab("Opgeslagen", null ,panelSaved, null);
+						
+					}
+				});
+				btnSaved.setForeground(Color.WHITE);
+				btnSaved.setBackground(Color.WHITE);
+				btnSaved.setIcon(new ImageIcon(OvApp.class.getResource("/resources/saved.png")));
+				btnSaved.setBounds(262, 85, 29, 23);
+				panelProfile.add(btnSaved);
+				
+				JButton btnReminder = new JButton();
+				btnReminder.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						SwitchPanels();
+						tabbedPane.add(panelReminder);
+						tabbedPane.addTab("Herinneringen", null , panelReminder, null);
+					}
+				});
+				btnReminder.setForeground(Color.WHITE);
+				btnReminder.setBackground(Color.WHITE);
+				btnReminder.setIcon(new ImageIcon(OvApp.class.getResource("/resources/reminder.png")));
+				btnReminder.setBounds(262, 135, 29, 23);
+				panelProfile.add(btnReminder);
+				
+				//buttons "back"
+				JButton btnBackFavorites = new JButton("Terug ");
+				btnBackFavorites.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						AddPanels();
+						tabbedPane.remove(panelFavorites);
+						
+					}
+				});
+				btnBackFavorites.setBounds(364, 28, 89, 23);
+				panelFavorites.add(btnBackFavorites);
+				
+				JButton btnBackSaved = new JButton("Terug");
+				btnBackSaved.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						AddPanels();
+						tabbedPane.remove(panelSaved);
+						
+					}
+				});
+				btnBackSaved.setBounds(332, 57, 89, 23);
+				panelSaved.add(btnBackSaved);
+				
+				JButton btnBackReminder = new JButton("Terug");
+				btnBackReminder.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						AddPanels();
+						tabbedPane.remove(panelReminder);
+						
+					}
+				});
+				btnBackReminder.setBounds(316, 30, 89, 23);
+				panelReminder.add(btnBackReminder);
+					
 
+	}
+	
+	public void Panel_TravelPlanner() 
+	{
+		//creates a new panel
+		panelTravelPlanner = new JPanel();
+		tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
+		//buttons for different search options
+		JButton btnBus = new JButton("");
+		btnBus.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/bus_50.png")));
+		
+		JButton btnTrain = new JButton("");
+		btnTrain.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/train_50.png")));
+		
+		JButton btnMetro = new JButton("");
+		btnMetro.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Metro_50.png")));
+		
+		JButton btnTram = new JButton("");
+		btnTram.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Tram_50.png")));
+		
+		JLabel lblDeparture = new JLabel("Vertrek:");
+		
+		JLabel lblDestination = new JLabel("Aankomst:");
+		
+		JButton btnPlanTrip = new JButton("Zoeken");
+		//an option to input date and time
+		JSpinner SpnrDateTime = new JSpinner();
+		SpnrDateTime.setModel(new SpinnerDateModel(new Date(1589234400000L), null, null, Calendar.DAY_OF_YEAR));
+		//button that will show the current time
+		JButton btnNow = new JButton("Nu");
+		
+		txtFieldDeparture = new JTextField();
+		txtFieldDeparture.setColumns(10);
+		
+		//automatically groups the buttons at the same height.
+		txtFieldDestination = new JTextField();
+		txtFieldDestination.setColumns(10);
+		GroupLayout gl_panelTravelPlanner = new GroupLayout(panelTravelPlanner);
+		gl_panelTravelPlanner.setHorizontalGroup(
+			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTravelPlanner.createSequentialGroup()
+					.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelTravelPlanner.createSequentialGroup()
+							.addGap(76)
+							.addComponent(btnBus)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnTrain, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnMetro, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnTram, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelTravelPlanner.createSequentialGroup()
+							.addGap(134)
+							.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_panelTravelPlanner.createSequentialGroup()
+									.addComponent(SpnrDateTime, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnNow, 0, 0, Short.MAX_VALUE))
+								.addComponent(btnPlanTrip, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+								.addComponent(lblDeparture, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+								.addComponent(txtFieldDeparture)
+								.addComponent(txtFieldDestination, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDestination))))
+					.addContainerGap(54, Short.MAX_VALUE))
+		);
+		gl_panelTravelPlanner.setVerticalGroup(
+			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelTravelPlanner.createSequentialGroup()
+					.addGap(136)
+					.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnBus)
+						.addComponent(btnTrain, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnMetro, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnTram, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE))
+					.addGap(51)
+					.addComponent(lblDeparture)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(txtFieldDeparture, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblDestination)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(txtFieldDestination, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(53)
+					.addGroup(gl_panelTravelPlanner.createParallelGroup(Alignment.BASELINE)
+						.addComponent(SpnrDateTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnNow))
+					.addGap(28)
+					.addComponent(btnPlanTrip, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(124, Short.MAX_VALUE))
+		);
+		panelTravelPlanner.setLayout(gl_panelTravelPlanner);
+		
+		
+		
+	}
+	
+	public void Panel_Location() 
+	{
+		panelLocation = new JPanel();
+		tabbedPane.addTab("Locatie", null, panelLocation, null);
+		
+	}
+	
+	public void Panel_Map() 
+	{
+		panelMap = new JPanel();
+		tabbedPane.addTab("Kaart", null, panelMap, null);
+		
+	}
+	
+	public void Panel_Delays() 
+	{
+		panelDelays = new JPanel();
+		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
+		
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	
 	private void initialize() 
 	{
-		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(OvApp.class.getResource("/resources/train_128.png")));
-		frame.setBounds(100, 100, 545, 795);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		panelFavorites = new JPanel();
+		panelFavorites.setBackground(Color.WHITE);
 		
+		panelSaved = new JPanel();
+		panelSaved.setBackground(Color.WHITE);
+		panelSaved.setLayout(null);
 		
-		// panels
-		JPanel panelTravelTimes = new JPanel();
-		panelTravelTimes.setBackground(SystemColor.info);
-		panelTravelTimes.setBounds(0, 379, 536, 384);
-		frame.getContentPane().add(panelTravelTimes);
+		panelReminder = new JPanel();
+		panelReminder.setBackground(Color.WHITE);
+		panelReminder.setLayout(null);
+		/*
+		tabbedPane.add(panelFavorites);
+		tabbedPane.addTab("Favorieten", null ,panelFavorites, null);
+		panelFavorites.setLayout(null);
+		*/
 		
-		JPanel panelProfileInfo = new JPanel();
-		panelProfileInfo.setBackground(SystemColor.activeCaption);
-		panelProfileInfo.setBounds(0, 0, 536, 381);
-		frame.getContentPane().add(panelProfileInfo);
-		panelProfileInfo.setLayout(null);
-		panelTravelTimes.setLayout(null);
-		
-		JLabel lbVerhicleType = new JLabel("Vervoerstype");
-		lbVerhicleType.setBounds(182, 11, 95, 20);
-		lbVerhicleType.setFont(new Font("Tahoma", Font.BOLD, 13));
-		panelTravelTimes.add(lbVerhicleType);
-		
-		JLabel lbimage = new JLabel("image");
-		lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));
-		lbimage.setBounds(10, 0, 201, 220);
-		panelProfileInfo.add(lbimage);
-		
-		JLabel lblName = new JLabel("Name:");
-		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblName.setBounds(10, 242, 74, 20);
-		panelProfileInfo.add(lblName);
-		
-		JLabel lblAge = new JLabel("Age:");
-		lblAge.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblAge.setBounds(10, 268, 74, 20);
-		panelProfileInfo.add(lblAge);
-		
-		JLabel lblCity = new JLabel("City:");
-		lblCity.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblCity.setBounds(10, 293, 74, 20);
-		panelProfileInfo.add(lblCity);
-		
-		JLabel lblStreetname = new JLabel("Streetname:");
-		lblStreetname.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblStreetname.setBounds(10, 320, 74, 20);
-		panelProfileInfo.add(lblStreetname);
-		
-		//labelstxt
-		JLabel lbFullNametxt = new JLabel("Jack Piraat");
-		lbFullNametxt.setHorizontalAlignment(SwingConstants.CENTER);
-		lbFullNametxt.setBounds(86, 245, 132, 14);
-		panelProfileInfo.add(lbFullNametxt);
-		
-		JLabel lblAgetxt = new JLabel("23");
-		lblAgetxt.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAgetxt.setBounds(86, 271, 140, 14);
-		panelProfileInfo.add(lblAgetxt);
-		
-		JLabel lblCitytxt = new JLabel("Amsterdam");
-		lblCitytxt.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCitytxt.setBounds(86, 296, 140, 14);
-		panelProfileInfo.add(lblCitytxt);
-		
-		JLabel lblStreetNametxt = new JLabel("Kattenburg 12");
-		lblStreetNametxt.setHorizontalAlignment(SwingConstants.CENTER);
-		lblStreetNametxt.setBounds(86, 323, 140, 14);
-		panelProfileInfo.add(lblStreetNametxt);
-		
-		JButton btnNewButton_1 = new JButton("Edit profile");
-		btnNewButton_1.setBounds(107, 212, 105, 20);
-		panelProfileInfo.add(btnNewButton_1);
-		
-		JButton btnTrain = new JButton("Train");
-		btnTrain.setBounds(42, 42, 63, 23);
-		btnTrain.addActionListener(e1 -> {
-		
-			try {
-				trainmodel.setRowCount(0);
-				table.setModel(trainmodel);															
-		    	Object tableColumns [] = new Object [6];								// geef tot 6 objecten weer per rij
-		    	for(int i = 0; i < trainTimesList.size(); i++) {  						//i++ oneindig weergeven van data in arraylist
-		    																			// de (i) info uit de array de i++ zorgt ervoor dat er steeds een opvolgend object word weergeven.
-		    		tableColumns[0] = trainTimesList.get(i).getArrivalTime(); 			//eerste rij/row in table is aangegeven met 0
-		    		tableColumns[1] = trainTimesList.get(i).getDepartureTime();			//tweede rij/row in de table
-		    		tableColumns[2] = trainTimesList.get(i).getPlatForm();				
-		    		tableColumns[3] = trainTimesList.get(i).getStationName();
-		    		tableColumns[4] = trainTimesList.get(i).getDestination();
-		    		tableColumns[5] = trainTimesList.get(i).getRoute();
-		    		trainmodel.addRow(tableColumns);}
-		    		
-		    		TableColumn trainmodel = table.getColumnModel().getColumn(0);		//column converter dus table word busmodel en busmodel krijgt zijn eigen tabeleigenschappen.
-		    		trainmodel = table.getColumnModel().getColumn(0);
-		    		trainmodel.setPreferredWidth(61);									//hoe groot de tabel moet zijn
-		    		trainmodel = table.getColumnModel().getColumn(1);
-		    		trainmodel.setPreferredWidth(80);
-		    		trainmodel = table.getColumnModel().getColumn(2);
-		    		trainmodel.setPreferredWidth(51);
-		    		trainmodel = table.getColumnModel().getColumn(3);
-		    		trainmodel.setPreferredWidth(115);
-		    		trainmodel = table.getColumnModel().getColumn(4);
-		    		trainmodel.setPreferredWidth(115);
-		    		trainmodel = table.getColumnModel().getColumn(5);
-		    		trainmodel.setPreferredWidth(39);
-		    	
-		    	}
-			
-			catch (Exception ex) {
-				
-				System.out.println("Data not found");
-				
-			}
-		    
-		});
-		panelTravelTimes.add(btnTrain);
-		
+	}
 	
-		//Buttons
-		JButton btnNewButton = new JButton("Bus");
-		btnNewButton.addActionListener( e2 -> {
-			
+	/*
+	 * This method contains all of the code for creating events
+	 */
 
-			try {  
-			
-				busmodel.setRowCount(0);
-		    	table.setModel(busmodel);									
-		    	for(int j = 0; j < busTimesList.size(); j++) {  					
-		    		Object [] tableColumns  = new Object [6];
-		    		tableColumns [0] = busTimesList.get(j).getArrivalTime(); 			
-		    		tableColumns [1] = busTimesList.get(j).getDepartureTime();			
-		    		tableColumns [2] = busTimesList.get(j).getPlatform();				
-		    		tableColumns [3] = busTimesList.get(j).getStationName();
-		    		tableColumns [4] = busTimesList.get(j).getDestination();
-		    		tableColumns [5] = busTimesList.get(j).getRoute();
-		    		busmodel.addRow(tableColumns);} 
-		    	
-		    		TableColumn busmodel = table.getColumnModel().getColumn(0);		//column converter dus table word busmodel en busmodel krijgt zijn eigen tabeleigenschappen
-		    		busmodel = table.getColumnModel().getColumn(0);
-		    		busmodel.setPreferredWidth(61);
-		    		busmodel = table.getColumnModel().getColumn(1);
-		    		busmodel.setPreferredWidth(80);
-		    		busmodel = table.getColumnModel().getColumn(2);
-		    		busmodel.setPreferredWidth(51);
-		    		busmodel = table.getColumnModel().getColumn(3);
-		    		busmodel.setPreferredWidth(115);
-		    		busmodel = table.getColumnModel().getColumn(4);
-		    		busmodel.setPreferredWidth(115);
-		    		busmodel = table.getColumnModel().getColumn(5);
-		    		busmodel.setPreferredWidth(50);
-				}	
-			
-			catch (Exception ex) {
-				
-				System.out.println("Data not found");
-				
-			}
-		});
+	private void createEvents() 
+	{
 		
-		btnNewButton.setBounds(115, 42, 57, 23);
-		panelTravelTimes.add(btnNewButton);
-		
-		JButton btnTram = new JButton("Tram");
-		btnTram.addActionListener(e3 -> {
-			
-			try {
-				trammodel.setRowCount(0);
-				table.setModel(trammodel);
-				for( int t = 0; t <tramTimesList.size(); t++) {	
-				Object [] tableColumns  = new Object [6];
-		    	tableColumns [0] = tramTimesList.get(t).getArrivalTime(); 			
-		    	tableColumns [1] = tramTimesList.get(t).getDepartureTime();			
-		    	tableColumns [2] = tramTimesList.get(t).getPlatform();				
-		    	tableColumns [3] = tramTimesList.get(t).getStationName();
-		    	tableColumns [4] = tramTimesList.get(t).getDestination();
-		    	tableColumns [5] = tramTimesList.get(t).getRoute();
-		    	trammodel.addRow(tableColumns);} 
-				
-				TableColumn trammodel = table.getColumnModel().getColumn(0);
-				trammodel = table.getColumnModel().getColumn(0);
-				trammodel.setPreferredWidth(61);
-				trammodel = table.getColumnModel().getColumn(1);
-				trammodel.setPreferredWidth(80);
-				trammodel = table.getColumnModel().getColumn(2);
-				trammodel.setPreferredWidth(51);
-				trammodel = table.getColumnModel().getColumn(3);
-				trammodel.setPreferredWidth(115);
-				trammodel = table.getColumnModel().getColumn(4);
-				trammodel.setPreferredWidth(115);
-				trammodel = table.getColumnModel().getColumn(5);
-				trammodel.setPreferredWidth(50);
-				}	
-			
-			catch (Exception ex) {
-				
-				System.out.println("Data not found");	
-				
-			}
-		});
-		btnTram.setBounds(182, 42, 71, 23);
-		panelTravelTimes.add(btnTram);
-		
-		JButton btnMetro = new JButton("Metro");
-		btnMetro.addActionListener(e4 -> {											//Opdracht voor wat gebeurd als je op de button klikt. e4 -> = event 4 bij klik probeer(try).
-			try {
-				
-				metromodel.setRowCount(0);
-				table.setModel(metromodel);
-				for( int m = 0; m <metroTimesList.size(); m++) {	
-				Object [] tableColumns  = new Object [6];
-		    	tableColumns [0] = metroTimesList.get(m).getArrivalTime(); 			
-		    	tableColumns [1] = metroTimesList.get(m).getDepartureTime();			
-		    	tableColumns [2] = metroTimesList.get(m).getPlatform();				
-		    	tableColumns [3] = metroTimesList.get(m).getStationName();
-		    	tableColumns [4] = metroTimesList.get(m).getDestination();
-		    	tableColumns [5] = metroTimesList.get(m).getRoute();
-		    	metromodel.addRow(tableColumns);} 
-				
-				TableColumn metromodel = table.getColumnModel().getColumn(0);
-				metromodel = table.getColumnModel().getColumn(0);
-				metromodel.setPreferredWidth(61);
-				metromodel = table.getColumnModel().getColumn(1);
-				metromodel.setPreferredWidth(80);
-				metromodel = table.getColumnModel().getColumn(2);
-				metromodel.setPreferredWidth(51);
-				metromodel = table.getColumnModel().getColumn(3);
-				metromodel.setPreferredWidth(115);
-				metromodel = table.getColumnModel().getColumn(4);
-				metromodel.setPreferredWidth(115);
-				metromodel = table.getColumnModel().getColumn(5);
-				metromodel.setPreferredWidth(50);
-				
-				}	
-			
-			catch (Exception ex) {													//error message voor als de data niet opgehaald kan worden
-				
-				System.out.println("Data not found");	
-				
-				
-			}
-		});
-		btnMetro.setBounds(266, 42, 69, 23);
-		panelTravelTimes.add(btnMetro);
-		
-		JButton btnWholeRoute = new JButton("Show route");
-		btnWholeRoute.setBounds(345, 42, 113, 23);
-		panelTravelTimes.add(btnWholeRoute);
-		
-		//scrollpanes
-		JScrollPane scrollPaneTable = new JScrollPane();
-		scrollPaneTable.setBounds(5,80 , 521, 293);
-		panelTravelTimes.add(scrollPaneTable);
-		
-		//tables
-		table = new JTable();
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setFont(new Font("Tahoma", Font.BOLD, 11));
-		table.setAutoResizeMode(table.AUTO_RESIZE_ALL_COLUMNS);
-		scrollPaneTable.setViewportView(table);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-					"Vertrektijd","Aankomsttijd",  "Platform", "Station", "Bestemming", "Route"
-			}
-		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(61);
-		table.getColumnModel().getColumn(1).setPreferredWidth(80);
-		table.getColumnModel().getColumn(2).setPreferredWidth(51);
-		table.getColumnModel().getColumn(3).setPreferredWidth(115);
-		table.getColumnModel().getColumn(4).setPreferredWidth(115);
-		table.getColumnModel().getColumn(5).setPreferredWidth(50);
-		
+	}
 }
-	
-    public ArrayList getArrivalTimesTrain() 
-    {
-    	
-    	ArrayList <TrainTime> trainTimesList = new ArrayList<TrainTime>();											//aangemaakte arraylist
-        TrainTime train1 = new TrainTime("13:00", "13:15", "Spoor 2","Utrecht CRL","Amsterdam Crl","4c");			//data van de eerste trein die rijd volgens de traintimeconstructorfile.
-    	TrainTime train2 = new TrainTime("14:00", "14:15", "Spoor 4","Amsterdam CRL","Amersfoort Crl","5b");		//data van tweede trein die rijd volgens de traintimeconstructorfile.
-    	trainTimesList.add(train1);																					// voeg de data toe aan de arraylijst
-    	trainTimesList.add(train2);
-    	
-        return trainTimesList;																						//geef de lijst met de totale arraydata weer van arraylist traintime.
-    }
-    
-    public ArrayList getArrivalTimesBus() 
-    {
-    	ArrayList <BusTime> busTimesList = new ArrayList<BusTime>();											
-    	BusTime bus1 = new BusTime("13:15", "13.45", "perron D", "Amersfoort","Amersfoort ZD","perron A");			
-    	BusTime bus2 = new BusTime("13:30", "14.15", "peroon F", "Amersfoort", "Amersfoort CRL","Perron J");		
-    	busTimesList.add(bus1);																					
-    	busTimesList.add(bus2);
-    	
-        return busTimesList;																					
-    }
-    
-    public ArrayList getArrivalTimesTram() 
-    {
-    	ArrayList <TramTime> tramTimesList = new ArrayList<TramTime>();											
-    	TramTime tram1 = new TramTime("15:00", "15:15", "perron 1a", "Amsterdam Ctrl","Amsterdam OS","6c");			
-    	TramTime tram2 = new TramTime("16:00", "16:30", "perron 2b", "Amsterdam ZD","Amsterdam CRL","5d");		
-    	tramTimesList.add(tram1);																					
-    	tramTimesList.add(tram2);
-    	
-        return tramTimesList;																					
-    }
-    
-    public ArrayList getArrivalTimesMetro() 
-    {
-    	ArrayList <MetroTime> metroTimesList = new ArrayList<MetroTime>();											
-    	MetroTime metro1 = new MetroTime("12:00", "12:15", "perron 1c", "Amsterdam ZD","Amsterdam OST","6c");			
-    	MetroTime metro2 = new MetroTime("13:00", "13:15", "perron 1a", "Amsterdam Ctrl","Amsterdam WST","2d");		
-    	metroTimesList.add(metro1);																					
-    	metroTimesList.add(metro2);
-    	
-        return metroTimesList;																					
-    }
-}
-	  	   
-	
-
-
-
-
-
