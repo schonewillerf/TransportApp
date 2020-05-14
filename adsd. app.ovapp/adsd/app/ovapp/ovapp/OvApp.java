@@ -3,35 +3,36 @@ package adsd.app.ovapp.ovapp;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
-import javax.swing.*;
+import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JButton;
 import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpinnerDateModel;
+import javax.swing.UIManager;
 import java.awt.SystemColor;
 import java.awt.Color;
+import javax.swing.JMenu;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.awt.event.ActionEvent;
-<<<<<<< HEAD
-//
-=======
-import java.util.Objects;
 
-import static adsd.app.ovapp.ovapp.DBConnection.Connection;
-
->>>>>>> 82b08a180f2cc5feeca26a54ee5b0c69ef25cfc8
-public class TestFrame 
+public class OvApp
 {
 
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
 	private JPanel panelProfile;
-	private JPanel panelLogin;
 	private JPanel panelTravelPlanner;
 	private JPanel panelLocation;
 	private JPanel panelMap;
@@ -39,28 +40,11 @@ public class TestFrame
 	private JPanel panelFavorites;
 	private JPanel panelSaved;
 	private JPanel panelReminder;
-
 	private JTextField txtFieldDeparture;
 	private JTextField txtFieldDestination;
-	private JTextField userName;
-
-	private JPasswordField password;
-
-	private JButton btnLogin;
-
-	private JLabel label_4;
-	private JLabel label_5;
-	private JLabel label_6;
-	private JLabel label_7;
-	private JLabel label_8;
-	private JLabel userid;
-
-	private Profile newProfile = new Profile();
-
-	private Connection conn;
 
 	
-	public static void main(String[] args) 
+	public static void NewScreen() 
 	{
 		EventQueue.invokeLater(new Runnable() 
 		{
@@ -68,7 +52,7 @@ public class TestFrame
 			{
 				try 
 				{
-					TestFrame window = new TestFrame();
+					OvApp window = new OvApp();
 					window.frame.setVisible(true);
 				} catch (Exception e) 
 				{
@@ -94,12 +78,12 @@ public class TestFrame
 		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
 	}
 	
-	public TestFrame() 
+	public OvApp() 
 	{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 521, 716);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(TestFrame.class.getResource("/resources/train_128.png")));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(OvApp.class.getResource("/resources/train_128.png")));
 		frame.getContentPane().setLayout(null);
 		
 		//tabbedpane
@@ -110,124 +94,27 @@ public class TestFrame
 		initialize();
 		createEvents();
 		Panel_Profile();
-		Panel_Login();
 		Panel_TravelPlanner();
 		Panel_Location();
 		Panel_Map();
 		Panel_Delays();
 	
 	}
-
-	private void Panel_Login()
-	{
-		panelLogin = new JPanel();
-		panelLogin.setBackground(Color.WHITE);
-		tabbedPane.addTab("Profiel", null, panelLogin, null);
-		panelLogin.setLayout(null);
-
-		userid = new JLabel("");
-		userid.setBounds(50,50, 100, 30);
-		panelFavorites.add(userid);
-
-		JLabel title = new JLabel("Login");
-		JLabel lgn = new JLabel("Login: ");
-		JLabel whtd = new JLabel("Wachtwoord: ");
-
-		userName = new JTextField();
-		password = new JPasswordField();
-
-		btnLogin = new JButton("Login");
-		btnLogin.addActionListener(e ->
-		{
-			try
-			{
-				String usn = userName.getText();
-				String psd = password.getText();
-				conn = Connection();
-
-
-				usn = userName.getText();
-				psd = password.getText();
-				PreparedStatement ds = conn.prepareStatement("SELECT * FROM profile WHERE emailAdress=? AND password=?");
-				ds.setString(1, String.valueOf(usn));
-				ds.setString(2, String.valueOf(psd));
-				ResultSet es = ds.executeQuery();
-				if (es.next()) {
-					System.out.println("utilisateur existant");
-
-					// add panels after loggin in
-					tabbedPane.remove(panelLogin);
-					AddPanels();
-					panelProfile.revalidate();
-
-
-					PreparedStatement ps = conn.prepareStatement("SELECT * FROM profile");
-					ResultSet rs = ps.executeQuery();
-
-					while (rs.next())
-					{
-						newProfile = new Profile(rs.getInt("ID"), rs.getInt("age"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("streetName"), rs.getString("residence"), rs.getString("card"));
-
-						userid.setText(String.valueOf(rs.getInt("ID")));
-						label_4.setText(rs.getString("card"));
-						label_5.setText(rs.getString("firstName")+ rs.getString("lastName"));
-						label_6.setText(rs.getString("age"));
-						label_7.setText(rs.getString("residence"));
-						label_8.setText(rs.getString("streetName"));
-
-					}
-
-
-				}
-
-				else {
-					System.out.println("utilisateur inexistant");
-				}
-			}
-
-
-			catch (SQLException throwables)
-			{
-				throwables.printStackTrace();
-			}
-
-		});
-
-		title.setBounds(150, 25,200, 20);
-		lgn.setBounds(25, 50,150, 20);
-		whtd.setBounds(25, 75,150, 20);
-		userName.setBounds(200, 50,200, 20);
-		password.setBounds(200, 75,200, 20);
-		btnLogin.setBounds(180,110, 150,25);
-
-		panelLogin.add(title);
-		panelLogin.add(lgn);
-		panelLogin.add(whtd);
-		panelLogin.add(userName);
-		panelLogin.add(password);
-		panelLogin.add(btnLogin);
-
-	}
-
+	
 	public void Panel_Profile() 
 	{
 		
 				panelProfile = new JPanel();
 				panelProfile.setBackground(Color.WHITE);
-
+				tabbedPane.addTab("Profiel", null, panelProfile, null);
 				panelProfile.setLayout(null);
 				//Labels
 				JLabel lbimage = new JLabel();
 				lbimage.setBackground(UIManager.getColor("ToolBar.highlight"));
-				lbimage.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/rsz_1profile.jpg")));
+				lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));
 				lbimage.setBounds(24, 21, 207, 222);
 				panelProfile.add(lbimage);
-
-				JLabel lbMyCard = new JLabel("Kaart:");
-				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
-				lbMyCard.setBounds(55, 281, 74, 20);
-				panelProfile.add(lbMyCard);
-
+				
 				JLabel label = new JLabel("Naam:");
 				label.setFont(new Font("Tahoma", Font.BOLD, 11));
 				label.setBounds(55, 322, 74, 20);
@@ -247,33 +134,31 @@ public class TestFrame
 				label_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 				label_3.setBounds(55, 421, 74, 20);
 				panelProfile.add(label_3);
-
-				label_4 = new JLabel("nummer");
+				
+				JLabel label_4 = new JLabel("Jack Piraat");
 				label_4.setHorizontalAlignment(SwingConstants.LEFT);
-				label_4.setBounds(141, 281, 132, 14);
+				label_4.setBounds(141, 325, 132, 14);
 				panelProfile.add(label_4);
-
-				label_5 = new JLabel("Jesse");
+				
+				JLabel label_5 = new JLabel("23");
 				label_5.setHorizontalAlignment(SwingConstants.LEFT);
-				label_5.setBounds(141, 325, 132, 14);
+				label_5.setBounds(139, 356, 140, 14);
 				panelProfile.add(label_5);
 				
-				label_6 = new JLabel("22");
+				JLabel label_6 = new JLabel("Amsterdam");
 				label_6.setHorizontalAlignment(SwingConstants.LEFT);
-				label_6.setBounds(139, 356, 140, 14);
+				label_6.setBounds(139, 393, 140, 14);
 				panelProfile.add(label_6);
 				
-				label_7 = new JLabel("Amsterdam");
+				JLabel label_7 = new JLabel("Kattenburg 12");
 				label_7.setHorizontalAlignment(SwingConstants.LEFT);
-				label_7.setBounds(139, 393, 140, 14);
+				label_7.setBounds(139, 424, 140, 14);
 				panelProfile.add(label_7);
 				
-				label_8 = new JLabel("Kattenburg 12");
-				label_8.setHorizontalAlignment(SwingConstants.LEFT);
-				label_8.setBounds(139, 424, 140, 14);
-				panelProfile.add(label_8);
-				
-
+				JLabel lbMyCard = new JLabel("Kaart:");
+				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbMyCard.setBounds(55, 281, 74, 20);
+				panelProfile.add(lbMyCard);
 				
 				JLabel lbMySubscription = new JLabel("Mijn beschrijving:");
 				lbMySubscription.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -296,7 +181,7 @@ public class TestFrame
 				panelProfile.add(lbReminders);
 				
 				JLabel lbHome = new JLabel();
-				lbHome.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/homecolor.png")));
+				lbHome.setIcon(new ImageIcon(OvApp.class.getResource("/resources/homecolor.png")));
 				lbHome.setHorizontalAlignment(SwingConstants.LEFT);
 				lbHome.setBounds(24, 383, 24, 27);
 				panelProfile.add(lbHome);
@@ -315,7 +200,7 @@ public class TestFrame
 				JButton btnPencil = new JButton("");
 				btnPencil.setForeground(Color.WHITE);
 				btnPencil.setBackground(Color.WHITE);
-				btnPencil.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/toolpencil.png")));
+				btnPencil.setIcon(new ImageIcon(OvApp.class.getResource("/resources/toolpencil.png")));
 				btnPencil.setBounds(24, 464, 24, 23);
 				panelProfile.add(btnPencil);
 				
@@ -329,7 +214,7 @@ public class TestFrame
 				});
 				btnCard.setForeground(Color.WHITE);
 				btnCard.setBackground(Color.WHITE);
-				btnCard.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/mycard.png")));
+				btnCard.setIcon(new ImageIcon(OvApp.class.getResource("/resources/mycard.png")));
 				btnCard.setBounds(24, 278, 29, 23);
 				panelProfile.add(btnCard);
 				
@@ -347,7 +232,7 @@ public class TestFrame
 				
 				btnFavorites.setForeground(Color.WHITE);
 				btnFavorites.setBackground(Color.WHITE);
-				btnFavorites.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/favorites.png")));
+				btnFavorites.setIcon(new ImageIcon(OvApp.class.getResource("/resources/favorites.png")));
 				btnFavorites.setBounds(262, 43, 29, 23);
 				panelProfile.add(btnFavorites);
 				
@@ -364,7 +249,7 @@ public class TestFrame
 				});
 				btnSaved.setForeground(Color.WHITE);
 				btnSaved.setBackground(Color.WHITE);
-				btnSaved.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/saved.png")));
+				btnSaved.setIcon(new ImageIcon(OvApp.class.getResource("/resources/saved.png")));
 				btnSaved.setBounds(262, 85, 29, 23);
 				panelProfile.add(btnSaved);
 				
@@ -380,7 +265,7 @@ public class TestFrame
 				});
 				btnReminder.setForeground(Color.WHITE);
 				btnReminder.setBackground(Color.WHITE);
-				btnReminder.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/reminder.png")));
+				btnReminder.setIcon(new ImageIcon(OvApp.class.getResource("/resources/reminder.png")));
 				btnReminder.setBounds(262, 135, 29, 23);
 				panelProfile.add(btnReminder);
 				

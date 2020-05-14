@@ -17,14 +17,10 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.awt.event.ActionEvent;
-<<<<<<< HEAD
-//
-=======
 import java.util.Objects;
 
 import static adsd.app.ovapp.ovapp.DBConnection.Connection;
 
->>>>>>> 82b08a180f2cc5feeca26a54ee5b0c69ef25cfc8
 public class TestFrame 
 {
 
@@ -59,7 +55,9 @@ public class TestFrame
 
 	private Connection conn;
 
-	
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) 
 	{
 		EventQueue.invokeLater(new Runnable() 
@@ -78,6 +76,9 @@ public class TestFrame
 		});
 	}
 
+	/**
+	 * Create the application.
+	 */
 	
 	public void SwitchPanels()
 	{
@@ -99,7 +100,7 @@ public class TestFrame
 		frame = new JFrame();
 		frame.setBounds(100, 100, 521, 716);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(TestFrame.class.getResource("/resources/train_128.png")));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(OvApp.class.getResource("/resources/train_128.png")));
 		frame.getContentPane().setLayout(null);
 		
 		//tabbedpane
@@ -219,7 +220,7 @@ public class TestFrame
 				//Labels
 				JLabel lbimage = new JLabel();
 				lbimage.setBackground(UIManager.getColor("ToolBar.highlight"));
-				lbimage.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/rsz_1profile.jpg")));
+				lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));
 				lbimage.setBounds(24, 21, 207, 222);
 				panelProfile.add(lbimage);
 
@@ -296,7 +297,7 @@ public class TestFrame
 				panelProfile.add(lbReminders);
 				
 				JLabel lbHome = new JLabel();
-				lbHome.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/homecolor.png")));
+				lbHome.setIcon(new ImageIcon(OvApp.class.getResource("/resources/homecolor.png")));
 				lbHome.setHorizontalAlignment(SwingConstants.LEFT);
 				lbHome.setBounds(24, 383, 24, 27);
 				panelProfile.add(lbHome);
@@ -315,7 +316,7 @@ public class TestFrame
 				JButton btnPencil = new JButton("");
 				btnPencil.setForeground(Color.WHITE);
 				btnPencil.setBackground(Color.WHITE);
-				btnPencil.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/toolpencil.png")));
+				btnPencil.setIcon(new ImageIcon(OvApp.class.getResource("/resources/toolpencil.png")));
 				btnPencil.setBounds(24, 464, 24, 23);
 				panelProfile.add(btnPencil);
 				
@@ -329,7 +330,7 @@ public class TestFrame
 				});
 				btnCard.setForeground(Color.WHITE);
 				btnCard.setBackground(Color.WHITE);
-				btnCard.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/mycard.png")));
+				btnCard.setIcon(new ImageIcon(OvApp.class.getResource("/resources/mycard.png")));
 				btnCard.setBounds(24, 278, 29, 23);
 				panelProfile.add(btnCard);
 				
@@ -347,7 +348,7 @@ public class TestFrame
 				
 				btnFavorites.setForeground(Color.WHITE);
 				btnFavorites.setBackground(Color.WHITE);
-				btnFavorites.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/favorites.png")));
+				btnFavorites.setIcon(new ImageIcon(OvApp.class.getResource("/resources/favorites.png")));
 				btnFavorites.setBounds(262, 43, 29, 23);
 				panelProfile.add(btnFavorites);
 				
@@ -364,7 +365,7 @@ public class TestFrame
 				});
 				btnSaved.setForeground(Color.WHITE);
 				btnSaved.setBackground(Color.WHITE);
-				btnSaved.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/saved.png")));
+				btnSaved.setIcon(new ImageIcon(OvApp.class.getResource("/resources/saved.png")));
 				btnSaved.setBounds(262, 85, 29, 23);
 				panelProfile.add(btnSaved);
 				
@@ -380,7 +381,7 @@ public class TestFrame
 				});
 				btnReminder.setForeground(Color.WHITE);
 				btnReminder.setBackground(Color.WHITE);
-				btnReminder.setIcon(new ImageIcon(TestFrame.class.getResource("/resources/reminder.png")));
+				btnReminder.setIcon(new ImageIcon(OvApp.class.getResource("/resources/reminder.png")));
 				btnReminder.setBounds(262, 135, 29, 23);
 				panelProfile.add(btnReminder);
 				
