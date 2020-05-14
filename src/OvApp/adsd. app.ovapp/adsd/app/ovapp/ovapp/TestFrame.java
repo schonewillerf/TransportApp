@@ -26,6 +26,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.awt.event.ActionEvent;
+import javax.swing.JEditorPane;
 
 public class TestFrame 
 {
@@ -42,7 +43,13 @@ public class TestFrame
 	private JPanel panelReminder;
 	private JTextField txtFieldDeparture;
 	private JTextField txtFieldDestination;
-
+	private JButton editButton;
+	private JEditorPane dtrpnJackPiraat; 
+	private JEditorPane editorPane_1; 
+	private JEditorPane dtrpnAmsterdam;
+	private JEditorPane dtrpnKattenburg;
+	private JEditorPane editorPane_4; 
+	
 	/**
 	 * Launch the application.
 	 */
@@ -140,26 +147,6 @@ public class TestFrame
 				label_3.setBounds(55, 421, 74, 20);
 				panelProfile.add(label_3);
 				
-				JLabel label_4 = new JLabel("Jack Piraat");
-				label_4.setHorizontalAlignment(SwingConstants.LEFT);
-				label_4.setBounds(141, 325, 132, 14);
-				panelProfile.add(label_4);
-				
-				JLabel label_5 = new JLabel("23");
-				label_5.setHorizontalAlignment(SwingConstants.LEFT);
-				label_5.setBounds(139, 356, 140, 14);
-				panelProfile.add(label_5);
-				
-				JLabel label_6 = new JLabel("Amsterdam");
-				label_6.setHorizontalAlignment(SwingConstants.LEFT);
-				label_6.setBounds(139, 393, 140, 14);
-				panelProfile.add(label_6);
-				
-				JLabel label_7 = new JLabel("Kattenburg 12");
-				label_7.setHorizontalAlignment(SwingConstants.LEFT);
-				label_7.setBounds(139, 424, 140, 14);
-				panelProfile.add(label_7);
-				
 				JLabel lbMyCard = new JLabel("Kaart:");
 				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCard.setBounds(55, 281, 74, 20);
@@ -198,9 +185,34 @@ public class TestFrame
 				panelProfile.add(textPane);
 				
 				//buttons
-				JButton button = new JButton("Wijzig profiel");
-				button.setBounds(24, 243, 124, 20);
-				panelProfile.add(button);
+				editButton = new JButton("Wijzig profiel");
+				// Action Event for 
+				editButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) 
+					{
+						if (String.valueOf("Wijzig profiel").equals(editButton.getText()))
+						{
+							dtrpnJackPiraat.setEnabled(true);
+							editorPane_1.setEnabled(true);
+							dtrpnAmsterdam.setEnabled(true);
+							dtrpnKattenburg.setEnabled(true);
+							editorPane_4.setEnabled(true);
+							editButton.setText("Opslaan");
+						}
+						else 
+						{
+							dtrpnJackPiraat.setEnabled(false);
+							editorPane_1.setEnabled(false);
+							dtrpnAmsterdam.setEnabled(false);
+							dtrpnKattenburg.setEnabled(false);
+							editorPane_4.setEnabled(false);
+							editButton.setText("Wijzig profiel");
+						}
+					}
+				});
+				
+				editButton.setBounds(24, 243, 124, 20);
+				panelProfile.add(editButton);
 				
 				JButton btnPencil = new JButton("");
 				btnPencil.setForeground(Color.WHITE);
@@ -274,6 +286,34 @@ public class TestFrame
 				btnReminder.setBounds(262, 135, 29, 23);
 				panelProfile.add(btnReminder);
 				
+				dtrpnJackPiraat  = new JEditorPane();
+				dtrpnJackPiraat.setText("Jack Piraat");
+				dtrpnJackPiraat.setEnabled(false);
+				dtrpnJackPiraat.setBounds(159, 322, 107, 20);
+				panelProfile.add(dtrpnJackPiraat);
+				
+				editorPane_1 = new JEditorPane();
+				editorPane_1.setText("23");
+				editorPane_1.setEnabled(false);
+				editorPane_1.setBounds(159, 353, 107, 20);
+				panelProfile.add(editorPane_1);
+				
+				dtrpnAmsterdam = new JEditorPane();
+				dtrpnAmsterdam.setText("Amsterdam");
+				dtrpnAmsterdam.setEnabled(false);
+				dtrpnAmsterdam.setBounds(159, 390, 107, 20);
+				panelProfile.add(dtrpnAmsterdam);
+				
+				dtrpnKattenburg = new JEditorPane();
+				dtrpnKattenburg.setText("Kattenburg 28");
+				dtrpnKattenburg.setEnabled(false);
+				dtrpnKattenburg.setBounds(159, 421, 107, 20);
+				panelProfile.add(dtrpnKattenburg);
+				
+				editorPane_4 = new JEditorPane();
+				editorPane_4.setBounds(159, 467, 107, 20);
+				panelProfile.add(editorPane_4);
+				
 				//buttons "back"
 				JButton btnBackFavorites = new JButton("Terug ");
 				btnBackFavorites.addActionListener(new ActionListener() 
@@ -314,7 +354,7 @@ public class TestFrame
 				btnBackReminder.setBounds(316, 30, 89, 23);
 				panelReminder.add(btnBackReminder);
 					
-
+				
 	}
 	
 	public void Panel_TravelPlanner() 
