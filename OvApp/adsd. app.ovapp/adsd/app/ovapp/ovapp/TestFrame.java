@@ -26,7 +26,7 @@ import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.awt.event.ActionEvent;
-
+//
 public class TestFrame 
 {
 
@@ -43,9 +43,7 @@ public class TestFrame
 	private JTextField txtFieldDeparture;
 	private JTextField txtFieldDestination;
 
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) 
 	{
 		EventQueue.invokeLater(new Runnable() 
@@ -64,9 +62,6 @@ public class TestFrame
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	
 	public void SwitchPanels()
 	{
