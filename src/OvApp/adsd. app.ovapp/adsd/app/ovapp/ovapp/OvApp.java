@@ -1,5 +1,5 @@
 package adsd.app.ovapp.ovapp;
-//test
+//merge
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
@@ -38,6 +38,14 @@ public class OvApp
 	private JPanel panelFavorites;
 	private JPanel panelSaved;
 	private JPanel panelReminder;
+	
+	private JButton editButton;
+	private JEditorPane firstnametxt; 
+	private JEditorPane lastnametxt; 
+	private JEditorPane citytxt;
+	private JEditorPane streettxt;
+	private JEditorPane agetxt; 
+	private JLabel lblDistance;
 
 	private JTextField txtFieldDeparture;
 	private JTextField txtFieldDestination;
@@ -167,10 +175,10 @@ public class OvApp
 
 						userid.setText(String.valueOf(rs.getInt("ID")));
 						label_4.setText(rs.getString("card"));
-						label_5.setText(rs.getString("firstName")+ rs.getString("lastName"));
-						label_6.setText(rs.getString("age"));
-						label_7.setText(rs.getString("residence"));
-						label_8.setText(rs.getString("streetName"));
+						firstnametxt.setText(rs.getString("firstName")+ rs.getString("lastName"));
+						agetxt.setText(rs.getString("age"));
+						citytxt.setText(rs.getString("residence"));
+						streettxt.setText(rs.getString("streetName"));
 
 					}
 
@@ -224,7 +232,8 @@ public class OvApp
 				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCard.setBounds(55, 281, 74, 20);
 				panelProfile.add(lbMyCard);
-
+				
+				
 				JLabel label = new JLabel("Naam:");
 				label.setFont(new Font("Tahoma", Font.BOLD, 11));
 				label.setBounds(55, 322, 74, 20);
@@ -244,7 +253,8 @@ public class OvApp
 				label_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 				label_3.setBounds(55, 421, 74, 20);
 				panelProfile.add(label_3);
-
+				
+				/*
 				label_4 = new JLabel("nummer");
 				label_4.setHorizontalAlignment(SwingConstants.LEFT);
 				label_4.setBounds(141, 281, 132, 14);
@@ -269,8 +279,41 @@ public class OvApp
 				label_8.setHorizontalAlignment(SwingConstants.LEFT);
 				label_8.setBounds(139, 424, 140, 14);
 				panelProfile.add(label_8);
+				*/
 				
-
+				
+				//editorpanes profilepanel
+				firstnametxt  = new JEditorPane();
+				firstnametxt.setFont(new Font("Tahoma", Font.BOLD, 11));
+				firstnametxt.setText("Jesse");
+				firstnametxt.setEnabled(false);
+				firstnametxt.setBounds(159, 322, 107, 20);
+				panelProfile.add(firstnametxt);
+				
+				agetxt = new JEditorPane();
+				agetxt.setText("22");
+				agetxt.setFont(new Font("Tahoma", Font.BOLD, 11));
+				agetxt.setEnabled(false);
+				agetxt.setBounds(159, 353, 107, 20);
+				panelProfile.add(agetxt);
+				
+				citytxt = new JEditorPane();
+				citytxt.setFont(new Font("Tahoma", Font.BOLD, 11));
+				citytxt.setText("Amsterdam");
+				citytxt.setEnabled(false);
+				citytxt.setBounds(159, 390, 107, 20);
+				panelProfile.add(citytxt);
+				
+				streettxt = new JEditorPane();
+				streettxt.setFont(new Font("Tahoma", Font.BOLD, 11));
+				streettxt.setText("Kattenburg 12");
+				streettxt.setEnabled(false);
+				streettxt.setBounds(159, 421, 107, 20);
+				panelProfile.add(streettxt);
+				
+				lastnametxt = new JEditorPane();
+				lastnametxt.setBounds(159, 467, 107, 20);
+				panelProfile.add(lastnametxt);
 				
 				JLabel lbMySubscription = new JLabel("Mijn beschrijving:");
 				lbMySubscription.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -305,9 +348,35 @@ public class OvApp
 				panelProfile.add(textPane);
 				
 				//buttons
-				JButton button = new JButton("Wijzig profiel");
-				button.setBounds(24, 243, 124, 20);
-				panelProfile.add(button);
+				editButton = new JButton("Wijzig profiel");
+				// Action Event for 
+				editButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) 
+					{
+						if (String.valueOf("Wijzig profiel").equals(editButton.getText()))
+						{
+							firstnametxt.setEnabled(true);
+							agetxt.setEnabled(true);
+							citytxt.setEnabled(true);
+							streettxt.setEnabled(true);
+							lastnametxt.setEnabled(true);
+							editButton.setText("Opslaan");
+						}
+						else 
+						{
+							firstnametxt.setEnabled(false);
+							agetxt.setEnabled(false);
+							citytxt.setEnabled(false);
+							streettxt.setEnabled(false);
+							lastnametxt.setEnabled(false);
+							editButton.setText("Wijzig profiel");
+						}
+					}
+				});
+				
+				editButton.setBounds(24, 243, 124, 20);
+				panelProfile.add(editButton);
+				
 				
 				JButton btnPencil = new JButton("");
 				btnPencil.setForeground(Color.WHITE);
