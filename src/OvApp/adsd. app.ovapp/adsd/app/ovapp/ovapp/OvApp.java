@@ -254,12 +254,14 @@ public class OvApp
 				label_3.setBounds(55, 421, 74, 20);
 				panelProfile.add(label_3);
 				
-				/*
+
 				label_4 = new JLabel("nummer");
+				label_4.setFont(new Font("Tahoma", Font.BOLD, 11));
+				label_4.setEnabled(false);
 				label_4.setHorizontalAlignment(SwingConstants.LEFT);
 				label_4.setBounds(141, 281, 132, 14);
 				panelProfile.add(label_4);
-
+				/*
 				label_5 = new JLabel("Jesse");
 				label_5.setHorizontalAlignment(SwingConstants.LEFT);
 				label_5.setBounds(141, 325, 132, 14);
