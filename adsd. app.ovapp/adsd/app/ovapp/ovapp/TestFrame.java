@@ -1,25 +1,33 @@
 package adsd.app.ovapp.ovapp;
-//test
+
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
-import javax.swing.*;
+import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JButton;
 import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpinnerDateModel;
+import javax.swing.UIManager;
 import java.awt.SystemColor;
 import java.awt.Color;
+import javax.swing.JMenu;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import java.awt.event.ActionEvent;
-import java.util.Objects;
-
-import static adsd.app.ovapp.ovapp.DBConnection.Connection;
+import javax.swing.JEditorPane;
 
 public class TestFrame 
 {
@@ -27,7 +35,6 @@ public class TestFrame
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
 	private JPanel panelProfile;
-	private JPanel panelLogin;
 	private JPanel panelTravelPlanner;
 	private JPanel panelLocation;
 	private JPanel panelMap;
@@ -35,26 +42,17 @@ public class TestFrame
 	private JPanel panelFavorites;
 	private JPanel panelSaved;
 	private JPanel panelReminder;
-
 	private JTextField txtFieldDeparture;
 	private JTextField txtFieldDestination;
-	private JTextField userName;
-
-	private JPasswordField password;
-
-	private JButton btnLogin;
-
-	private JLabel label_4;
-	private JLabel label_5;
-	private JLabel label_6;
-	private JLabel label_7;
-	private JLabel label_8;
-	private JLabel userid;
-
-	private Profile newProfile = new Profile();
-
-	private Connection conn;
-
+	private JButton editButton;
+	private JEditorPane dtrpnJackPiraat; 
+	private JEditorPane editorPane_1; 
+	private JEditorPane dtrpnAmsterdam;
+	private JEditorPane dtrpnKattenburg;
+	private JEditorPane editorPane_4; 
+	private JLabel lblDistance;
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -111,111 +109,19 @@ public class TestFrame
 		initialize();
 		createEvents();
 		Panel_Profile();
-		Panel_Login();
 		Panel_TravelPlanner();
 		Panel_Location();
 		Panel_Map();
 		Panel_Delays();
 	
 	}
-
-	private void Panel_Login()
-	{
-		panelLogin = new JPanel();
-		panelLogin.setBackground(Color.WHITE);
-		tabbedPane.addTab("Profiel", null, panelLogin, null);
-		panelLogin.setLayout(null);
-
-		userid = new JLabel("");
-		userid.setBounds(50,50, 100, 30);
-		panelFavorites.add(userid);
-
-		JLabel title = new JLabel("Login");
-		JLabel lgn = new JLabel("Login: ");
-		JLabel whtd = new JLabel("Wachtwoord: ");
-
-		userName = new JTextField();
-		password = new JPasswordField();
-
-		btnLogin = new JButton("Login");
-		btnLogin.addActionListener(e ->
-		{
-			try
-			{
-				String usn = userName.getText();
-				String psd = password.getText();
-				conn = Connection();
-
-
-				usn = userName.getText();
-				psd = password.getText();
-				PreparedStatement ds = conn.prepareStatement("SELECT * FROM profile WHERE emailAdress=? AND password=?");
-				ds.setString(1, String.valueOf(usn));
-				ds.setString(2, String.valueOf(psd));
-				ResultSet es = ds.executeQuery();
-				if (es.next()) {
-					System.out.println("utilisateur existant");
-
-					// add panels after loggin in
-					tabbedPane.remove(panelLogin);
-					AddPanels();
-					panelProfile.revalidate();
-
-
-					PreparedStatement ps = conn.prepareStatement("SELECT * FROM profile");
-					ResultSet rs = ps.executeQuery();
-
-					while (rs.next())
-					{
-						newProfile = new Profile(rs.getInt("ID"), rs.getInt("age"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("streetName"), rs.getString("residence"), rs.getString("card"));
-
-						userid.setText(String.valueOf(rs.getInt("ID")));
-						label_4.setText(rs.getString("card"));
-						label_5.setText(rs.getString("firstName")+ rs.getString("lastName"));
-						label_6.setText(rs.getString("age"));
-						label_7.setText(rs.getString("residence"));
-						label_8.setText(rs.getString("streetName"));
-
-					}
-
-
-				}
-
-				else {
-					System.out.println("utilisateur inexistant");
-				}
-			}
-
-
-			catch (SQLException throwables)
-			{
-				throwables.printStackTrace();
-			}
-
-		});
-
-		title.setBounds(150, 25,200, 20);
-		lgn.setBounds(25, 50,150, 20);
-		whtd.setBounds(25, 75,150, 20);
-		userName.setBounds(200, 50,200, 20);
-		password.setBounds(200, 75,200, 20);
-		btnLogin.setBounds(180,110, 150,25);
-
-		panelLogin.add(title);
-		panelLogin.add(lgn);
-		panelLogin.add(whtd);
-		panelLogin.add(userName);
-		panelLogin.add(password);
-		panelLogin.add(btnLogin);
-
-	}
-
+	
 	public void Panel_Profile() 
 	{
 		
 				panelProfile = new JPanel();
 				panelProfile.setBackground(Color.WHITE);
-
+				tabbedPane.addTab("Profiel", null, panelProfile, null);
 				panelProfile.setLayout(null);
 				//Labels
 				JLabel lbimage = new JLabel();
@@ -223,12 +129,7 @@ public class TestFrame
 				lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));
 				lbimage.setBounds(24, 21, 207, 222);
 				panelProfile.add(lbimage);
-
-				JLabel lbMyCard = new JLabel("Kaart:");
-				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
-				lbMyCard.setBounds(55, 281, 74, 20);
-				panelProfile.add(lbMyCard);
-
+				
 				JLabel label = new JLabel("Naam:");
 				label.setFont(new Font("Tahoma", Font.BOLD, 11));
 				label.setBounds(55, 322, 74, 20);
@@ -248,33 +149,11 @@ public class TestFrame
 				label_3.setFont(new Font("Tahoma", Font.BOLD, 11));
 				label_3.setBounds(55, 421, 74, 20);
 				panelProfile.add(label_3);
-
-				label_4 = new JLabel("nummer");
-				label_4.setHorizontalAlignment(SwingConstants.LEFT);
-				label_4.setBounds(141, 281, 132, 14);
-				panelProfile.add(label_4);
-
-				label_5 = new JLabel("Jesse");
-				label_5.setHorizontalAlignment(SwingConstants.LEFT);
-				label_5.setBounds(141, 325, 132, 14);
-				panelProfile.add(label_5);
 				
-				label_6 = new JLabel("22");
-				label_6.setHorizontalAlignment(SwingConstants.LEFT);
-				label_6.setBounds(139, 356, 140, 14);
-				panelProfile.add(label_6);
-				
-				label_7 = new JLabel("Amsterdam");
-				label_7.setHorizontalAlignment(SwingConstants.LEFT);
-				label_7.setBounds(139, 393, 140, 14);
-				panelProfile.add(label_7);
-				
-				label_8 = new JLabel("Kattenburg 12");
-				label_8.setHorizontalAlignment(SwingConstants.LEFT);
-				label_8.setBounds(139, 424, 140, 14);
-				panelProfile.add(label_8);
-				
-
+				JLabel lbMyCard = new JLabel("Kaart:");
+				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbMyCard.setBounds(55, 281, 74, 20);
+				panelProfile.add(lbMyCard);
 				
 				JLabel lbMySubscription = new JLabel("Mijn beschrijving:");
 				lbMySubscription.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -309,9 +188,34 @@ public class TestFrame
 				panelProfile.add(textPane);
 				
 				//buttons
-				JButton button = new JButton("Wijzig profiel");
-				button.setBounds(24, 243, 124, 20);
-				panelProfile.add(button);
+				editButton = new JButton("Wijzig profiel");
+				// Action Event for 
+				editButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) 
+					{
+						if (String.valueOf("Wijzig profiel").equals(editButton.getText()))
+						{
+							dtrpnJackPiraat.setEnabled(true);
+							editorPane_1.setEnabled(true);
+							dtrpnAmsterdam.setEnabled(true);
+							dtrpnKattenburg.setEnabled(true);
+							editorPane_4.setEnabled(true);
+							editButton.setText("Opslaan");
+						}
+						else 
+						{
+							dtrpnJackPiraat.setEnabled(false);
+							editorPane_1.setEnabled(false);
+							dtrpnAmsterdam.setEnabled(false);
+							dtrpnKattenburg.setEnabled(false);
+							editorPane_4.setEnabled(false);
+							editButton.setText("Wijzig profiel");
+						}
+					}
+				});
+				
+				editButton.setBounds(24, 243, 124, 20);
+				panelProfile.add(editButton);
 				
 				JButton btnPencil = new JButton("");
 				btnPencil.setForeground(Color.WHITE);
@@ -385,6 +289,34 @@ public class TestFrame
 				btnReminder.setBounds(262, 135, 29, 23);
 				panelProfile.add(btnReminder);
 				
+				dtrpnJackPiraat  = new JEditorPane();
+				dtrpnJackPiraat.setText("Jack Piraat");
+				dtrpnJackPiraat.setEnabled(false);
+				dtrpnJackPiraat.setBounds(159, 322, 107, 20);
+				panelProfile.add(dtrpnJackPiraat);
+				
+				editorPane_1 = new JEditorPane();
+				editorPane_1.setText("23");
+				editorPane_1.setEnabled(false);
+				editorPane_1.setBounds(159, 353, 107, 20);
+				panelProfile.add(editorPane_1);
+				
+				dtrpnAmsterdam = new JEditorPane();
+				dtrpnAmsterdam.setText("Amsterdam");
+				dtrpnAmsterdam.setEnabled(false);
+				dtrpnAmsterdam.setBounds(159, 390, 107, 20);
+				panelProfile.add(dtrpnAmsterdam);
+				
+				dtrpnKattenburg = new JEditorPane();
+				dtrpnKattenburg.setText("Kattenburg 28");
+				dtrpnKattenburg.setEnabled(false);
+				dtrpnKattenburg.setBounds(159, 421, 107, 20);
+				panelProfile.add(dtrpnKattenburg);
+				
+				editorPane_4 = new JEditorPane();
+				editorPane_4.setBounds(159, 467, 107, 20);
+				panelProfile.add(editorPane_4);
+				
 				//buttons "back"
 				JButton btnBackFavorites = new JButton("Terug ");
 				btnBackFavorites.addActionListener(new ActionListener() 
@@ -425,7 +357,7 @@ public class TestFrame
 				btnBackReminder.setBounds(316, 30, 89, 23);
 				panelReminder.add(btnBackReminder);
 					
-
+				
 	}
 	
 	public void Panel_TravelPlanner() 
@@ -451,6 +383,27 @@ public class TestFrame
 		JLabel lblDestination = new JLabel("Aankomst:");
 		
 		JButton btnPlanTrip = new JButton("Zoeken");
+		btnPlanTrip.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				if (String.valueOf("Amersfoort").equals(txtFieldDeparture.getText()) && String.valueOf("Amsterdam").equals(txtFieldDestination.getText()))
+				{
+					lblDistance.setText("Afstand: 69 km");
+				}
+				else if (String.valueOf("Amsterdam").equals(txtFieldDeparture.getText()) && String.valueOf("Rotterdam").equals(txtFieldDestination.getText()))
+				{
+					lblDistance.setText("Afstand: 75 km");
+				}
+				else 
+				{
+					System.out.println("Afstand houden!");
+					Random num = new Random();
+					int myDistance = num.nextInt(50)+10;// Generate random int 
+					lblDistance.setText(String.format("Afstand: %s km", myDistance));
+				}
+			}
+		});
 		//an option to input date and time
 		JSpinner SpnrDateTime = new JSpinner();
 		SpnrDateTime.setModel(new SpinnerDateModel(new Date(1589234400000L), null, null, Calendar.DAY_OF_YEAR));
@@ -463,6 +416,9 @@ public class TestFrame
 		//automatically groups the buttons at the same height.
 		txtFieldDestination = new JTextField();
 		txtFieldDestination.setColumns(10);
+		
+		lblDistance= new JLabel("");
+		
 		GroupLayout gl_panelTravelPlanner = new GroupLayout(panelTravelPlanner);
 		gl_panelTravelPlanner.setHorizontalGroup(
 			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
@@ -487,8 +443,9 @@ public class TestFrame
 								.addComponent(btnPlanTrip, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
 								.addComponent(lblDeparture, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
 								.addComponent(txtFieldDeparture)
-								.addComponent(txtFieldDestination, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDestination))))
+								.addComponent(txtFieldDestination, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+								.addComponent(lblDestination)
+								.addComponent(lblDistance, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
 					.addContainerGap(54, Short.MAX_VALUE))
 		);
 		gl_panelTravelPlanner.setVerticalGroup(
@@ -514,7 +471,9 @@ public class TestFrame
 						.addComponent(btnNow))
 					.addGap(28)
 					.addComponent(btnPlanTrip, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(124, Short.MAX_VALUE))
+					.addGap(34)
+					.addComponent(lblDistance, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(54, Short.MAX_VALUE))
 		);
 		panelTravelPlanner.setLayout(gl_panelTravelPlanner);
 		
