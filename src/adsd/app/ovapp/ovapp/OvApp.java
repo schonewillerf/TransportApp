@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import java.util.Objects;
 import java.sql.Connection;
@@ -26,7 +28,8 @@ import static adsd.app.ovapp.ovapp.DBConnection.Connection;
 
 public class OvApp
 {
-
+	private Map languageMap;
+	private String language;
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
 	private JPanel panelProfile;
@@ -97,6 +100,7 @@ public class OvApp
 	
 	public OvApp() 
 	{
+		languageMap = new HashMap();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 521, 716);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -107,7 +111,7 @@ public class OvApp
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 11, 485, 655);
 		frame.getContentPane().add(tabbedPane);
-		
+		FillLanguageMap();
 		initialize();
 		createEvents();
 		Panel_Profile();
@@ -518,7 +522,7 @@ public class OvApp
 		JButton btnTram = new JButton("");
 		btnTram.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Tram_50.png")));
 		
-		JLabel lblDeparture = new JLabel("Vertrek:");
+		JLabel lblDeparture = new JLabel(TransLang("Vertrek"));
 		
 		JLabel lblDestination = new JLabel("Aankomst:");
 		
@@ -535,6 +539,28 @@ public class OvApp
 		//automatically groups the buttons at the same height.
 		txtFieldDestination = new JTextField();
 		txtFieldDestination.setColumns(10);
+		
+		JButton btnLanguage = new JButton("English");
+		btnLanguage.addActionListener(new ActionListener() 
+		{
+			//translates language and sets text on label.
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+				if (language == "EN") 
+        	   	{
+					language = "NL";
+					lblDeparture.setText(TransLang("Vertrek"));
+					btnLanguage.setText(TransLang("English"));
+				}
+        	   	else 
+        	   	{
+					language = "EN";
+					lblDeparture.setText(TransLang("Vertrek"));
+					btnLanguage.setText(TransLang("English"));
+				}
+			}
+		});
 		GroupLayout gl_panelTravelPlanner = new GroupLayout(panelTravelPlanner);
 		gl_panelTravelPlanner.setHorizontalGroup(
 			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
@@ -560,7 +586,8 @@ public class OvApp
 								.addComponent(lblDeparture, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
 								.addComponent(txtFieldDeparture)
 								.addComponent(txtFieldDestination, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDestination))))
+								.addComponent(lblDestination)
+								.addComponent(btnLanguage))))
 					.addContainerGap(54, Short.MAX_VALUE))
 		);
 		gl_panelTravelPlanner.setVerticalGroup(
@@ -586,7 +613,9 @@ public class OvApp
 						.addComponent(btnNow))
 					.addGap(28)
 					.addComponent(btnPlanTrip, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(124, Short.MAX_VALUE))
+					.addGap(28)
+					.addComponent(btnLanguage)
+					.addContainerGap(70, Short.MAX_VALUE))
 		);
 		panelTravelPlanner.setLayout(gl_panelTravelPlanner);
 		
@@ -638,6 +667,27 @@ public class OvApp
 		*/
 		
 	}
+	//puts a new value into the language list.
+	private void FillLanguageMap() 
+	{
+		
+		languageMap.put("Vertrek", "Departure");
+		languageMap.put("English", "Nederlands");	
+	}
+	//gets the translated word from languagemap and returns the word.
+	private String TransLang(String word) 
+	{
+		
+		if(language == "EN") 
+		{
+			if((String)languageMap.get(word) != null)
+			{
+				return (String)languageMap.get(word);
+			}
+		}
+		return word;
+		
+	}
 	
 	/*
 	 * This method contains all of the code for creating events
@@ -647,4 +697,6 @@ public class OvApp
 	{
 		
 	}
+
+
 }
