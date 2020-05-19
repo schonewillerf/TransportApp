@@ -40,6 +40,7 @@ public class OvApp
 	private JPanel panelReminder;
 	
 	private JButton editButton;
+	private JEditorPane cardtxt;
 	private JEditorPane firstnametxt; 
 	private JEditorPane lastnametxt; 
 	private JEditorPane citytxt;
@@ -55,11 +56,6 @@ public class OvApp
 
 	private JButton btnLogin;
 
-	private JLabel label_4;
-	private JLabel label_5;
-	private JLabel label_6;
-	private JLabel label_7;
-	private JLabel label_8;
 	private JLabel userid;
 
 	private Profile newProfile = new Profile();
@@ -130,9 +126,7 @@ public class OvApp
 		tabbedPane.addTab("Profiel", null, panelLogin, null);
 		panelLogin.setLayout(null);
 
-		userid = new JLabel("");
-		userid.setBounds(50,50, 100, 30);
-		panelFavorites.add(userid);
+
 
 		JLabel title = new JLabel("Login");
 		JLabel lgn = new JLabel("Login: ");
@@ -160,7 +154,6 @@ public class OvApp
 				if (es.next()) {
 					System.out.println("utilisateur existant");
 
-					
 					tabbedPane.remove(panelLogin);
 					AddPanels();
 					panelProfile.revalidate();
@@ -174,23 +167,19 @@ public class OvApp
 						newProfile = new Profile(rs.getInt("ID"), rs.getInt("age"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("streetName"), rs.getString("residence"), rs.getString("card"));
 
 						userid.setText(String.valueOf(rs.getInt("ID")));
-						label_4.setText(rs.getString("card"));
-						firstnametxt.setText(rs.getString("firstName")+ rs.getString("lastName"));
+						cardtxt.setText(rs.getString("card"));
+						firstnametxt.setText(rs.getString("firstName"));
+						lastnametxt.setText(rs.getString("lastName"));
 						agetxt.setText(rs.getString("age"));
 						citytxt.setText(rs.getString("residence"));
 						streettxt.setText(rs.getString("streetName"));
-
 					}
-
-
 				}
 
 				else {
 					System.out.println("utilisateur inexistant");
 				}
 			}
-
-
 			catch (SQLException throwables)
 			{
 				throwables.printStackTrace();
@@ -216,11 +205,13 @@ public class OvApp
 
 	public void Panel_Profile() 
 	{
-		
 				panelProfile = new JPanel();
 				panelProfile.setBackground(Color.WHITE);
-
 				panelProfile.setLayout(null);
+
+				// we need this to store userid
+				userid = new JLabel("");
+
 				//Labels
 				JLabel lbimage = new JLabel();
 				lbimage.setBackground(UIManager.getColor("ToolBar.highlight"));
@@ -230,92 +221,79 @@ public class OvApp
 
 				JLabel lbMyCard = new JLabel("Kaart:");
 				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
-				lbMyCard.setBounds(55, 281, 74, 20);
+				lbMyCard.setBounds(55, 280, 74, 20);
 				panelProfile.add(lbMyCard);
 				
 				
-				JLabel label = new JLabel("Naam:");
-				label.setFont(new Font("Tahoma", Font.BOLD, 11));
-				label.setBounds(55, 322, 74, 20);
-				panelProfile.add(label);
-				
-				JLabel label_1 = new JLabel("Leeftijd:");
-				label_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-				label_1.setBounds(55, 353, 74, 20);
-				panelProfile.add(label_1);
-				
-				JLabel label_2 = new JLabel("Stad:");
-				label_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-				label_2.setBounds(55, 390, 74, 20);
-				panelProfile.add(label_2);
-				
-				JLabel label_3 = new JLabel("Straatnaam:");
-				label_3.setFont(new Font("Tahoma", Font.BOLD, 11));
-				label_3.setBounds(55, 421, 74, 20);
-				panelProfile.add(label_3);
-				
+				JLabel lbMyFirstName = new JLabel("Naam:");
+				lbMyFirstName.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbMyFirstName.setBounds(55, 310, 74, 20);
+				panelProfile.add(lbMyFirstName);
 
-				label_4 = new JLabel("nummer");
-				label_4.setFont(new Font("Tahoma", Font.BOLD, 11));
-				label_4.setEnabled(false);
-				label_4.setHorizontalAlignment(SwingConstants.LEFT);
-				label_4.setBounds(141, 281, 132, 14);
-				panelProfile.add(label_4);
-				/*
-				label_5 = new JLabel("Jesse");
-				label_5.setHorizontalAlignment(SwingConstants.LEFT);
-				label_5.setBounds(141, 325, 132, 14);
-				panelProfile.add(label_5);
+				JLabel lbMyLastName = new JLabel("Achternaam:");
+				lbMyLastName.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbMyLastName.setBounds(55, 340, 74, 20);
+				panelProfile.add(lbMyLastName);
 				
-				label_6 = new JLabel("22");
-				label_6.setHorizontalAlignment(SwingConstants.LEFT);
-				label_6.setBounds(139, 356, 140, 14);
-				panelProfile.add(label_6);
+				JLabel lbMyAge = new JLabel("Leeftijd:");
+				lbMyAge.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbMyAge.setBounds(55, 370, 74, 20);
+				panelProfile.add(lbMyAge);
 				
-				label_7 = new JLabel("Amsterdam");
-				label_7.setHorizontalAlignment(SwingConstants.LEFT);
-				label_7.setBounds(139, 393, 140, 14);
-				panelProfile.add(label_7);
+				JLabel lbMyCity = new JLabel("Stad:");
+				lbMyCity.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbMyCity.setBounds(55, 400, 74, 20);
+				panelProfile.add(lbMyCity);
 				
-				label_8 = new JLabel("Kattenburg 12");
-				label_8.setHorizontalAlignment(SwingConstants.LEFT);
-				label_8.setBounds(139, 424, 140, 14);
-				panelProfile.add(label_8);
-				*/
+				JLabel lbMyStreet = new JLabel("Straatnaam:");
+				lbMyStreet.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbMyStreet.setBounds(55, 430, 74, 20);
+				panelProfile.add(lbMyStreet);
 				
 				
 				//editorpanes profilepanel
+				cardtxt  = new JEditorPane();
+				cardtxt.setFont(new Font("Tahoma", Font.BOLD, 11));
+				cardtxt.setText("naam");
+				cardtxt.setEnabled(false);
+				cardtxt.setBounds(160, 280, 150, 20);
+				panelProfile.add(cardtxt);
+
 				firstnametxt  = new JEditorPane();
 				firstnametxt.setFont(new Font("Tahoma", Font.BOLD, 11));
-				firstnametxt.setText("Jesse");
+				firstnametxt.setText("naam");
 				firstnametxt.setEnabled(false);
-				firstnametxt.setBounds(159, 322, 107, 20);
+				firstnametxt.setBounds(160, 310, 150, 20);
 				panelProfile.add(firstnametxt);
+
+				lastnametxt  = new JEditorPane();
+				lastnametxt.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lastnametxt.setText("naam");
+				lastnametxt.setEnabled(false);
+				lastnametxt.setBounds(160, 340, 150, 20);
+				panelProfile.add(lastnametxt);
 				
 				agetxt = new JEditorPane();
-				agetxt.setText("22");
+				agetxt.setText("leeftijd");
 				agetxt.setFont(new Font("Tahoma", Font.BOLD, 11));
 				agetxt.setEnabled(false);
-				agetxt.setBounds(159, 353, 107, 20);
+				agetxt.setBounds(160, 370, 150, 20);
 				panelProfile.add(agetxt);
 				
 				citytxt = new JEditorPane();
 				citytxt.setFont(new Font("Tahoma", Font.BOLD, 11));
-				citytxt.setText("Amsterdam");
+				citytxt.setText("plaats");
 				citytxt.setEnabled(false);
-				citytxt.setBounds(159, 390, 107, 20);
+				citytxt.setBounds(160, 400, 150, 20);
 				panelProfile.add(citytxt);
 				
 				streettxt = new JEditorPane();
 				streettxt.setFont(new Font("Tahoma", Font.BOLD, 11));
-				streettxt.setText("Kattenburg 12");
+				streettxt.setText("aderes");
 				streettxt.setEnabled(false);
-				streettxt.setBounds(159, 421, 107, 20);
+				streettxt.setBounds(160, 430, 150, 20);
 				panelProfile.add(streettxt);
-				
-				lastnametxt = new JEditorPane();
-				lastnametxt.setBounds(159, 467, 107, 20);
-				panelProfile.add(lastnametxt);
+
 				
 				JLabel lbMySubscription = new JLabel("Mijn beschrijving:");
 				lbMySubscription.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -340,7 +318,7 @@ public class OvApp
 				JLabel lbHome = new JLabel();
 				lbHome.setIcon(new ImageIcon(OvApp.class.getResource("/resources/homecolor.png")));
 				lbHome.setHorizontalAlignment(SwingConstants.LEFT);
-				lbHome.setBounds(24, 383, 24, 27);
+				lbHome.setBounds(24, 430, 24, 27);
 				panelProfile.add(lbHome);
 				
 				//textpanes
@@ -352,31 +330,58 @@ public class OvApp
 				//buttons
 				editButton = new JButton("Wijzig profiel");
 				// Action Event for 
-				editButton.addActionListener(new ActionListener() {
+				editButton.addActionListener(new ActionListener()
+				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						if (String.valueOf("Wijzig profiel").equals(editButton.getText()))
+						if (("Wijzig profiel").equals(editButton.getText()))
 						{
+							cardtxt.setEnabled(true);
 							firstnametxt.setEnabled(true);
+							lastnametxt.setEnabled(true);
 							agetxt.setEnabled(true);
 							citytxt.setEnabled(true);
 							streettxt.setEnabled(true);
 							lastnametxt.setEnabled(true);
 							editButton.setText("Opslaan");
+
 						}
+
 						else 
 						{
+							cardtxt.setEnabled(false);
 							firstnametxt.setEnabled(false);
+							lastnametxt.setEnabled(false);
 							agetxt.setEnabled(false);
 							citytxt.setEnabled(false);
 							streettxt.setEnabled(false);
 							lastnametxt.setEnabled(false);
-							editButton.setText("Wijzig profiel");
+
+							try
+							{
+								conn = Connection();
+								String query = "UPDATE profile SET firstName=?, lastName=?, age=?, streetName=?, residence=?, card=? WHERE ID=?";
+
+								PreparedStatement preparedStmt = conn.prepareStatement(query);
+								preparedStmt.setString(1, firstnametxt.getText());
+								preparedStmt.setString(2, lastnametxt.getText());
+								preparedStmt.setString(3, String.valueOf(agetxt.getText()));
+								preparedStmt.setString(4, streettxt.getText());
+								preparedStmt.setString(5, citytxt.getText());
+								preparedStmt.setString(6, String.valueOf(cardtxt.getText()));
+								preparedStmt.setString(7, String.valueOf(userid.getText()));
+
+								preparedStmt.executeUpdate();
+							}
+							catch (SQLException throwables)
+							{
+								throwables.printStackTrace();
+							}
 						}
 					}
 				});
 				
-				editButton.setBounds(24, 243, 124, 20);
+				editButton.setBounds(55, 240, 120, 20);
 				panelProfile.add(editButton);
 				
 				
