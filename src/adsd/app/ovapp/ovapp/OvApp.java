@@ -101,7 +101,7 @@ public class OvApp
 		
 	}
 	
-<<<<<<< src/adsd/app/ovapp/ovapp/OvApp.java
+
 	//public void ChangeTabTxt()
 	//{
 	//	tabbedPane.addTab("Profile", null, panelLogin, null);
@@ -129,8 +129,7 @@ public class OvApp
         tabbedPane.addTab("Belemmeringen", null, panelDelays, null);
 
     }
-=======
->>>>>>> src/adsd/app/ovapp/ovapp/OvApp.java
+
 	
 	public void AddPanels()
 	{
