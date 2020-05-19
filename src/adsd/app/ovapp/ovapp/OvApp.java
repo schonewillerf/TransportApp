@@ -101,6 +101,7 @@ public class OvApp
 		
 	}
 	
+<<<<<<< src/adsd/app/ovapp/ovapp/OvApp.java
 	//public void ChangeTabTxt()
 	//{
 	//	tabbedPane.addTab("Profile", null, panelLogin, null);
@@ -128,6 +129,8 @@ public class OvApp
         tabbedPane.addTab("Belemmeringen", null, panelDelays, null);
 
     }
+=======
+>>>>>>> src/adsd/app/ovapp/ovapp/OvApp.java
 	
 	public void AddPanels()
 	{
@@ -536,6 +539,7 @@ public class OvApp
 						AddPanels();
 						tabbedPane.remove(panelReminder);
 						
+						
 					}
 				});
 				btnBackReminder.setBounds(316, 30, 89, 23);
@@ -553,16 +557,16 @@ public class OvApp
 		tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
 		//buttons for different search options
 		JButton btnBus = new JButton("");
-		btnBus.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/bus_50.png")));
+		btnBus.setIcon(new ImageIcon(OvApp.class.getResource("/resources/bus_50.png")));
 		
 		JButton btnTrain = new JButton("");
-		btnTrain.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/train_50.png")));
+		btnTrain.setIcon(new ImageIcon(OvApp.class.getResource("/resources/train_50.png")));
 		
 		JButton btnMetro = new JButton("");
-		btnMetro.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Metro_50.png")));
+		btnMetro.setIcon(new ImageIcon(OvApp.class.getResource("/resources/Metro_50.png")));
 		
 		JButton btnTram = new JButton("");
-		btnTram.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Tram_50.png")));
+		btnTram.setIcon(new ImageIcon(OvApp.class.getResource("/resources/Tram_50.png")));
 		
 		JLabel lblDeparture = new JLabel(TransLang("Vertrek"));
 		
@@ -786,43 +790,43 @@ public class OvApp
 		JButton btnLocationArrival = new JButton("");
 		btnLocationArrival.setBounds(10, 76, 25, 23);
 		btnLocationArrival.setBackground(Color.WHITE);
-		btnLocationArrival.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/locationblack.png")));
+		btnLocationArrival.setIcon(new ImageIcon(OvApp.class.getResource("/resources/locationblack.png")));
 		panelMap.add(btnLocationArrival);
 		
 		JButton btnLocationDeparture = new JButton("");
 		btnLocationDeparture.setBounds(10, 40, 25, 23);
 		btnLocationDeparture.setBackground(Color.WHITE);
-		btnLocationDeparture.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/locationwhitee.png")));
+		btnLocationDeparture.setIcon(new ImageIcon(OvApp.class.getResource("/resources/locationwhitee.png")));
 		panelMap.add(btnLocationDeparture);
 		
 		JButton btnTotalTime = new JButton("");
 		btnTotalTime.setBounds(10, 135, 25, 23);
-		btnTotalTime.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/time.png")));
+		btnTotalTime.setIcon(new ImageIcon(OvApp.class.getResource("/resources/time.png")));
 		btnTotalTime.setBackground(Color.WHITE);
 		panelMap.add(btnTotalTime);
 		
 		JButton btnTransfers = new JButton("");
 		btnTransfers.setBounds(10, 169, 25, 23);
 		btnTransfers.setBackground(Color.WHITE);
-		btnTransfers.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/transfer.png")));
+		btnTransfers.setIcon(new ImageIcon(OvApp.class.getResource("/resources/transfer.png")));
 		panelMap.add(btnTransfers);
 		
 		JButton btnTrackDeparture = new JButton("");
 		btnTrackDeparture.setBounds(247, 40, 25, 23);
 		btnTrackDeparture.setBackground(Color.WHITE);
-		btnTrackDeparture.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/track1.png")));
+		btnTrackDeparture.setIcon(new ImageIcon(OvApp.class.getResource("/resources/track1.png")));
 		panelMap.add(btnTrackDeparture);
 		
 		JButton btnTrackArrival = new JButton("");
 		btnTrackArrival.setBounds(247, 76, 25, 23);
 		btnTrackArrival.setBackground(Color.WHITE);
-		btnTrackArrival.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/track1.png")));
+		btnTrackArrival.setIcon(new ImageIcon(OvApp.class.getResource("/resources/track1.png")));
 		panelMap.add(btnTrackArrival);
 		
 		JButton btnPrice = new JButton("");
 		btnPrice.setBounds(247, 135, 25, 23);
 		btnPrice.setBackground(Color.WHITE);
-		btnPrice.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/pay.png")));
+		btnPrice.setIcon(new ImageIcon(OvApp.class.getResource("/resources/pay.png")));
 		panelMap.add(btnPrice);
 		
 		//srollpane
