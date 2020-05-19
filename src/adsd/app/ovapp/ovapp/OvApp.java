@@ -16,6 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import java.util.Objects;
 import java.sql.Connection;
@@ -27,7 +29,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class OvApp
 {
-
+	private Map languageMap;
+	private String language;
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
 	private JPanel panelProfile;
@@ -99,6 +102,7 @@ public class OvApp
 	
 	public OvApp() 
 	{
+		languageMap = new HashMap();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 521, 716);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,7 +113,7 @@ public class OvApp
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 11, 485, 655);
 		frame.getContentPane().add(tabbedPane);
-		
+		FillLanguageMap();
 		initialize();
 		createEvents();
 		Panel_Profile();
@@ -520,7 +524,7 @@ public class OvApp
 		JButton btnTram = new JButton("");
 		btnTram.setIcon(new ImageIcon(TestFrame.class.getResource("/Resources/Tram_50.png")));
 		
-		JLabel lblDeparture = new JLabel("Vertrek:");
+		JLabel lblDeparture = new JLabel(TransLang("Vertrek"));
 		
 		JLabel lblDestination = new JLabel("Aankomst:");
 		
@@ -537,6 +541,28 @@ public class OvApp
 		//automatically groups the buttons at the same height.
 		txtFieldDestination = new JTextField();
 		txtFieldDestination.setColumns(10);
+		
+		JButton btnLanguage = new JButton("English");
+		btnLanguage.addActionListener(new ActionListener() 
+		{
+			//translates language and sets text on label.
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+				if (language == "EN") 
+        	   	{
+					language = "NL";
+					lblDeparture.setText(TransLang("Vertrek"));
+					btnLanguage.setText(TransLang("English"));
+				}
+        	   	else 
+        	   	{
+					language = "EN";
+					lblDeparture.setText(TransLang("Vertrek"));
+					btnLanguage.setText(TransLang("English"));
+				}
+			}
+		});
 		GroupLayout gl_panelTravelPlanner = new GroupLayout(panelTravelPlanner);
 		gl_panelTravelPlanner.setHorizontalGroup(
 			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
@@ -562,7 +588,8 @@ public class OvApp
 								.addComponent(lblDeparture, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
 								.addComponent(txtFieldDeparture)
 								.addComponent(txtFieldDestination, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDestination))))
+								.addComponent(lblDestination)
+								.addComponent(btnLanguage))))
 					.addContainerGap(54, Short.MAX_VALUE))
 		);
 		gl_panelTravelPlanner.setVerticalGroup(
@@ -588,7 +615,9 @@ public class OvApp
 						.addComponent(btnNow))
 					.addGap(28)
 					.addComponent(btnPlanTrip, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(124, Short.MAX_VALUE))
+					.addGap(28)
+					.addComponent(btnLanguage)
+					.addContainerGap(70, Short.MAX_VALUE))
 		);
 		panelTravelPlanner.setLayout(gl_panelTravelPlanner);
 		
@@ -610,50 +639,125 @@ public class OvApp
 		tabbedPane.addTab("Kaart", null, panelMap, null);
 		panelMap.setLayout(null);
 		
-		JLabel lblDepartureTime = new JLabel("Departuretime:");
+		//labels
+				
+		JLabel lblDepartureTime = new JLabel("Verttrektijd:");		
+		lblDepartureTime.setBounds(44, 39, 84, 25);
 		lblDepartureTime.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblDepartureTime.setBounds(44, 39, 102, 25);
 		panelMap.add(lblDepartureTime);
 		
-		JLabel lblArrivalTime = new JLabel("Arrivaltime:");
+		JLabel lblArrivalTime = new JLabel("Aankomsttijd:");
+		lblArrivalTime.setBounds(44, 75, 84, 25);
 		lblArrivalTime.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblArrivalTime.setBounds(44, 75, 102, 25);
-		panelMap.add(lblArrivalTime);
+		panelMap.add(lblArrivalTime);	
 		
+		JLabel lblImageLoation = new JLabel("");
+		lblImageLoation.setBounds(10, 234, 262, 275);
+		lblImageLoation.setIcon(new ImageIcon(OvApp.class.getResource("/resources/maplocation.png")));
+		panelMap.add(lblImageLoation);
+		
+		JLabel lblTotalTime = new JLabel("Totale tijd:");
+		lblTotalTime.setBounds(44, 135, 84, 25);
+		lblTotalTime.setFont(new Font("Tahoma", Font.BOLD, 11));
+		panelMap.add(lblTotalTime);
+		
+		JLabel lblTransfer = new JLabel("Overdracht:");
+		lblTransfer.setBounds(44, 169, 84, 25);
+		lblTransfer.setFont(new Font("Tahoma", Font.BOLD, 11));
+		panelMap.add(lblTransfer);
+		
+		JLabel lblTrackDeparture = new JLabel("Spoor:");
+		lblTrackDeparture.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblTrackDeparture.setBounds(282, 39, 56, 25);
+		panelMap.add(lblTrackDeparture);
+		
+		JLabel lblTrackArrival = new JLabel("Spoor:");
+		lblTrackArrival.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblTrackArrival.setBounds(282, 75, 56, 25);
+		panelMap.add(lblTrackArrival);
+		
+		JLabel lblPrice = new JLabel("Prijs:");
+		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblPrice.setBounds(282, 135, 56, 25);
+		panelMap.add(lblPrice);
+		
+		JLabel lblDepartureTimeTxt = new JLabel("<dynamic>");
+		lblDepartureTimeTxt.setBounds(138, 39, 70, 19);
+		panelMap.add(lblDepartureTimeTxt);
+		
+		JLabel lblArrivalTimeTxt = new JLabel("<dynamic>");
+		lblArrivalTimeTxt.setBounds(138, 75, 70, 19);
+		panelMap.add(lblArrivalTimeTxt);
+		
+		JLabel lblTotalTimeTxt = new JLabel("<dynamic>");
+		lblTotalTimeTxt.setBounds(138, 135, 70, 25);
+		panelMap.add(lblTotalTimeTxt);
+		
+		JLabel lblTransferTxt = new JLabel("<dynamic>");
+		lblTransferTxt.setBounds(138, 169, 70, 23);
+		panelMap.add(lblTransferTxt);
+		
+		JLabel lblTrackDepartureTxt = new JLabel("<dynamic>");
+		lblTrackDepartureTxt.setBounds(348, 40, 70, 23);
+		panelMap.add(lblTrackDepartureTxt);
+		
+		JLabel lblTrackArrivalTxt = new JLabel("<dynamic>");
+		lblTrackArrivalTxt.setBounds(348, 75, 70, 23);
+		panelMap.add(lblTrackArrivalTxt);
+		
+		JLabel lblPriceTxt = new JLabel("<dynamic>");
+		lblPriceTxt.setBounds(348, 135, 70, 23);
+		panelMap.add(lblPriceTxt);
+		
+		//buttons
 		JButton btnLocationArrival = new JButton("");
-		btnLocationArrival.setBackground(Color.WHITE);
 		btnLocationArrival.setBounds(10, 76, 25, 23);
+		btnLocationArrival.setBackground(Color.WHITE);
 		btnLocationArrival.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/locationblack.png")));
 		panelMap.add(btnLocationArrival);
 		
 		JButton btnLocationDeparture = new JButton("");
-		btnLocationDeparture.setBackground(Color.WHITE);
 		btnLocationDeparture.setBounds(10, 40, 25, 23);
+		btnLocationDeparture.setBackground(Color.WHITE);
 		btnLocationDeparture.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/locationwhitee.png")));
 		panelMap.add(btnLocationDeparture);
 		
-		JButton btnTotalTime = new JButton("New button");
+		JButton btnTotalTime = new JButton("");
 		btnTotalTime.setBounds(10, 135, 25, 23);
+		btnTotalTime.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/time.png")));
+		btnTotalTime.setBackground(Color.WHITE);
 		panelMap.add(btnTotalTime);
 		
-		JButton btnTransfers = new JButton("New button");
+		JButton btnTransfers = new JButton("");
 		btnTransfers.setBounds(10, 169, 25, 23);
+		btnTransfers.setBackground(Color.WHITE);
+		btnTransfers.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/transfer.png")));
 		panelMap.add(btnTransfers);
 		
-		JButton btnTrackDeparture = new JButton("New button");
+		JButton btnTrackDeparture = new JButton("");
 		btnTrackDeparture.setBounds(247, 40, 25, 23);
+		btnTrackDeparture.setBackground(Color.WHITE);
+		btnTrackDeparture.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/track1.png")));
 		panelMap.add(btnTrackDeparture);
 		
-		JButton btnTrackArrival = new JButton("New button");
+		JButton btnTrackArrival = new JButton("");
 		btnTrackArrival.setBounds(247, 76, 25, 23);
+		btnTrackArrival.setBackground(Color.WHITE);
+		btnTrackArrival.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/track1.png")));
 		panelMap.add(btnTrackArrival);
 		
-		JButton btnPrice = new JButton("New button");
+		JButton btnPrice = new JButton("");
 		btnPrice.setBounds(247, 135, 25, 23);
+		btnPrice.setBackground(Color.WHITE);
+		btnPrice.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/pay.png")));
 		panelMap.add(btnPrice);
 		
+		//srollpane
+		JScrollPane scrollPaneMap = new JScrollPane();
+		scrollPaneMap.setBounds(276, 233, 194, 276);
+		panelMap.add(scrollPaneMap);
 		
-		
+		//table
 		tableMap = new JTable();
 		tableMap.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -683,19 +787,12 @@ public class OvApp
 				"Tijd", "Stop"
 			}
 		));
-		tableMap.setBounds(282, 233, 188, 276);
-		panelMap.add(tableMap);
+		scrollPaneMap.setViewportView(tableMap);
 		
-		JScrollPane scrollPaneMap = new JScrollPane(tableMap);
-		scrollPaneMap.setBounds(276, 233, 194, 276);
-		panelMap.add(scrollPaneMap);
-		
-		JLabel lblImageLoation = new JLabel("");
-		lblImageLoation.setIcon(new ImageIcon(OvApp.class.getResource("/resources/maplocation.png")));
-		lblImageLoation.setBounds(10, 234, 262, 275);
-		panelMap.add(lblImageLoation);
-		
-	}
+				
+	}		
+				
+			
 	
 	public void Panel_Delays() 
 	{
@@ -727,6 +824,27 @@ public class OvApp
 		*/
 		
 	}
+	//puts a new value into the language list.
+	private void FillLanguageMap() 
+	{
+		
+		languageMap.put("Vertrek", "Departure");
+		languageMap.put("English", "Nederlands");	
+	}
+	//gets the translated word from languagemap and returns the word.
+	private String TransLang(String word) 
+	{
+		
+		if(language == "EN") 
+		{
+			if((String)languageMap.get(word) != null)
+			{
+				return (String)languageMap.get(word);
+			}
+		}
+		return word;
+		
+	}
 	
 	/*
 	 * This method contains all of the code for creating events
@@ -736,4 +854,10 @@ public class OvApp
 	{
 		
 	}
+
 }
+
+
+
+
+
