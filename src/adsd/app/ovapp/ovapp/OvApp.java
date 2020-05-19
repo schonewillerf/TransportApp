@@ -23,6 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import static adsd.app.ovapp.ovapp.DBConnection.Connection;
+import javax.swing.table.DefaultTableModel;
 
 public class OvApp
 {
@@ -61,6 +62,7 @@ public class OvApp
 	private Profile newProfile = new Profile();
 
 	private Connection conn;
+	private JTable tableMap;
 
 	public static void NewScreen()
 	{
@@ -604,7 +606,94 @@ public class OvApp
 	public void Panel_Map() 
 	{
 		panelMap = new JPanel();
+		panelMap.setBackground(Color.WHITE);
 		tabbedPane.addTab("Kaart", null, panelMap, null);
+		panelMap.setLayout(null);
+		
+		JLabel lblDepartureTime = new JLabel("Departuretime:");
+		lblDepartureTime.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblDepartureTime.setBounds(44, 39, 102, 25);
+		panelMap.add(lblDepartureTime);
+		
+		JLabel lblArrivalTime = new JLabel("Arrivaltime:");
+		lblArrivalTime.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblArrivalTime.setBounds(44, 75, 102, 25);
+		panelMap.add(lblArrivalTime);
+		
+		JButton btnLocationArrival = new JButton("");
+		btnLocationArrival.setBackground(Color.WHITE);
+		btnLocationArrival.setBounds(10, 76, 25, 23);
+		btnLocationArrival.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/locationblack.png")));
+		panelMap.add(btnLocationArrival);
+		
+		JButton btnLocationDeparture = new JButton("");
+		btnLocationDeparture.setBackground(Color.WHITE);
+		btnLocationDeparture.setBounds(10, 40, 25, 23);
+		btnLocationDeparture.setIcon(new ImageIcon(OvApp.class.getResource("/Resources/locationwhitee.png")));
+		panelMap.add(btnLocationDeparture);
+		
+		JButton btnTotalTime = new JButton("New button");
+		btnTotalTime.setBounds(10, 135, 25, 23);
+		panelMap.add(btnTotalTime);
+		
+		JButton btnTransfers = new JButton("New button");
+		btnTransfers.setBounds(10, 169, 25, 23);
+		panelMap.add(btnTransfers);
+		
+		JButton btnTrackDeparture = new JButton("New button");
+		btnTrackDeparture.setBounds(247, 40, 25, 23);
+		panelMap.add(btnTrackDeparture);
+		
+		JButton btnTrackArrival = new JButton("New button");
+		btnTrackArrival.setBounds(247, 76, 25, 23);
+		panelMap.add(btnTrackArrival);
+		
+		JButton btnPrice = new JButton("New button");
+		btnPrice.setBounds(247, 135, 25, 23);
+		panelMap.add(btnPrice);
+		
+		
+		
+		tableMap = new JTable();
+		tableMap.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+				{null, null},
+			},
+			new String[] {
+				"Tijd", "Stop"
+			}
+		));
+		tableMap.setBounds(282, 233, 188, 276);
+		panelMap.add(tableMap);
+		
+		JScrollPane scrollPaneMap = new JScrollPane(tableMap);
+		scrollPaneMap.setBounds(276, 233, 194, 276);
+		panelMap.add(scrollPaneMap);
+		
+		JLabel lblImageLoation = new JLabel("");
+		lblImageLoation.setIcon(new ImageIcon(OvApp.class.getResource("/resources/maplocation.png")));
+		lblImageLoation.setBounds(10, 234, 262, 275);
+		panelMap.add(lblImageLoation);
 		
 	}
 	
