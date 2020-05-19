@@ -66,6 +66,16 @@ public class OvApp
 
 	private Connection conn;
 	private JTable tableMap;
+	private JLabel lbMyCard;
+	private JLabel lbMyFirstName;
+	private JLabel lbMyLastName;
+	private JLabel lbMyAge;
+	private JLabel lbMyCity;
+	private JLabel lbMyStreet;
+	private JLabel lbReminders;
+	private JLabel lbSaved;
+	private JLabel lbFavorites;
+	private JLabel lbMyDescription;
 
 	public static void NewScreen()
 	{
@@ -90,6 +100,34 @@ public class OvApp
 		tabbedPane.removeAll();
 		
 	}
+	
+	//public void ChangeTabTxt()
+	//{
+	//	tabbedPane.addTab("Profile", null, panelLogin, null);
+
+	//}
+	
+	public void TabTxtEn()
+    {
+        tabbedPane.removeAll();
+        tabbedPane.addTab("Profile", null, panelProfile, null);
+        tabbedPane.addTab("Travelplaner", null, panelTravelPlanner, null);
+        tabbedPane.addTab("Location", null, panelLocation, null);
+        tabbedPane.addTab("Map", null, panelMap, null);
+        tabbedPane.addTab("Delay's", null, panelDelays, null);
+
+    }
+	
+	public void TabTxtNL()
+    {
+        tabbedPane.removeAll();
+        tabbedPane.addTab("Profiel", null, panelProfile, null);
+        tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
+        tabbedPane.addTab("Locatie", null, panelLocation, null);
+        tabbedPane.addTab("Kaart", null, panelMap, null);
+        tabbedPane.addTab("Belemmeringen", null, panelDelays, null);
+
+    }
 	
 	public void AddPanels()
 	{
@@ -225,33 +263,33 @@ public class OvApp
 				lbimage.setBounds(24, 21, 207, 222);
 				panelProfile.add(lbimage);
 
-				JLabel lbMyCard = new JLabel("Kaart:");
+				lbMyCard = new JLabel("Kaart:");
 				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCard.setBounds(55, 280, 74, 20);
 				panelProfile.add(lbMyCard);
 				
 				
-				JLabel lbMyFirstName = new JLabel("Naam:");
+				lbMyFirstName = new JLabel("Naam:");
 				lbMyFirstName.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyFirstName.setBounds(55, 310, 74, 20);
 				panelProfile.add(lbMyFirstName);
 
-				JLabel lbMyLastName = new JLabel("Achternaam:");
+				lbMyLastName = new JLabel("Achternaam:");
 				lbMyLastName.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyLastName.setBounds(55, 340, 74, 20);
 				panelProfile.add(lbMyLastName);
 				
-				JLabel lbMyAge = new JLabel("Leeftijd:");
+				lbMyAge = new JLabel("Leeftijd:");
 				lbMyAge.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyAge.setBounds(55, 370, 74, 20);
 				panelProfile.add(lbMyAge);
 				
-				JLabel lbMyCity = new JLabel("Stad:");
+				lbMyCity = new JLabel("Stad:");
 				lbMyCity.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCity.setBounds(55, 400, 74, 20);
 				panelProfile.add(lbMyCity);
 				
-				JLabel lbMyStreet = new JLabel("Straatnaam:");
+				lbMyStreet = new JLabel("Straatnaam:");
 				lbMyStreet.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyStreet.setBounds(55, 430, 74, 20);
 				panelProfile.add(lbMyStreet);
@@ -301,22 +339,22 @@ public class OvApp
 				panelProfile.add(streettxt);
 
 				
-				JLabel lbMySubscription = new JLabel("Mijn beschrijving:");
-				lbMySubscription.setFont(new Font("Tahoma", Font.BOLD, 11));
-				lbMySubscription.setBounds(55, 467, 118, 20);
-				panelProfile.add(lbMySubscription);
+				lbMyDescription = new JLabel("Mijn beschrijving:");
+				lbMyDescription.setFont(new Font("Tahoma", Font.BOLD, 11));
+				lbMyDescription.setBounds(55, 467, 118, 20);
+				panelProfile.add(lbMyDescription);
 				
-				JLabel lbFavorites = new JLabel("Favorieten:");
+				lbFavorites = new JLabel("Favorieten:");
 				lbFavorites.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbFavorites.setBounds(301, 43, 74, 20);
 				panelProfile.add(lbFavorites);
 				
-				JLabel lbSaved = new JLabel("Opgeslagen:");
+				lbSaved = new JLabel("Opgeslagen:");
 				lbSaved.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbSaved.setBounds(301, 85, 74, 20);
 				panelProfile.add(lbSaved);
 				
-				JLabel lbReminders = new JLabel("Herinneringen:");
+				lbReminders = new JLabel("Herinneringen:");
 				lbReminders.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbReminders.setBounds(301, 138, 94, 20);
 				panelProfile.add(lbReminders);
@@ -503,8 +541,10 @@ public class OvApp
 				btnBackReminder.setBounds(316, 30, 89, 23);
 				panelReminder.add(btnBackReminder);
 					
-
+				//tabbedPane.add(panelProfile);
 	}
+	
+	
 	
 	public void Panel_TravelPlanner() 
 	{
@@ -549,15 +589,48 @@ public class OvApp
 			public void actionPerformed(ActionEvent e) 
 			{
 				
+				// ChangeTabTxt();
+				
+				
+				
 				if (language == "EN") 
         	   	{
 					language = "NL";
+					
+					//Tabs 
+					TabTxtNL();
+					lbFavorites.setText(TransLang("Favorieten:"));
+					lbSaved.setText(TransLang("Opgeslagen:"));
+					lbReminders.setText(TransLang("Herinneringen:"));
+					editButton.setText(TransLang("Wijzig profiel"));
+					lbMyCard.setText(TransLang("Kaart:"));
+					lbMyFirstName.setText(TransLang("Naam:"));
+					lbMyLastName.setText(TransLang("Achternaam:"));
+					lbMyAge.setText(TransLang("Leeftijd:"));
+					lbMyCity.setText(TransLang("Stad:"));
+					lbMyStreet.setText(TransLang("Straatnaam:"));
+					lbMyDescription.setText(TransLang("Mijn beschrijving:"));
+					lblDestination.setText(TransLang("Aankomst"));
 					lblDeparture.setText(TransLang("Vertrek"));
 					btnLanguage.setText(TransLang("English"));
 				}
         	   	else 
         	   	{
 					language = "EN";
+					
+					TabTxtEn();
+					lbFavorites.setText(TransLang("Favorieten:"));
+					lbSaved.setText(TransLang("Opgeslagen:"));
+					lbReminders.setText(TransLang("Herinneringen:"));
+					editButton.setText(TransLang("Wijzig profiel"));
+					lbMyCard.setText(TransLang("Kaart:"));
+					lbMyFirstName.setText(TransLang("Naam:"));
+					lbMyLastName.setText(TransLang("Achternaam:"));
+					lbMyAge.setText(TransLang("Leeftijd:"));
+					lbMyCity.setText(TransLang("Stad:"));
+					lbMyStreet.setText(TransLang("Straatnaam:"));
+					lbMyDescription.setText(TransLang("Mijn beschrijving:"));
+					lblDestination.setText(TransLang("Aankomst"));
 					lblDeparture.setText(TransLang("Vertrek"));
 					btnLanguage.setText(TransLang("English"));
 				}
@@ -827,7 +900,18 @@ public class OvApp
 	//puts a new value into the language list.
 	private void FillLanguageMap() 
 	{
-		
+		languageMap.put("Wijzig profiel", "Edit profile");
+		languageMap.put("Favorieten:", "Favorites:");
+		languageMap.put("Opgeslagen:", "Saved:");
+		languageMap.put("Herinneringen:", "Reminders:");
+		languageMap.put("Mijn beschrijving:", "My description:");
+		languageMap.put("Kaart:", "Map:");
+		languageMap.put("Naam:", "Name:");
+		languageMap.put("Achternaam:", "Surname:");
+		languageMap.put("Leeftijd:", "Age:");
+		languageMap.put("Stad:", "City:");
+		languageMap.put("Straatnaam:", "Streetname:");
+		languageMap.put("Aankomst", "Destination");
 		languageMap.put("Vertrek", "Departure");
 		languageMap.put("English", "Nederlands");	
 	}
