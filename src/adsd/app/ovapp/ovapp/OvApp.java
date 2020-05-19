@@ -152,7 +152,7 @@ public class OvApp
 				ds.setString(2, String.valueOf(psd));
 				ResultSet es = ds.executeQuery();
 				if (es.next()) {
-					System.out.println("utilisateur existant");
+					System.out.println("user doesn't exist");
 
 					tabbedPane.remove(panelLogin);
 					AddPanels();
@@ -177,7 +177,7 @@ public class OvApp
 				}
 
 				else {
-					System.out.println("utilisateur inexistant");
+					System.out.println("user doesn't exist");
 				}
 			}
 			catch (SQLException throwables)

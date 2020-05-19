@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="OvApp2/adsd. app.ovapp"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="OvApp2/jgoodies-common-1.8.0-sources.jar"/>
-	<classpathentry kind="lib" path="OvApp2/jgoodies-common-1.8.0.jar"/>
-	<classpathentry kind="lib" path="OvApp2/jgoodies-forms-1.8.0-sources.jar"/>
-	<classpathentry kind="lib" path="OvApp2/jgoodies-forms-1.8.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="mssql-jdbc-8.2.2.jre11.jar"/>
+	<classpathentry kind="lib" path="mssql-jdbc-8.2.2.jre13.jar"/>
+	<classpathentry kind="lib" path="mssql-jdbc-8.2.2.jre8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
