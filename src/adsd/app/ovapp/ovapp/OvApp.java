@@ -348,10 +348,9 @@ public class OvApp
 							streettxt.setEnabled(true);
 							lastnametxt.setEnabled(true);
 							editButton.setText("Opslaan");
-
 						}
-
-						else 
+						
+						else
 						{
 							cardtxt.setEnabled(false);
 							firstnametxt.setEnabled(false);
@@ -360,7 +359,8 @@ public class OvApp
 							citytxt.setEnabled(false);
 							streettxt.setEnabled(false);
 							lastnametxt.setEnabled(false);
-
+							editButton.setText("Wijzig profiel");
+							
 							try
 							{
 								conn = Connection();
@@ -383,7 +383,7 @@ public class OvApp
 							}
 						}
 					}
-				});
+					});
 				
 				editButton.setBounds(55, 240, 120, 20);
 				panelProfile.add(editButton);
