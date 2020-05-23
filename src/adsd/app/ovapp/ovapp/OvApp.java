@@ -1,5 +1,8 @@
 package adsd.app.ovapp.ovapp;
 
+import adsd.app.ovapp.train.TrainDataModel;
+import adsd.app.ovapp.train.TrainTime;
+
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 
@@ -10,27 +13,29 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.SystemColor;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.awt.event.ActionEvent;
-import java.util.Objects;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import static adsd.app.ovapp.ovapp.DBConnection.Connection;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 public class OvApp
 {
 	private Map languageMap;
 	private String language;
+	private String selectedTransportType;
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
 	private JPanel panelProfile;
@@ -54,6 +59,7 @@ public class OvApp
 
 	private JTextField txtFieldDeparture;
 	private JTextField txtFieldDestination;
+	private JSpinner SpnrDateTime;
 	private JTextField userName;
 
 	private JPasswordField password;
@@ -76,6 +82,9 @@ public class OvApp
 	private JLabel lbSaved;
 	private JLabel lbFavorites;
 	private JLabel lbMyDescription;
+	private JTable tblLocation;
+
+	private DefaultTableModel locationTableModel;
 
 	public static void NewScreen()
 	{
@@ -572,8 +581,18 @@ public class OvApp
 		JLabel lblDestination = new JLabel("Aankomst:");
 		
 		JButton btnPlanTrip = new JButton("Zoeken");
+		// ActionListener for search button
+		btnPlanTrip.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent actionEvent)
+			{
+				// Will switch to the 3rd panel, Location
+				tabbedPane.setSelectedIndex(2);
+			}
+		});
 		//an option to input date and time
-		JSpinner SpnrDateTime = new JSpinner();
+		SpnrDateTime = new JSpinner();
 		SpnrDateTime.setModel(new SpinnerDateModel(new Date(1589234400000L), null, null, Calendar.DAY_OF_YEAR));
 		//button that will show the current time
 		JButton btnNow = new JButton("Nu");
@@ -584,6 +603,43 @@ public class OvApp
 		//automatically groups the buttons at the same height.
 		txtFieldDestination = new JTextField();
 		txtFieldDestination.setColumns(10);
+
+		// Action Listeners for Transport Type Buttons
+		btnTrain.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent actionEvent)
+			{
+				selectedTransportType = "Trein";
+			}
+		});
+
+		btnBus.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent actionEvent)
+			{
+				selectedTransportType = "Bus";
+			}
+		});
+
+		btnMetro.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent actionEvent)
+			{
+				selectedTransportType = "Metro";
+			}
+		});
+
+		btnTram.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent actionEvent)
+			{
+				selectedTransportType = "Tram";
+			}
+		});
 		
 		JButton btnLanguage = new JButton("English");
 		btnLanguage.addActionListener(new ActionListener() 
@@ -701,10 +757,175 @@ public class OvApp
 		
 	}
 	
+	/**
+	 * Panel for displaying available departures
+	 */
 	public void Panel_Location() 
 	{
+		/**
+		 * In order to check functionality for this panel go to "Reisplanner"
+		 * Click "Zoeken"
+		 *
+		 * > No results will be shown in table
+		 *
+		 * Click "Wijzig reis"
+		 * Click "Train icon" 2nd from left
+		 * Click "Zoeken"
+		 *
+		 * > All available TrainTimes will be shown in table
+		 *
+		 * Click "Wijzig reis"
+		 * Type "Amersfoort" in "Aankomst" textfield
+		 * Click "Zoeken"
+		 *
+		 * > All TrainTimes containing the destination Amersfoort will be shown
+		 */
+		// Create the panel and add it as tab
 		panelLocation = new JPanel();
 		tabbedPane.addTab("Locatie", null, panelLocation, null);
+
+		// Create a return button to search panel
+		JButton btnLocationChange = new JButton("Wijzig reis");
+		btnLocationChange.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent actionEvent)
+			{
+				tabbedPane.setSelectedIndex(1);
+			}
+		});
+
+		// Create static labels for departuretime, platform and destination
+		JLabel lblLocationDeparture = new JLabel("Vertrek:");
+		JLabel lblLocationDestination = new JLabel("Bestemming:");
+		JLabel lblLocationDepartureType = new JLabel("Vervoerstype");
+
+		// Create dynamic labels for departuretime, platform and destination from search panel
+		JLabel lblDynamicDeparture = new JLabel();
+		JLabel lblDynamicDestination = new JLabel();
+		JLabel lblDynamicTransportType = new JLabel();
+
+		// Create a tableModel for holding columns and data
+		locationTableModel = new DefaultTableModel();
+
+		// Create table columns
+		String[] columnsLocationTable = {"Tijd", "Spoor", "Eindbestemming"};
+
+		// Add table columns to table model
+		// For some reason columns will not show
+		locationTableModel.addColumn(columnsLocationTable[0]);
+		locationTableModel.addColumn(columnsLocationTable[1]);
+		locationTableModel.addColumn(columnsLocationTable[2]);
+
+		// Add content to dynamic labels and table when tab is opened
+		tabbedPane.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent changeEvent)
+			{
+				int activeTab = tabbedPane.getSelectedIndex();
+
+				if (activeTab == 2) // Returns true when Location tab is opened
+				{
+					// Retrieve filter criteria
+					//
+					// selectedTransportType is already private String
+					String selectedDeparture = txtFieldDeparture.getText();
+					String selectedDestination = txtFieldDestination.getText();
+					// retrieving a selectedTime is still a challenge
+					//int selectedTime = (Integer) SpnrDateTime.getValue();
+
+					// Create dynamic labels
+					lblDynamicDeparture.setText(selectedDeparture);
+					lblDynamicDestination.setText(selectedDestination);
+					lblDynamicTransportType.setText(selectedTransportType);
+
+					// Remove old data from table
+					for (int i = locationTableModel.getRowCount() - 1; i >= 0; i--)
+					{
+						locationTableModel.removeRow(i);
+					}
+
+					/**
+					 * Here the new data for selected transport type will be added to the table
+					 * For now just a demonstration with the train
+					 */
+					if (String.valueOf(selectedTransportType).equals("Trein"))
+					{
+						// Create a dataModel object and retrieve list of trainTimes
+						TrainDataModel dataModel = new TrainDataModel();
+						List<TrainTime> trainTimes = dataModel.getArrivalTimes();
+
+						// Loop over eacht trainTime
+						for (TrainTime trainTime : trainTimes)
+						{
+							// Check if departure and destination match criteria
+							if (trainTime.getDestination().contains(selectedDestination) &&
+											trainTime.getStationName().contains(selectedDeparture))
+							{
+								// Add row to table if filter criteria are met
+								locationTableModel.addRow(
+										new Object[]
+												{
+														trainTime.getDepartureTime(),
+														trainTime.getPlatForm(),
+														trainTime.getDestination()
+												}
+								);
+							}
+						}
+					}
+				}
+			}
+		});
+
+		tblLocation = new JTable(locationTableModel);
+
+		/**
+		 * From here on only auto generated styling and adding of components
+		 */
+		GroupLayout gl_panelLocation = new GroupLayout(panelLocation);
+		gl_panelLocation.setHorizontalGroup(
+			gl_panelLocation.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelLocation.createSequentialGroup()
+					.addContainerGap(20, Short.MAX_VALUE)
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelLocation.createSequentialGroup()
+							.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(lblLocationDepartureType, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnLocationChange)
+								.addComponent(lblLocationDeparture, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblLocationDestination, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+							.addGap(18)
+							.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblDynamicTransportType, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDynamicDestination, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDynamicDeparture)))
+						.addComponent(tblLocation, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
+		gl_panelLocation.setVerticalGroup(
+			gl_panelLocation.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelLocation.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnLocationChange)
+					.addGap(18)
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblLocationDestination)
+						.addComponent(lblDynamicDeparture))
+					.addGap(18)
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblLocationDeparture)
+						.addComponent(lblDynamicDestination))
+					.addGap(18)
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblLocationDepartureType)
+						.addComponent(lblDynamicTransportType))
+					.addGap(18)
+					.addComponent(tblLocation, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		panelLocation.setLayout(gl_panelLocation);
 		
 	}
 	
@@ -941,7 +1162,6 @@ public class OvApp
 	{
 		
 	}
-
 }
 
 
