@@ -90,6 +90,7 @@ public class OvApp
 	private JTable tblLocation;
 
 	private DefaultTableModel locationTableModel;
+	private JTable tableDelays;
 
 	public static void NewScreen()
 	{
@@ -1252,6 +1253,44 @@ public class OvApp
 	{
 		panelDelays = new JPanel();
 		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
+		
+		JLabel lblVertragingen = new JLabel("Vertragingen:");
+		
+		tableDelays = new JTable();
+
+		tableDelays.setModel(new DefaultTableModel(
+				new Object[][] {
+						{"Amersfoort", "Groningen", "00:15"},
+						{"Heerenveen", "Groningen", "00:15"},
+						{"Delft", "Groningen", "00:15"},
+				},
+				new String[] {
+						"Vertrek", "Aankomst", "Vertraging"
+				}
+		));
+
+
+
+		GroupLayout gl_panelDelays = new GroupLayout(panelDelays);
+		gl_panelDelays.setHorizontalGroup(
+			gl_panelDelays.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDelays.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelDelays.createParallelGroup(Alignment.LEADING)
+						.addComponent(tableDelays, GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+						.addComponent(lblVertragingen))
+					.addContainerGap())
+		);
+		gl_panelDelays.setVerticalGroup(
+			gl_panelDelays.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDelays.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblVertragingen)
+					.addGap(18)
+					.addComponent(tableDelays, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(328, Short.MAX_VALUE))
+		);
+		panelDelays.setLayout(gl_panelDelays);
 		
 	}
 	
