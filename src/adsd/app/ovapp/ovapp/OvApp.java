@@ -275,7 +275,7 @@ public class OvApp
 				panelProfile = new JPanel();
 				panelProfile.setBackground(Color.WHITE);
 				panelProfile.setLayout(null);
-				tabbedPane.addTab("Profiel", null, panelProfile, null);
+			
 				// we need this to store userid
 				userid = new JLabel("");
 
