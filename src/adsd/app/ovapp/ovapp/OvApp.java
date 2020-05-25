@@ -88,6 +88,12 @@ public class OvApp
 	private JLabel lbFavorites;
 	private JLabel lbMyDescription;
 	private JTable tblLocation;
+	
+	private JLabel lblDeparture;
+	private JLabel lblDestination;
+	private JButton btnLanguage;
+	private JButton btnPlanTrip;
+	private JButton btnNow;
 
 	private DefaultTableModel locationTableModel;
 
@@ -176,19 +182,20 @@ public class OvApp
 		Panel_Location();
 		Panel_Map();
 		Panel_Delays();
-	
+		
 	}
 
 	private void Panel_Login()
 	{
 		panelLogin = new JPanel();
 		panelLogin.setBackground(Color.WHITE);
-		tabbedPane.addTab("Profiel", null, panelLogin, null);
+		tabbedPane.addTab("Login", null, panelLogin, null);
 		panelLogin.setLayout(null);
 
 
 
 		JLabel title = new JLabel("Login");
+		title.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lgn = new JLabel("Login: ");
 		JLabel whtd = new JLabel("Wachtwoord: ");
 
@@ -247,12 +254,12 @@ public class OvApp
 
 		});
 
-		title.setBounds(150, 25,200, 20);
-		lgn.setBounds(25, 50,150, 20);
-		whtd.setBounds(25, 75,150, 20);
-		userName.setBounds(200, 50,200, 20);
-		password.setBounds(200, 75,200, 20);
-		btnLogin.setBounds(180,110, 150,25);
+		title.setBounds(200, 90,200, 20);
+		lgn.setBounds(25, 134,150, 20);
+		whtd.setBounds(25, 165,150, 20);
+		userName.setBounds(200, 134,200, 20);
+		password.setBounds(200, 165,200, 20);
+		btnLogin.setBounds(325,221, 75,25);
 
 		panelLogin.add(title);
 		panelLogin.add(lgn);
@@ -260,7 +267,7 @@ public class OvApp
 		panelLogin.add(userName);
 		panelLogin.add(password);
 		panelLogin.add(btnLogin);
-
+		
 	}
 
 	public void Panel_Profile() 
@@ -268,7 +275,7 @@ public class OvApp
 				panelProfile = new JPanel();
 				panelProfile.setBackground(Color.WHITE);
 				panelProfile.setLayout(null);
-
+				tabbedPane.addTab("Profiel", null, panelProfile, null);
 				// we need this to store userid
 				userid = new JLabel("");
 
@@ -360,17 +367,17 @@ public class OvApp
 				lbMyDescription.setBounds(55, 467, 118, 20);
 				panelProfile.add(lbMyDescription);
 				
-				lbFavorites = new JLabel("Favorieten:");
+				lbFavorites = new JLabel("Favorieten");
 				lbFavorites.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbFavorites.setBounds(301, 43, 74, 20);
 				panelProfile.add(lbFavorites);
 				
-				lbSaved = new JLabel("Opgeslagen:");
+				lbSaved = new JLabel("Opgeslagen");
 				lbSaved.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbSaved.setBounds(301, 85, 74, 20);
 				panelProfile.add(lbSaved);
 				
-				lbReminders = new JLabel("Herinneringen:");
+				lbReminders = new JLabel("Herinneringen");
 				lbReminders.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbReminders.setBounds(301, 138, 94, 20);
 				panelProfile.add(lbReminders);
@@ -517,6 +524,66 @@ public class OvApp
 				btnReminder.setBounds(262, 135, 29, 23);
 				panelProfile.add(btnReminder);
 				
+				btnLanguage = new JButton("EN");
+				btnLanguage.setHorizontalAlignment(SwingConstants.LEFT);
+				btnLanguage.setBackground(Color.WHITE);
+				btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryEnglish.png")));
+				btnLanguage.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						// ChangeTabTxt();
+						
+						if (language == "EN") 
+		        	   	{
+							language = "NL";
+							
+							//Tabs 
+							TabTxtNL();
+							lbFavorites.setText(TransLang("Favorieten:"));
+							lbSaved.setText(TransLang("Opgeslagen:"));
+							lbReminders.setText(TransLang("Herinneringen:"));
+							editButton.setText(TransLang("Wijzig profiel"));
+							lbMyCard.setText(TransLang("Kaart:"));
+							lbMyFirstName.setText(TransLang("Naam:"));
+							lbMyLastName.setText(TransLang("Achternaam:"));
+							lbMyAge.setText(TransLang("Leeftijd:"));
+							lbMyCity.setText(TransLang("Stad:"));
+							lbMyStreet.setText(TransLang("Straatnaam:"));
+							lbMyDescription.setText(TransLang("Mijn beschrijving:"));
+							lblDestination.setText(TransLang("Aankomst"));
+							lblDeparture.setText(TransLang("Vertrek"));
+							btnLanguage.setText(TransLang("EN"));
+							btnPlanTrip.setText(TransLang("Zoeken"));
+							btnNow.setText(TransLang("Nu"));
+							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryEnglish.png")));
+						}
+		        	   	else 
+		        	   	{
+							language = "EN";
+							
+							TabTxtEn();
+							lbFavorites.setText(TransLang("Favorieten:"));
+							lbSaved.setText(TransLang("Opgeslagen:"));
+							lbReminders.setText(TransLang("Herinneringen:"));
+							editButton.setText(TransLang("Wijzig profiel"));
+							lbMyCard.setText(TransLang("Kaart:"));
+							lbMyFirstName.setText(TransLang("Naam:"));
+							lbMyLastName.setText(TransLang("Achternaam:"));
+							lbMyAge.setText(TransLang("Leeftijd:"));
+							lbMyCity.setText(TransLang("Stad:"));
+							lbMyStreet.setText(TransLang("Straatnaam:"));
+							lbMyDescription.setText(TransLang("Mijn beschrijving:"));
+							lblDestination.setText(TransLang("Aankomst"));
+							lblDeparture.setText(TransLang("Vertrek"));
+							btnLanguage.setText(TransLang("NL"));
+							btnPlanTrip.setText(TransLang("Search"));
+							btnNow.setText(TransLang("Now"));
+							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryNetherlands.png")));
+						}
+					}
+				});
+				btnLanguage.setBounds(389, 11, 74, 23);
+				panelProfile.add(btnLanguage);
+				
 				//buttons "back"
 				JButton btnBackFavorites = new JButton("Terug ");
 				btnBackFavorites.addActionListener(new ActionListener() 
@@ -581,11 +648,11 @@ public class OvApp
 		JButton btnTram = new JButton("");
 		btnTram.setIcon(new ImageIcon(OvApp.class.getResource("/resources/Tram_50.png")));
 		
-		JLabel lblDeparture = new JLabel(TransLang("Vertrek"));
+		lblDeparture = new JLabel("Vertrektijd:");
 		
-		JLabel lblDestination = new JLabel("Aankomst:");
+		lblDestination = new JLabel("Aankomst:");
 		
-		JButton btnPlanTrip = new JButton("Zoeken");
+		btnPlanTrip = new JButton("Zoeken");
 		// ActionListener for search button
 		btnPlanTrip.addActionListener(new ActionListener()
 		{
@@ -600,7 +667,7 @@ public class OvApp
 		SpnrDateTime = new JSpinner();
 		SpnrDateTime.setModel(new SpinnerDateModel(new Date(1589234400000L), null, null, Calendar.DAY_OF_YEAR));
 		//button that will show the current time
-		JButton btnNow = new JButton("Nu");
+		btnNow = new JButton("Nu");
 		
 		txtFieldDeparture = new JTextField();
 		txtFieldDeparture.setColumns(10);
@@ -645,61 +712,6 @@ public class OvApp
 				selectedTransportType = "Tram";
 			}
 		});
-		
-		JButton btnLanguage = new JButton("English");
-		btnLanguage.addActionListener(new ActionListener() 
-		{
-			//translates language and sets text on label.
-			public void actionPerformed(ActionEvent e) 
-			{
-				
-				// ChangeTabTxt();
-				
-				
-				
-				if (language == "EN") 
-        	   	{
-					language = "NL";
-					
-					//Tabs 
-					TabTxtNL();
-					lbFavorites.setText(TransLang("Favorieten:"));
-					lbSaved.setText(TransLang("Opgeslagen:"));
-					lbReminders.setText(TransLang("Herinneringen:"));
-					editButton.setText(TransLang("Wijzig profiel"));
-					lbMyCard.setText(TransLang("Kaart:"));
-					lbMyFirstName.setText(TransLang("Naam:"));
-					lbMyLastName.setText(TransLang("Achternaam:"));
-					lbMyAge.setText(TransLang("Leeftijd:"));
-					lbMyCity.setText(TransLang("Stad:"));
-					lbMyStreet.setText(TransLang("Straatnaam:"));
-					lbMyDescription.setText(TransLang("Mijn beschrijving:"));
-					lblDestination.setText(TransLang("Aankomst"));
-					lblDeparture.setText(TransLang("Vertrek"));
-					btnLanguage.setText(TransLang("English"));
-				}
-        	   	else 
-        	   	{
-					language = "EN";
-					
-					TabTxtEn();
-					lbFavorites.setText(TransLang("Favorieten:"));
-					lbSaved.setText(TransLang("Opgeslagen:"));
-					lbReminders.setText(TransLang("Herinneringen:"));
-					editButton.setText(TransLang("Wijzig profiel"));
-					lbMyCard.setText(TransLang("Kaart:"));
-					lbMyFirstName.setText(TransLang("Naam:"));
-					lbMyLastName.setText(TransLang("Achternaam:"));
-					lbMyAge.setText(TransLang("Leeftijd:"));
-					lbMyCity.setText(TransLang("Stad:"));
-					lbMyStreet.setText(TransLang("Straatnaam:"));
-					lbMyDescription.setText(TransLang("Mijn beschrijving:"));
-					lblDestination.setText(TransLang("Aankomst"));
-					lblDeparture.setText(TransLang("Vertrek"));
-					btnLanguage.setText(TransLang("English"));
-				}
-			}
-		});
 		GroupLayout gl_panelTravelPlanner = new GroupLayout(panelTravelPlanner);
 		gl_panelTravelPlanner.setHorizontalGroup(
 			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
@@ -725,8 +737,7 @@ public class OvApp
 								.addComponent(lblDeparture, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
 								.addComponent(txtFieldDeparture)
 								.addComponent(txtFieldDestination, GroupLayout.PREFERRED_SIZE, 185, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDestination)
-								.addComponent(btnLanguage))))
+								.addComponent(lblDestination))))
 					.addContainerGap(54, Short.MAX_VALUE))
 		);
 		gl_panelTravelPlanner.setVerticalGroup(
@@ -752,9 +763,7 @@ public class OvApp
 						.addComponent(btnNow))
 					.addGap(28)
 					.addComponent(btnPlanTrip, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-					.addGap(28)
-					.addComponent(btnLanguage)
-					.addContainerGap(70, Short.MAX_VALUE))
+					.addContainerGap(121, Short.MAX_VALUE))
 		);
 		panelTravelPlanner.setLayout(gl_panelTravelPlanner);
 
@@ -1320,6 +1329,7 @@ public class OvApp
 		
 	}
 }
+
 
 
 
