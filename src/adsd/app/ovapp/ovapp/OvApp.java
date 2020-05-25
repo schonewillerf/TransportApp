@@ -97,6 +97,10 @@ public class OvApp
 
 	private DefaultTableModel locationTableModel;
 	private JTable tableDelays;
+	private JButton btnLocationChange;
+	private JLabel lblLocationDestination;
+	private JLabel lblLocationDeparture;
+	private JLabel lblLocationDepartureType;
 
 	public static void NewScreen()
 	{
@@ -539,6 +543,8 @@ public class OvApp
 							
 							//Tabs 
 							TabTxtNL();
+							//Profile
+							btnLanguage.setText(TransLang("EN"));
 							lbFavorites.setText(TransLang("Favorieten:"));
 							lbSaved.setText(TransLang("Opgeslagen:"));
 							lbReminders.setText(TransLang("Herinneringen:"));
@@ -550,18 +556,26 @@ public class OvApp
 							lbMyCity.setText(TransLang("Stad:"));
 							lbMyStreet.setText(TransLang("Straatnaam:"));
 							lbMyDescription.setText(TransLang("Mijn beschrijving:"));
-							lblDestination.setText(TransLang("Aankomst"));
-							lblDeparture.setText(TransLang("Vertrek"));
-							btnLanguage.setText(TransLang("EN"));
+							//TravelPlanner
+							lblDestination.setText(TransLang("Aankomst:"));
+							lblDeparture.setText(TransLang("Vertrek:"));
 							btnPlanTrip.setText(TransLang("Zoeken"));
 							btnNow.setText(TransLang("Nu"));
 							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryEnglish.png")));
+							//Location
+							btnLocationChange.setText(TransLang("Wijzig reis"));
+							lblLocationDestination.setText(TransLang("Bestemming:"));
+							lblLocationDeparture.setText(TransLang("Vertrek:"));
+							lblLocationDepartureType.setText(TransLang("Vervoerstype:"));
+
 						}
 		        	   	else 
 		        	   	{
-							language = "EN";
-							
+		        	   		language = "EN";
+							//Tabs
 							TabTxtEn();
+							//Profile
+							btnLanguage.setText(TransLang("NL"));
 							lbFavorites.setText(TransLang("Favorieten:"));
 							lbSaved.setText(TransLang("Opgeslagen:"));
 							lbReminders.setText(TransLang("Herinneringen:"));
@@ -573,12 +587,18 @@ public class OvApp
 							lbMyCity.setText(TransLang("Stad:"));
 							lbMyStreet.setText(TransLang("Straatnaam:"));
 							lbMyDescription.setText(TransLang("Mijn beschrijving:"));
-							lblDestination.setText(TransLang("Aankomst"));
-							lblDeparture.setText(TransLang("Vertrek"));
-							btnLanguage.setText(TransLang("NL"));
-							btnPlanTrip.setText(TransLang("Search"));
-							btnNow.setText(TransLang("Now"));
+							//TravelPlanner
+							lblDestination.setText(TransLang("Aankomst:"));
+							lblDeparture.setText(TransLang("Vertrek:"));
+							btnPlanTrip.setText(TransLang("Zoeken"));
+							btnNow.setText(TransLang("Nu"));
 							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryNetherlands.png")));
+							//Location
+							btnLocationChange.setText(TransLang("Wijzig reis"));
+							lblLocationDestination.setText(TransLang("Bestemming:"));
+							lblLocationDeparture.setText(TransLang("Vertrek:"));
+							lblLocationDepartureType.setText(TransLang("Vervoerstype:"));
+
 						}
 					}
 				});
@@ -798,7 +818,7 @@ public class OvApp
 		tabbedPane.addTab("Locatie", null, panelLocation, null);
 
 		// Create a return button to search panel
-		JButton btnLocationChange = new JButton("Wijzig reis");
+		btnLocationChange = new JButton("Wijzig reis");
 		btnLocationChange.addActionListener(new ActionListener()
 		{
 			@Override
@@ -809,9 +829,9 @@ public class OvApp
 		});
 
 		// Create static labels for departuretime, platform and destination
-		JLabel lblLocationDeparture = new JLabel("Vertrek:");
-		JLabel lblLocationDestination = new JLabel("Bestemming:");
-		JLabel lblLocationDepartureType = new JLabel("Vervoerstype");
+		lblLocationDeparture = new JLabel("Vertrek:");
+		lblLocationDestination = new JLabel("Bestemming:");
+		lblLocationDepartureType = new JLabel("Vervoerstype");
 
 		// Create dynamic labels for departuretime, platform and destination from search panel
 		JLabel lblDynamicDeparture = new JLabel();
@@ -1386,6 +1406,7 @@ public class OvApp
 	//puts a new value into the language list.
 	private void FillLanguageMap() 
 	{
+		//profile
 		languageMap.put("Wijzig profiel", "Edit profile");
 		languageMap.put("Favorieten:", "Favorites:");
 		languageMap.put("Opgeslagen:", "Saved:");
@@ -1397,9 +1418,17 @@ public class OvApp
 		languageMap.put("Leeftijd:", "Age:");
 		languageMap.put("Stad:", "City:");
 		languageMap.put("Straatnaam:", "Streetname:");
-		languageMap.put("Aankomst", "Destination");
-		languageMap.put("Vertrek", "Departure");
 		languageMap.put("English", "Nederlands");	
+		//TravelPlanner
+		languageMap.put("Aankomst:", "Destination:");
+		languageMap.put("Vertrek:", "Departure:");
+		languageMap.put("Nu", "Now");
+		languageMap.put("Zoeken", "Search");
+		//Location
+		languageMap.put("Bestemming:", "Destination:");
+		languageMap.put("Vervoerstype:", "Transport type:");
+		languageMap.put("Wijzig reis", "Change trip");
+
 	}
 	//gets the translated word from languagemap and returns the word.
 	private String TransLang(String word) 
