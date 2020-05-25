@@ -1012,10 +1012,10 @@ public class OvApp
 				// Does not execute while the value is changing, but when it is changed
 				if (!listSelectionEvent.getValueIsAdjusting())
 				{
-					try
-					{
-						int selectedRow = tblLocation.getSelectedRow();
+					int selectedRow = tblLocation.getSelectedRow();
 
+					if (selectedRow >= 0)
+					{
 						// Print output to console
 						//
 						// Hidden fields
@@ -1028,11 +1028,6 @@ public class OvApp
 						System.out.println(tblLocation.getModel().getValueAt(selectedRow, 4));//platForm
 						System.out.println(tblLocation.getModel().getValueAt(selectedRow, 5));//destination
 					}
-					catch (Exception e)
-					{
-						System.out.println("there is no selection, because there is no data");
-					}
-
 				}
 			}
 		});
@@ -1243,7 +1238,69 @@ public class OvApp
 		));
 		scrollPaneMap.setViewportView(tableMap);
 		
-				
+		JButton btnDistance = new JButton("");
+		btnDistance.setBackground(Color.WHITE);
+		btnDistance.setBounds(247, 167, 25, 23);
+		btnDistance.setIcon(new ImageIcon(OvApp.class.getResource("/resources/transfer.png")));
+		panelMap.add(btnDistance);
+		
+		JLabel lblDistance_1 = new JLabel("Afstand:");
+		lblDistance_1.setFont(new Font("Dialog", Font.BOLD, 11));
+		lblDistance_1.setBounds(282, 167, 84, 25);
+		panelMap.add(lblDistance_1);
+		
+		JLabel lblDistanceTxt = new JLabel("<dynamic>");
+		lblDistanceTxt.setBounds(358, 167, 70, 23);
+		panelMap.add(lblDistanceTxt);
+
+		/**
+		 * Seanan and Raymond working on awesome code for calculating distance
+		 */
+		tabbedPane.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent changeEvent)
+			{
+				int selectedTab = tabbedPane.getSelectedIndex();
+
+				if (selectedTab == 3)
+				{
+					int selectedRow = tblLocation.getSelectedRow();
+
+					if (selectedRow >= 0)
+					{
+						String startTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 3));
+						String finishTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 0));
+						String startLocation = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 2));
+						String finishLocation = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 5));
+
+						lblDepartureTimeTxt.setText(startTime);
+						lblArrivalTimeTxt.setText(finishTime);
+
+						if (startLocation.equals("Utrecht CRL") && finishLocation.equals("Amsterdam Crl"))
+						{
+							lblDistanceTxt.setText("36 km");
+							lblPriceTxt.setText("€6,69");
+						}
+						else if (startLocation.equals("Amsterdam CRL") && finishLocation.equals("Amersfoort Crl"))
+						{
+							lblDistanceTxt.setText("69 km");
+							lblPriceTxt.setText("€1000");
+						}
+						else if (startLocation.equals("Amersfoort") && finishLocation.equals("Amersfoort ZD"))
+						{
+							lblDistanceTxt.setText("100 m");
+							lblPriceTxt.setText("29 kCal");
+						}
+						else if (startLocation.equals("Amersfoort") && finishLocation.equals("Amersfoort CRL"))
+						{
+							lblDistanceTxt.setText("10 stappen");
+							lblPriceTxt.setText("2 kCal");
+						}
+					}
+				}
+			}
+		});
 	}		
 				
 			
