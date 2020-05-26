@@ -1,5 +1,7 @@
 package adsd.app.ovapp.metro;
 
+import adsd.app.ovapp.ovapp.TravelTime;
+
 import java.util.ArrayList;
 
 
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 
 public class MetroDataModel
 {
-	private ArrayList<MetroTime> metroTimeList = new ArrayList<>();
+	private ArrayList<TravelTime> metroTimeList = new ArrayList<>();
 
 	private void parseDataAndBuildList() 
 	{
@@ -20,14 +22,14 @@ public class MetroDataModel
 		metroTimeList.add(new MetroTime("13:00", "13:15", "perron 1a", "Amsterdam Ctrl","Amsterdam WST","2d"));
 	}
 	
-	public ArrayList<MetroTime> getArrivalTimes() 
+	public ArrayList<TravelTime> getArrivalTimes()
 	{
 		parseDataAndBuildList();
 		
 		return metroTimeList;
 	}
 	
-	public ArrayList<MetroTime> getDepartureTimes() 
+	public ArrayList<TravelTime> getDepartureTimes()
 	{
 		parseDataAndBuildList();
 		

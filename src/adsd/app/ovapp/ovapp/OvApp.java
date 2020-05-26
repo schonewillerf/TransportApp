@@ -16,29 +16,18 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.SystemColor;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.awt.event.ActionEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import static adsd.app.ovapp.ovapp.DBConnection.Connection;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 public class OvApp
 {
@@ -683,7 +672,7 @@ public class OvApp
 		txtFieldDestination.setColumns(10);
 
 		// Action Listeners for Transport Type Buttons
-		btnTrain.addActionListener(actionEvent -> selectedTransportType = "Trein");
+		btnTrain.addActionListener(actionEvent -> selectedTransportType = "Train");
 		btnBus.addActionListener(actionEvent -> selectedTransportType = "Bus");
 		btnMetro.addActionListener(actionEvent -> selectedTransportType = "Metro");
 		btnTram.addActionListener(actionEvent -> selectedTransportType = "Tram");
@@ -747,27 +736,10 @@ public class OvApp
 	
 	/**
 	 * Panel for displaying available departures
+	 * Saved about 100+ lines by not looping over each transport type
 	 */
 	public void Panel_Location() 
 	{
-		/*
-		 * In order to check functionality for this panel go to "Reisplanner"
-		 * Click "Zoeken"
-		 *
-		 * > All available results for default transport type will be shown, Bus is assumed to be the default
-		 *
-		 * Click "Wijzig reis"
-		 * Click "Train icon" 2nd from left
-		 * Click "Zoeken"
-		 *
-		 * > All available TrainTimes will be shown in table
-		 *
-		 * Click "Wijzig reis"
-		 * Type "Amersfoort" in "Aankomst" textfield
-		 * Click "Zoeken"
-		 *
-		 * > All TrainTimes containing the destination Amersfoort will be shown
-		 */
 		// Create the panel and add it as tab
 		panelLocation = new JPanel();
 		tabbedPane.addTab("Locatie", null, panelLocation, null);
@@ -776,7 +748,7 @@ public class OvApp
 		btnLocationChange = new JButton("Wijzig reis");
 		btnLocationChange.addActionListener(actionEvent -> tabbedPane.setSelectedIndex(1));
 
-		// Create static labels for departuretime, platform and destination
+		// Create labels for departuretime, platform and destination
 		lblLocationDeparture = new JLabel("Vertrek:");
 		lblLocationDestination = new JLabel("Bestemming:");
 		lblLocationDepartureType = new JLabel("Vervoerstype");
@@ -824,147 +796,57 @@ public class OvApp
 					locationTableModel.removeRow(i);
 				}
 
+				List<TravelTime> travelTimes = new ArrayList<>();
 
 				// Here the new data for selected transport type will be added to the table
-				// Could be improved by not repeating yourself
+				// In a non repeating way saving about 100+ lines
 				//
 				switch (String.valueOf(selectedTransportType))
 				{
 					case "Bus" -> {
-						// Create a dataModel object and retrieve list of trainTimes
 						BusDataModel dataModel = new BusDataModel();
-						List<BusTime> busTimes = dataModel.getArrivalTimes();
-
-						// Loop over eacht trainTime
-						for (BusTime busTime : busTimes)
-						{
-							// Check if departure and destination match criteria
-							if (busTime.getDestination().contains(selectedDestination) &&
-									busTime.getStationName().contains(selectedDeparture))
-							{
-								// Add row to table if filter criteria are met
-								locationTableModel.addRow(
-										new Object[]
-												{
-														// Add data to columns, some will be made hidden later
-														// This way we can retrieve date more easily in detail view
-														//
-														// Hidden columns first
-														busTime.getArrivalTime(),
-														busTime.getRoute(),
-														busTime.getStationName(),
-														//
-														// Then visible columns
-														busTime.getDepartureTime(),
-														busTime.getPlatform(),
-														busTime.getDestination(),
-												}
-								);
-							}
-						}
+						travelTimes = dataModel.getArrivalTimes();
 					}
-					case "Trein" -> {
-						// Create a dataModel object and retrieve list of trainTimes
+					case "Train" -> {
 						TrainDataModel dataModel = new TrainDataModel();
-						List<TrainTime> trainTimes = dataModel.getArrivalTimes();
-
-						// Loop over eacht trainTime
-						for (TrainTime trainTime : trainTimes)
-						{
-							// Check if departure and destination match criteria
-							if (trainTime.getDestination().contains(selectedDestination) &&
-									trainTime.getStationName().contains(selectedDeparture))
-							{
-								// Add row to table if filter criteria are met
-								locationTableModel.addRow(
-										new Object[]
-												{
-														// Add data to columns, some will be made hidden later
-														// This way we can retrieve date more easily in detail view
-														//
-														// Hidden columns first
-														trainTime.getArrivalTime(),
-														trainTime.getRoute(),
-														trainTime.getStationName(),
-														//
-														// Then visible columns
-														trainTime.getDepartureTime(),
-														trainTime.getPlatForm(),
-														trainTime.getDestination(),
-												}
-								);
-							}
-						}
-					}
-					case "Metro" -> {
-						// Create a dataModel object and retrieve list of trainTimes
-						MetroDataModel dataModel = new MetroDataModel();
-						List<MetroTime> metroTimes = dataModel.getArrivalTimes();
-
-						// Loop over eacht trainTime
-						for (MetroTime metroTime : metroTimes)
-						{
-							// Check if departure and destination match criteria
-							if (metroTime.getDestination().contains(selectedDestination) &&
-									metroTime.getStationName().contains(selectedDeparture))
-							{
-								// Add row to table if filter criteria are met
-								locationTableModel.addRow(
-										new Object[]
-												{
-														// Add data to columns, some will be made hidden later
-														// This way we can retrieve date more easily in detail view
-														//
-														// Hidden columns first
-														metroTime.getArrivalTime(),
-														metroTime.getRoute(),
-														metroTime.getStationName(),
-														//
-														// Then visible columns
-														metroTime.getDepartureTime(),
-														metroTime.getPlatform(),
-														metroTime.getDestination(),
-												}
-								);
-							}
-						}
+						travelTimes = dataModel.getArrivalTimes();
 					}
 					case "Tram" -> {
-						// Create a dataModel object and retrieve list of trainTimes
 						TramDataModel dataModel = new TramDataModel();
-						List<TramTime> tramTimes = dataModel.getArrivalTimes();
+						travelTimes = dataModel.getArrivalTimes();
+					}
+					case "Metro" -> {
+						MetroDataModel dataModel = new MetroDataModel();
+						travelTimes = dataModel.getArrivalTimes();
+					}
+				}
 
-						// Loop over eacht trainTime
-						for (TramTime tramTime : tramTimes)
-						{
-							// Check if departure and destination match criteria
-							if (tramTime.getDestination().contains(selectedDestination) &&
-									tramTime.getStationName().contains(selectedDeparture))
-							{
-								// Add row to table if filter criteria are met
-								locationTableModel.addRow(
-										new Object[]
+				for (TravelTime travelTime : travelTimes)
+				{
+					if (travelTime.getDestination().contains(selectedDestination) &&
+									travelTime.getStationName().contains(selectedDeparture))
+					{
+						// Add row to table if filter criteria are met
+						locationTableModel.addRow(new Object[]
 												{
 														// Add data to columns, some will be made hidden later
 														// This way we can retrieve date more easily in detail view
 														//
 														// Hidden columns first
-														tramTime.getArrivalTime(),
-														tramTime.getRoute(),
-														tramTime.getStationName(),
+														travelTime.getArrivalTime(),
+														travelTime.getRoute(),
+														travelTime.getStationName(),
 														//
 														// Then visible columns
-														tramTime.getDepartureTime(),
-														tramTime.getPlatform(),
-														tramTime.getDestination(),
+														travelTime.getDepartureTime(),
+														travelTime.getPlatform(),
+														travelTime.getDestination(),
 												}
 								);
 							}
 						}
-					}
 				}
-			}
-		});
+			});
 
 		tblLocation = new JTable(locationTableModel);
 

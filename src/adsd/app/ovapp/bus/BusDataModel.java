@@ -1,5 +1,7 @@
 package adsd.app.ovapp.bus;
 
+import adsd.app.ovapp.ovapp.TravelTime;
+
 import java.util.ArrayList;
 
 /**
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 
 public class BusDataModel
 {
-	private ArrayList<BusTime> busTimeList = new ArrayList<>();
+	private ArrayList<TravelTime> busTimeList = new ArrayList<>();
 
 	private void parseDataAndBuildList() 
 	{
@@ -22,14 +24,14 @@ public class BusDataModel
 		busTimeList.add(new BusTime("13:30", "14.15", "peroon F", "Amersfoort", "Amersfoort CRL","Perron J"));
 	}
 	
-	public ArrayList<BusTime> getArrivalTimes() 
+	public ArrayList<TravelTime> getArrivalTimes()
 	{
 		parseDataAndBuildList();
 		
 		return busTimeList;
 	}
 	
-	public ArrayList<BusTime> getDepartureTimes() 
+	public ArrayList<TravelTime> getDepartureTimes()
 	{
 		parseDataAndBuildList();
 		

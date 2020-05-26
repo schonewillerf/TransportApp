@@ -1,6 +1,9 @@
 package adsd.app.ovapp.metro;
 
-public class MetroTime {
+import adsd.app.ovapp.ovapp.TravelTime;
+
+public class MetroTime extends TravelTime
+{
 
     private String arrivalTime;
     private String departureTime;
