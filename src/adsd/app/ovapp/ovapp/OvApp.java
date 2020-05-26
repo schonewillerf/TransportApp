@@ -38,6 +38,7 @@ import javax.swing.table.TableColumnModel;
 
 public class OvApp
 {
+	//al the objects that are made, now they can be used everywhere in the code and outside in other files.
 	private Map languageMap;
 	private String language;
 	private String selectedTransportType = "Bus"; // Bus is assumed to be default for simplicity
@@ -102,7 +103,7 @@ public class OvApp
 	private JLabel lblLocationDeparture;
 	private JLabel lblLocationDepartureType;
 
-	public static void NewScreen()
+	public static void NewScreen()						//newscreen is a alias for OvApp, here is Ovapp opened as a new main program
 	{
 		EventQueue.invokeLater(new Runnable() 
 		{
@@ -110,9 +111,9 @@ public class OvApp
 			{
 				try 
 				{
-					OvApp window = new OvApp();
-					window.frame.setVisible(true);
-				} catch (Exception e) 
+					OvApp window = new OvApp();			//window is new dialog opening for OvApp
+					window.frame.setVisible(true);		// show the window
+				} catch (Exception e) 	
 				{
 					e.printStackTrace();
 				}
@@ -120,9 +121,9 @@ public class OvApp
 		});
 	}
 
-	public void SwitchPanels()
+	public void SwitchPanels()							//a methode made so this can be used in a single word for removing all the panels
 	{
-		tabbedPane.removeAll();
+		tabbedPane.removeAll();							// the code used for removing all paneltabs at once
 		
 	}
 	
@@ -156,16 +157,16 @@ public class OvApp
     }
 
 	
-	public void AddPanels()
+	public void AddPanels()													//methode for adding all panels at once through one word. It keeps yur code clean and out of duplication
 	{
-		tabbedPane.addTab("Profiel", null, panelProfile, null);
+		tabbedPane.addTab("Profiel", null, panelProfile, null);				//Panel is added to the tabbedpaneframe
 		tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
 		tabbedPane.addTab("Locatie", null, panelLocation, null);
 		tabbedPane.addTab("Kaart", null, panelMap, null);
 		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
 	}
 	
-	public OvApp() 
+	public OvApp() 															//This is where the app is made and starts
 	{
 		languageMap = new HashMap();
 		frame = new JFrame();
@@ -278,8 +279,8 @@ public class OvApp
 		
 	}
 
-	public void Panel_Profile() 
-	{
+	public void Panel_Profile() 										//methode for panel profile, everything is that is made in profile panel is in this methode.
+	{																	// you can call the methode and get all this code working with just one word of code.
 				panelProfile = new JPanel();
 				panelProfile.setBackground(Color.WHITE);
 				panelProfile.setLayout(null);
@@ -290,7 +291,7 @@ public class OvApp
 				//Labels
 				JLabel lbimage = new JLabel();
 				lbimage.setBackground(UIManager.getColor("ToolBar.highlight"));
-				lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));
+				lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));		//image added to the label
 				lbimage.setBounds(24, 21, 207, 222);
 				panelProfile.add(lbimage);
 
@@ -403,13 +404,13 @@ public class OvApp
 				panelProfile.add(textPane);
 				
 				//buttons
-				editButton = new JButton("Wijzig profiel");
+				editButton = new JButton("Wijzig profiel");									//button for changing profile
 				// Action Event for 
-				editButton.addActionListener(new ActionListener()
+				editButton.addActionListener(new ActionListener()							//by click the action will be performed with the code  below
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						if (("Wijzig profiel").equals(editButton.getText()))
+						if (("Wijzig profiel").equals(editButton.getText()))				// . equals is the same for..
 						{
 							cardtxt.setEnabled(true);
 							firstnametxt.setEnabled(true);
@@ -605,7 +606,7 @@ public class OvApp
 						}
 					}
 				});
-				btnLanguage.setBounds(389, 11, 74, 23);
+				btnLanguage.setBounds(389, 11, 74, 23);										//set he line out for the buttondesign
 				panelProfile.add(btnLanguage);
 				
 				//buttons "back"
@@ -1116,22 +1117,21 @@ public class OvApp
 	
 	public void Panel_Map() 
 	{
-		panelMap = new JPanel();
-		panelMap.setBackground(Color.WHITE);
+		panelMap = new JPanel();																	// make a new panel named panelMap
+		panelMap.setBackground(Color.WHITE);														// set the background to the color white
 		tabbedPane.addTab("Kaart", null, panelMap, null);
 		panelMap.setLayout(null);
 		
-		//labels
-				
+		//labels		
 		JLabel lblDepartureTime = new JLabel("Verttrektijd:");		
 		lblDepartureTime.setBounds(44, 39, 84, 25);
 		lblDepartureTime.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panelMap.add(lblDepartureTime);
 		
-		JLabel lblArrivalTime = new JLabel("Aankomsttijd:");
-		lblArrivalTime.setBounds(44, 75, 84, 25);
-		lblArrivalTime.setFont(new Font("Tahoma", Font.BOLD, 11));
-		panelMap.add(lblArrivalTime);	
+		JLabel lblArrivalTime = new JLabel("Aankomsttijd:");										// make new label named lblArrivalTime
+		lblArrivalTime.setBounds(44, 75, 84, 25);													//Set the outlining design for the button
+		lblArrivalTime.setFont(new Font("Tahoma", Font.BOLD, 11));									//set the text in a new design, called "font" in programming
+		panelMap.add(lblArrivalTime);																//panelMap add the lblArrivalTime to the panel
 		
 		JLabel lblImageLoation = new JLabel("");
 		lblImageLoation.setBounds(10, 234, 262, 275);
@@ -1240,9 +1240,9 @@ public class OvApp
 		panelMap.add(scrollPaneMap);
 		
 		//table
-		tableMap = new JTable();
-		tableMap.setModel(new DefaultTableModel(
-			new Object[][] {
+		tableMap = new JTable();									//make a new table named tableMap
+		tableMap.setModel(new DefaultTableModel(					//set a model for tableMap	
+			new Object[][] {				
 				{null, null},
 				{null, null},
 				{null, null},
@@ -1265,11 +1265,11 @@ public class OvApp
 				{null, null},
 				{null, null},
 			},
-			new String[] {
+			new String[] {											//naming for the colums/rows
 				"Tijd", "Stop"
 			}
 		));
-		scrollPaneMap.setViewportView(tableMap);
+		scrollPaneMap.setViewportView(tableMap);					// set the tableMap in scrollpane, this will make the table scrollable
 		
 		JButton btnDistance = new JButton("");
 		btnDistance.setBackground(Color.WHITE);
@@ -1318,7 +1318,7 @@ public class OvApp
 						else if (startLocation.equals("Amsterdam CRL") && finishLocation.equals("Amersfoort Crl"))
 						{
 							lblDistanceTxt.setText("69 km");
-							lblPriceTxt.setText("€1000");
+							lblPriceTxt.setText("1000");
 						}
 						else if (startLocation.equals("Amersfoort") && finishLocation.equals("Amersfoort ZD"))
 						{
