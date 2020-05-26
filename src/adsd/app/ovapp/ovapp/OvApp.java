@@ -97,11 +97,11 @@ public class OvApp
 	private JButton btnNow;
 
 	private DefaultTableModel locationTableModel;
-	private JTable tableDelays;
 	private JButton btnLocationChange;
 	private JLabel lblLocationDestination;
 	private JLabel lblLocationDeparture;
 	private JLabel lblLocationDepartureType;
+	private JTable table;
 
 	public static void NewScreen()						//newscreen is a alias for OvApp, here is Ovapp opened as a new main program
 	{
@@ -1345,29 +1345,18 @@ public class OvApp
 		
 		JLabel lblVertragingen = new JLabel("Vertragingen:");
 		
-		tableDelays = new JTable();
-
-		tableDelays.setModel(new DefaultTableModel(
-				new Object[][] {
-						{"Amersfoort", "Groningen", "00:15"},
-						{"Heerenveen", "Groningen", "00:15"},
-						{"Delft", "Groningen", "00:15"},
-				},
-				new String[] {
-						"Vertrek", "Aankomst", "Vertraging"
-				}
-		));
+		JScrollPane scrollPane = new JScrollPane();
 
 
 
 		GroupLayout gl_panelDelays = new GroupLayout(panelDelays);
 		gl_panelDelays.setHorizontalGroup(
-			gl_panelDelays.createParallelGroup(Alignment.LEADING)
+			gl_panelDelays.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelDelays.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panelDelays.createParallelGroup(Alignment.LEADING)
-						.addComponent(tableDelays, GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
-						.addComponent(lblVertragingen))
+					.addGroup(gl_panelDelays.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblVertragingen, Alignment.LEADING)
+						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panelDelays.setVerticalGroup(
@@ -1375,10 +1364,23 @@ public class OvApp
 				.addGroup(gl_panelDelays.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblVertragingen)
-					.addGap(18)
-					.addComponent(tableDelays, GroupLayout.PREFERRED_SIZE, 251, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(328, Short.MAX_VALUE))
+					.addGap(35)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(159, Short.MAX_VALUE))
 		);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"Amersfoort", "Groningen", "00:15"},
+				{"Heerenveen", "Groningen", "00:15"},
+				{"Delft", "Groningen", "00:15"},
+			},
+			new String[] {
+				"Vertrekpunt", "Aankomstpunt", "Vertragingen"
+			}
+		));
 		panelDelays.setLayout(gl_panelDelays);
 		
 	}
