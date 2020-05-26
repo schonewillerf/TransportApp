@@ -38,10 +38,10 @@ import javax.swing.table.TableColumnModel;
 
 public class OvApp
 {
-	//al the objects that are made, now they can be used everywhere in the code and outside in other files.
+													//al the objects that are made, now they can be used everywhere in the code and outside in other files.
 	private Map languageMap;
 	private String language;
-	private String selectedTransportType = "Bus"; // Bus is assumed to be default for simplicity
+	private String selectedTransportType = "Bus"; 	// Bus is assumed to be default for simplicity
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
 	private JPanel panelProfile;
