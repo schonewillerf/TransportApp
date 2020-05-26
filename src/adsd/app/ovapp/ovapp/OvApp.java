@@ -216,23 +216,26 @@ public class OvApp
 				String psd = password.getText();
 				conn = Connection();
 
-
 				usn = userName.getText();
 				psd = password.getText();
-				PreparedStatement ds = conn.prepareStatement("SELECT * FROM profile WHERE emailAdress=? AND password=?");
-				ds.setString(1, String.valueOf(usn));
-				ds.setString(2, String.valueOf(psd));
-				ResultSet es = ds.executeQuery();
+				PreparedStatement DBLogin = conn.prepareStatement("SELECT * FROM profile WHERE emailAdress=? AND password=?");
+				DBLogin.setString(1, String.valueOf(usn));
+				DBLogin.setString(2, String.valueOf(psd));
+
+				ResultSet es = DBLogin.executeQuery();
+
+
 				if (es.next()) {
-					System.out.println("user doesn't exist");
+					System.out.println("User doesn't exist");
 
 					tabbedPane.remove(panelLogin);
-					AddPanels();
 					panelProfile.revalidate();
+					AddPanels();
 
-
-					PreparedStatement ps = conn.prepareStatement("SELECT * FROM profile");
-					ResultSet rs = ps.executeQuery();
+					PreparedStatement DBProfile = conn.prepareStatement("SELECT * FROM profile WHERE emailAdress=? AND password=?");
+					DBProfile.setString(1, String.valueOf(usn));
+					DBProfile.setString(2, String.valueOf(psd));
+					ResultSet rs = DBProfile.executeQuery();
 
 					while (rs.next())
 					{
@@ -249,7 +252,7 @@ public class OvApp
 				}
 
 				else {
-					System.out.println("user doesn't exist");
+					System.out.println("User doesn't exist");
 				}
 			}
 			catch (SQLException throwables)
