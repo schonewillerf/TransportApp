@@ -2,8 +2,12 @@ package adsd.app.ovapp.ovapp;
 
 import adsd.app.ovapp.bus.BusDataModel;
 import adsd.app.ovapp.bus.BusTime;
+import adsd.app.ovapp.metro.MetroDataModel;
+import adsd.app.ovapp.metro.MetroTime;
 import adsd.app.ovapp.train.TrainDataModel;
 import adsd.app.ovapp.train.TrainTime;
+import adsd.app.ovapp.tram.TramDataModel;
+import adsd.app.ovapp.tram.TramTime;
 
 import java.awt.EventQueue;
 import java.awt.Toolkit;
@@ -12,29 +16,18 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.SystemColor;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 import java.awt.event.ActionEvent;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import static adsd.app.ovapp.ovapp.DBConnection.Connection;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
 
 public class OvApp
 {
@@ -660,14 +653,10 @@ public class OvApp
 		
 		btnPlanTrip = new JButton("Zoeken");
 		// ActionListener for search button
-		btnPlanTrip.addActionListener(new ActionListener()
+		btnPlanTrip.addActionListener(actionEvent ->
 		{
-			@Override
-			public void actionPerformed(ActionEvent actionEvent)
-			{
-				// Will switch to the 3rd panel, Location
-				tabbedPane.setSelectedIndex(2);
-			}
+			// Will switch to the 3rd panel, Location
+			tabbedPane.setSelectedIndex(2);
 		});
 		//an option to input date and time
 		SpnrDateTime = new JSpinner();
@@ -683,41 +672,11 @@ public class OvApp
 		txtFieldDestination.setColumns(10);
 
 		// Action Listeners for Transport Type Buttons
-		btnTrain.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent actionEvent)
-			{
-				selectedTransportType = "Trein";
-			}
-		});
+		btnTrain.addActionListener(actionEvent -> selectedTransportType = "Train");
+		btnBus.addActionListener(actionEvent -> selectedTransportType = "Bus");
+		btnMetro.addActionListener(actionEvent -> selectedTransportType = "Metro");
+		btnTram.addActionListener(actionEvent -> selectedTransportType = "Tram");
 
-		btnBus.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent actionEvent)
-			{
-				selectedTransportType = "Bus";
-			}
-		});
-
-		btnMetro.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent actionEvent)
-			{
-				selectedTransportType = "Metro";
-			}
-		});
-
-		btnTram.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent actionEvent)
-			{
-				selectedTransportType = "Tram";
-			}
-		});
 		GroupLayout gl_panelTravelPlanner = new GroupLayout(panelTravelPlanner);
 		gl_panelTravelPlanner.setHorizontalGroup(
 			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
@@ -777,43 +736,19 @@ public class OvApp
 	
 	/**
 	 * Panel for displaying available departures
+	 * Saved about 100+ lines by not looping over each transport type
 	 */
 	public void Panel_Location() 
 	{
-		/**
-		 * In order to check functionality for this panel go to "Reisplanner"
-		 * Click "Zoeken"
-		 *
-		 * > All available results for default transport type will be shown, Bus is assumed to be the default
-		 *
-		 * Click "Wijzig reis"
-		 * Click "Train icon" 2nd from left
-		 * Click "Zoeken"
-		 *
-		 * > All available TrainTimes will be shown in table
-		 *
-		 * Click "Wijzig reis"
-		 * Type "Amersfoort" in "Aankomst" textfield
-		 * Click "Zoeken"
-		 *
-		 * > All TrainTimes containing the destination Amersfoort will be shown
-		 */
 		// Create the panel and add it as tab
 		panelLocation = new JPanel();
 		tabbedPane.addTab("Locatie", null, panelLocation, null);
 
 		// Create a return button to search panel
 		btnLocationChange = new JButton("Wijzig reis");
-		btnLocationChange.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent actionEvent)
-			{
-				tabbedPane.setSelectedIndex(1);
-			}
-		});
+		btnLocationChange.addActionListener(actionEvent -> tabbedPane.setSelectedIndex(1));
 
-		// Create static labels for departuretime, platform and destination
+		// Create labels for departuretime, platform and destination
 		lblLocationDeparture = new JLabel("Vertrek:");
 		lblLocationDestination = new JLabel("Bestemming:");
 		lblLocationDepartureType = new JLabel("Vervoerstype");
@@ -836,177 +771,82 @@ public class OvApp
 		locationTableModel.addColumn("route");
 
 		// Add content to dynamic labels and table when tab is opened
-		tabbedPane.addChangeListener(new ChangeListener()
+		tabbedPane.addChangeListener(changeEvent ->
 		{
-			@Override
-			public void stateChanged(ChangeEvent changeEvent)
+			int activeTab = tabbedPane.getSelectedIndex();
+
+			if (activeTab == 2) // Returns true when Location tab is opened
 			{
-				int activeTab = tabbedPane.getSelectedIndex();
+				// Retrieve filter criteria
+				//
+				// selectedTransportType is already private String
+				String selectedDeparture = txtFieldDeparture.getText();
+				String selectedDestination = txtFieldDestination.getText();
+				// retrieving a selectedTime is still a challenge
+				//int selectedTime = (Integer) SpnrDateTime.getValue();
 
-				if (activeTab == 2) // Returns true when Location tab is opened
+				// Create dynamic labels
+				lblDynamicDeparture.setText(selectedDeparture);
+				lblDynamicDestination.setText(selectedDestination);
+				lblDynamicTransportType.setText(selectedTransportType);
+
+				// Remove old data from table
+				for (int i = locationTableModel.getRowCount() - 1; i >= 0; i--)
 				{
-					// Retrieve filter criteria
-					//
-					// selectedTransportType is already private String
-					String selectedDeparture = txtFieldDeparture.getText();
-					String selectedDestination = txtFieldDestination.getText();
-					// retrieving a selectedTime is still a challenge
-					//int selectedTime = (Integer) SpnrDateTime.getValue();
+					locationTableModel.removeRow(i);
+				}
 
-					// Create dynamic labels
-					lblDynamicDeparture.setText(selectedDeparture);
-					lblDynamicDestination.setText(selectedDestination);
-					lblDynamicTransportType.setText(selectedTransportType);
+				List<TravelTime> travelTimes = new ArrayList<>();
 
-					// Remove old data from table
-					for (int i = locationTableModel.getRowCount() - 1; i >= 0; i--)
-					{
-						locationTableModel.removeRow(i);
-					}
-
-					/**
-					 * Here the new data for selected transport type will be added to the table
-					 * For now just a demonstration with bus and train
-					 */
-					if (String.valueOf(selectedTransportType).equals("Bus"))
-					{
-						// Create a dataModel object and retrieve list of trainTimes
+				// Here the new data for selected transport type will be added to the table
+				// In a non repeating way saving about 100+ lines
+				//
+				switch (String.valueOf(selectedTransportType))
+				{
+					case "Bus" -> {
 						BusDataModel dataModel = new BusDataModel();
-						List<BusTime> busTimes = dataModel.getArrivalTimes();
-
-						// Loop over eacht trainTime
-						for (BusTime busTime : busTimes)
-						{
-							// Check if departure and destination match criteria
-							if (busTime.getDestination().contains(selectedDestination) &&
-											busTime.getStationName().contains(selectedDeparture))
-							{
-								// Add row to table if filter criteria are met
-								locationTableModel.addRow(
-										new Object[]
-												{
-														// Add data to columns, some will be made hidden later
-														// This way we can retrieve date more easily in detail view
-														//
-														// Hidden columns first
-														busTime.getArrivalTime(),
-														busTime.getRoute(),
-														busTime.getStationName(),
-														//
-														// Then visible columns
-														busTime.getDepartureTime(),
-														busTime.getPlatform(),
-														busTime.getDestination(),
-												}
-								);
-							}
-						}
+						travelTimes = dataModel.getArrivalTimes();
 					}
-					else if (String.valueOf(selectedTransportType).equals("Trein"))
-					{
-						// Create a dataModel object and retrieve list of trainTimes
+					case "Train" -> {
 						TrainDataModel dataModel = new TrainDataModel();
-						List<TrainTime> trainTimes = dataModel.getArrivalTimes();
-
-						// Loop over eacht trainTime
-						for (TrainTime trainTime : trainTimes)
-						{
-							// Check if departure and destination match criteria
-							if (trainTime.getDestination().contains(selectedDestination) &&
-									trainTime.getStationName().contains(selectedDeparture))
-							{
-								// Add row to table if filter criteria are met
-								locationTableModel.addRow(
-										new Object[]
-												{
-														// Add data to columns, some will be made hidden later
-														// This way we can retrieve date more easily in detail view
-														//
-														// Hidden columns first
-														trainTime.getArrivalTime(),
-														trainTime.getRoute(),
-														trainTime.getStationName(),
-														//
-														// Then visible columns
-														trainTime.getDepartureTime(),
-														trainTime.getPlatForm(),
-														trainTime.getDestination(),
-												}
-								);
-							}
-						}
+						travelTimes = dataModel.getArrivalTimes();
 					}
-					else if (String.valueOf(selectedTransportType).equals("Metro"))
-					{
-						// Create a dataModel object and retrieve list of trainTimes
-						TrainDataModel dataModel = new TrainDataModel();
-						List<TrainTime> trainTimes = dataModel.getArrivalTimes();
-
-						// Loop over eacht trainTime
-						for (TrainTime trainTime : trainTimes)
-						{
-							// Check if departure and destination match criteria
-							if (trainTime.getDestination().contains(selectedDestination) &&
-									trainTime.getStationName().contains(selectedDeparture))
-							{
-								// Add row to table if filter criteria are met
-								locationTableModel.addRow(
-										new Object[]
-												{
-														// Add data to columns, some will be made hidden later
-														// This way we can retrieve date more easily in detail view
-														//
-														// Hidden columns first
-														trainTime.getArrivalTime(),
-														trainTime.getRoute(),
-														trainTime.getStationName(),
-														//
-														// Then visible columns
-														trainTime.getDepartureTime(),
-														trainTime.getPlatForm(),
-														trainTime.getDestination(),
-												}
-								);
-							}
-						}
+					case "Tram" -> {
+						TramDataModel dataModel = new TramDataModel();
+						travelTimes = dataModel.getArrivalTimes();
 					}
-					else if (String.valueOf(selectedTransportType).equals("Tram"))
-					{
-						// Create a dataModel object and retrieve list of trainTimes
-						TrainDataModel dataModel = new TrainDataModel();
-						List<TrainTime> trainTimes = dataModel.getArrivalTimes();
-
-						// Loop over eacht trainTime
-						for (TrainTime trainTime : trainTimes)
-						{
-							// Check if departure and destination match criteria
-							if (trainTime.getDestination().contains(selectedDestination) &&
-									trainTime.getStationName().contains(selectedDeparture))
-							{
-								// Add row to table if filter criteria are met
-								locationTableModel.addRow(
-										new Object[]
-												{
-														// Add data to columns, some will be made hidden later
-														// This way we can retrieve date more easily in detail view
-														//
-														// Hidden columns first
-														trainTime.getArrivalTime(),
-														trainTime.getRoute(),
-														trainTime.getStationName(),
-														//
-														// Then visible columns
-														trainTime.getDepartureTime(),
-														trainTime.getPlatForm(),
-														trainTime.getDestination(),
-												}
-								);
-							}
-						}
+					case "Metro" -> {
+						MetroDataModel dataModel = new MetroDataModel();
+						travelTimes = dataModel.getArrivalTimes();
 					}
 				}
-			}
-		});
+
+				for (TravelTime travelTime : travelTimes)
+				{
+					if (travelTime.getDestination().contains(selectedDestination) &&
+									travelTime.getStationName().contains(selectedDeparture))
+					{
+						// Add row to table if filter criteria are met
+						locationTableModel.addRow(new Object[]
+												{
+														// Add data to columns, some will be made hidden later
+														// This way we can retrieve date more easily in detail view
+														//
+														// Hidden columns first
+														travelTime.getArrivalTime(),
+														travelTime.getRoute(),
+														travelTime.getStationName(),
+														//
+														// Then visible columns
+														travelTime.getDepartureTime(),
+														travelTime.getPlatform(),
+														travelTime.getDestination(),
+												}
+								);
+							}
+						}
+				}
+			});
 
 		tblLocation = new JTable(locationTableModel);
 
@@ -1019,38 +859,33 @@ public class OvApp
 		// Get a single selection model and listen for the selection change event
 		tblLocation.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		ListSelectionModel selectLocationModel = tblLocation.getSelectionModel();
-		selectLocationModel.addListSelectionListener(new ListSelectionListener()
+		selectLocationModel.addListSelectionListener(listSelectionEvent ->
 		{
-			@Override
-			public void valueChanged(ListSelectionEvent listSelectionEvent)
+			// Does not execute while the value is changing, but when it is changed
+			if (!listSelectionEvent.getValueIsAdjusting())
 			{
-				// Does not execute while the value is changing, but when it is changed
-				if (!listSelectionEvent.getValueIsAdjusting())
-				{
-					int selectedRow = tblLocation.getSelectedRow();
+				int selectedRow = tblLocation.getSelectedRow();
 
-					if (selectedRow >= 0)
-					{
-						// Print output to console
-						//
-						// Hidden fields
-						System.out.println(tblLocation.getModel().getValueAt(selectedRow, 0));//arrivalTime
-						System.out.println(tblLocation.getModel().getValueAt(selectedRow, 1));//route
-						System.out.println(tblLocation.getModel().getValueAt(selectedRow, 2));//stationName
-						//
-						// Displayed fields
-						System.out.println(tblLocation.getModel().getValueAt(selectedRow, 3));//departureTime
-						System.out.println(tblLocation.getModel().getValueAt(selectedRow, 4));//platForm
-						System.out.println(tblLocation.getModel().getValueAt(selectedRow, 5));//destination
-					}
+				if (selectedRow >= 0)
+				{
+					// Print output to console
+					//
+					// Hidden fields
+					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 0));//arrivalTime
+					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 1));//route
+					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 2));//stationName
+					//
+					// Displayed fields
+					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 3));//departureTime
+					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 4));//platForm
+					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 5));//destination
 				}
 			}
 		});
 
 
-		/**
-		 * From here on only auto generated styling and adding of components
-		 */
+		//From here on only auto generated styling and adding of components
+		//
 		GroupLayout gl_panelLocation = new GroupLayout(panelLocation);
 		gl_panelLocation.setHorizontalGroup(
 			gl_panelLocation.createParallelGroup(Alignment.TRAILING)
@@ -1267,50 +1102,50 @@ public class OvApp
 		lblDistanceTxt.setBounds(358, 167, 70, 23);
 		panelMap.add(lblDistanceTxt);
 
-		/**
-		 * Seanan and Raymond working on awesome code for calculating distance
-		 */
-		tabbedPane.addChangeListener(new ChangeListener()
+		// Seanan and Raymond working on awesome code for calculating distance
+		// Code will execute when user selects the detail view tab
+		//
+		tabbedPane.addChangeListener(changeEvent ->
 		{
-			@Override
-			public void stateChanged(ChangeEvent changeEvent)
+			int selectedTab = tabbedPane.getSelectedIndex();
+
+			if (selectedTab == 3)
 			{
-				int selectedTab = tabbedPane.getSelectedIndex();
+				int selectedRow = tblLocation.getSelectedRow();
 
-				if (selectedTab == 3)
+				if (selectedRow >= 0)
 				{
-					int selectedRow = tblLocation.getSelectedRow();
+					// Retrieve values from selected row in table
+					String startTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 3));
+					String finishTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 0));
+					String startLocation = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 2));
+					String finishLocation = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 5));
 
-					if (selectedRow >= 0)
+					// Add data from table to labels
+					lblDepartureTimeTxt.setText(startTime);
+					lblArrivalTimeTxt.setText(finishTime);
+
+					// Soon to be fetched from DB
+					//
+					if (startLocation.equals("Utrecht CRL") && finishLocation.equals("Amsterdam Crl"))
 					{
-						String startTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 3));
-						String finishTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 0));
-						String startLocation = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 2));
-						String finishLocation = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 5));
-
-						lblDepartureTimeTxt.setText(startTime);
-						lblArrivalTimeTxt.setText(finishTime);
-
-						if (startLocation.equals("Utrecht CRL") && finishLocation.equals("Amsterdam Crl"))
-						{
-							lblDistanceTxt.setText("36 km");
-							lblPriceTxt.setText("€6,69");
-						}
-						else if (startLocation.equals("Amsterdam CRL") && finishLocation.equals("Amersfoort Crl"))
-						{
-							lblDistanceTxt.setText("69 km");
-							lblPriceTxt.setText("1000");
-						}
-						else if (startLocation.equals("Amersfoort") && finishLocation.equals("Amersfoort ZD"))
-						{
-							lblDistanceTxt.setText("100 m");
-							lblPriceTxt.setText("29 kCal");
-						}
-						else if (startLocation.equals("Amersfoort") && finishLocation.equals("Amersfoort CRL"))
-						{
-							lblDistanceTxt.setText("10 stappen");
-							lblPriceTxt.setText("2 kCal");
-						}
+						lblDistanceTxt.setText("36 km");
+						lblPriceTxt.setText("€6,69");
+					}
+					else if (startLocation.equals("Amsterdam CRL") && finishLocation.equals("Amersfoort Crl"))
+					{
+						lblDistanceTxt.setText("69 km");
+						lblPriceTxt.setText("1000");
+					}
+					else if (startLocation.equals("Amersfoort") && finishLocation.equals("Amersfoort ZD"))
+					{
+						lblDistanceTxt.setText("100 m");
+						lblPriceTxt.setText("29 kCal");
+					}
+					else if (startLocation.equals("Amersfoort") && finishLocation.equals("Amersfoort CRL"))
+					{
+						lblDistanceTxt.setText("10 stappen");
+						lblPriceTxt.setText("2 kCal");
 					}
 				}
 			}

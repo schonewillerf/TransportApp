@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public class TestBusDataModel
 {
+	/*
 	private boolean overallTestResult = true;
 
 	// Runs the unit tests
@@ -40,7 +41,7 @@ public class TestBusDataModel
 		ArrayList<BusTime> arrivalTimes = model.getArrivalTimes();
 		BusTime bus2 = arrivalTimes.get(0);
 		
-		return setOverallTestResult(String.valueOf(bus2.getPlatform()).contentEquals("11 3/4"));
+		return setOverallTestResult(String.valueOf(bus2.getPlatForm()).contentEquals("11 3/4"));
 	}
 
 	private Boolean setOverallTestResult(Boolean testResult)
@@ -62,11 +63,14 @@ public class TestBusDataModel
 	 * This static main method is now calling the runUnitTest in a non static way
 	 *
 	 * @param args
-	 */
+	 *
 	public static void main(String[] args) 
 	{
 		TestBusDataModel model = new TestBusDataModel();
 		System.out.println("\n[!] Overall test result: " + model.runUnitTest() + "\n");
 	}
+
+	 */
+
 }
 

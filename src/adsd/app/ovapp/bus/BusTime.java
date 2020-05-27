@@ -1,10 +1,11 @@
 package adsd.app.ovapp.bus;
 
+import adsd.app.ovapp.ovapp.TravelTime;
+
 /**
  * BusTime class
  */
-
-public class BusTime
+public class BusTime extends TravelTime
 {
 	private String arrivalTime;
 	private String departureTime;
@@ -13,16 +14,6 @@ public class BusTime
 	private String destination;
 	private String route;
 
-	/**
-	 * Constructor for BusTime objects
-	 * Sets arrivalTime and departureTime to "Never"
-	 *
-	 * @param route
-	 * @param platform
-	 * @param stationName
-	 * @param destination
-	 */
-	
 	public BusTime() 
 	{
 		this(null,null,null,null,null,null);
@@ -68,7 +59,7 @@ public class BusTime
 	}
 
 	// Get platform
-	public String getPlatform() 
+	public String getPlatform()
 	{
 		return platform;
 	}

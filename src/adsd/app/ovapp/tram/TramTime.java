@@ -1,6 +1,9 @@
 package adsd.app.ovapp.tram;
 
-public class TramTime {
+import adsd.app.ovapp.ovapp.TravelTime;
+
+public class TramTime extends TravelTime
+{
 
     private String arrivalTime;
     private String departureTime;
