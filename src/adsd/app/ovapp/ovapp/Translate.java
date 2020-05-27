@@ -17,7 +17,7 @@ public class Translate {
     //puts a new value into the language list.
     private void FillLanguageMap() 
     {
-        //profile
+        //Profile
         languageMap.put("Wijzig profiel", "Edit profile");
         languageMap.put("Favorieten:", "Favorites:");
         languageMap.put("Opgeslagen:", "Saved:");
@@ -28,8 +28,7 @@ public class Translate {
         languageMap.put("Achternaam:", "Surname:");
         languageMap.put("Leeftijd:", "Age:");
         languageMap.put("Stad:", "City:");
-        languageMap.put("Straatnaam:", "Streetname:");
-        //languageMap.put("English", "Nederlands");
+        languageMap.put("Straatnaam:", "Streetname:");  
         languageMap.put("EN", "NL");
 
         //TravelPlanner
@@ -41,6 +40,16 @@ public class Translate {
         languageMap.put("Bestemming:", "Destination:");
         languageMap.put("Vervoerstype:", "Transport type:");
         languageMap.put("Wijzig reis", "Change trip");
+        //Map
+        languageMap.put("Vertrektijd:", "Departure time:");
+        languageMap.put("Aankomsttijd:", "Arrival time:");
+        languageMap.put("Totale tijd:", "Overall time:");
+        languageMap.put("Overdracht:", "Transfer:");
+        languageMap.put("Spoor:", "Platform:");
+        languageMap.put("Prijs:", "Price:");
+        languageMap.put("Afstand:", "Distance:");
+        //Delays
+        languageMap.put("Vertragingen:", "Delays");
 
     }
     //gets the translated word from languagemap and returns the word.
