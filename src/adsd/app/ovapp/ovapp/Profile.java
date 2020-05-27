@@ -10,7 +10,7 @@ public class Profile {
     private String residence;
     private String card;
 
-
+//test
 
 
     public Profile()
