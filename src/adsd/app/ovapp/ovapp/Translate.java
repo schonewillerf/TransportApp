@@ -17,7 +17,7 @@ public class Translate {
     //puts a new value into the language list.
     private void FillLanguageMap() 
     {
-        //Profile
+    	//Profile
         languageMap.put("Wijzig profiel", "Edit profile");
         languageMap.put("Favorieten:", "Favorites:");
         languageMap.put("Opgeslagen:", "Saved:");
@@ -28,7 +28,7 @@ public class Translate {
         languageMap.put("Achternaam:", "Surname:");
         languageMap.put("Leeftijd:", "Age:");
         languageMap.put("Stad:", "City:");
-        languageMap.put("Straatnaam:", "Streetname:");  
+        languageMap.put("Straatnaam:", "Streetname:");
         languageMap.put("EN", "NL");
 
         //TravelPlanner

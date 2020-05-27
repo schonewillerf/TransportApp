@@ -560,7 +560,6 @@ public class OvApp
 							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryNetherlands.png")));
 							btnLanguage.setText(Translate.TransLang(("EN")));
 						}
-						
 						//Profile
 						lbMyFirstName.setText(Translate.TransLang("Naam:"));
 						lbFavorites.setText(Translate.TransLang("Favorieten:"));
@@ -825,19 +824,19 @@ public class OvApp
 				//
 				switch (String.valueOf(selectedTransportType))
 				{
-					case "Bus" -> {
+					case "Bus":  {
 						BusDataModel dataModel = new BusDataModel();
 						travelTimes = dataModel.getArrivalTimes();
 					}
-					case "Train" -> {
+					case "Train": {
 						TrainDataModel dataModel = new TrainDataModel();
 						travelTimes = dataModel.getArrivalTimes();
 					}
-					case "Tram" -> {
+					case "Tram": {
 						TramDataModel dataModel = new TramDataModel();
 						travelTimes = dataModel.getArrivalTimes();
 					}
-					case "Metro" -> {
+					case "Metro": {
 						MetroDataModel dataModel = new MetroDataModel();
 						travelTimes = dataModel.getArrivalTimes();
 					}
