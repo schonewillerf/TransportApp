@@ -96,6 +96,15 @@ public class OvApp
 	private JLabel lblLocationDepartureType;
 	private JTable table;
 	private Translate Translate;
+	private JLabel lblDepartureTime;
+	private JLabel lblArrivalTime;
+	private JLabel lblTrackDeparture;
+	private JLabel lblTrackArrival;
+	private JLabel lblPrice;
+	private JLabel lblDistance_1;
+	private JLabel lblTotalTime;
+	private JLabel lblTransfer;
+	private JLabel lblVertragingen;
 	
 	public static void NewScreen()						//newscreen is a alias for OvApp, here is Ovapp opened as a new main program
 	{
@@ -135,7 +144,7 @@ public class OvApp
         tabbedPane.addTab("Travelplaner", null, panelTravelPlanner, null);
         tabbedPane.addTab("Location", null, panelLocation, null);
         tabbedPane.addTab("Map", null, panelMap, null);
-        tabbedPane.addTab("Delay's", null, panelDelays, null);
+        tabbedPane.addTab("Delays", null, panelDelays, null);
 
     }
 	
@@ -576,6 +585,19 @@ public class OvApp
 						lblLocationDestination.setText(Translate.TransLang("Bestemming:"));
 						lblLocationDeparture.setText(Translate.TransLang("Vertrek:"));
 						lblLocationDepartureType.setText(Translate.TransLang("Vervoerstype:"));
+						//Map
+						lblDeparture.setText(Translate.TransLang("Vertrektijd:"));
+						lblArrivalTime.setText(Translate.TransLang("Aankomsttijd:"));
+						lblTotalTime.setText(Translate.TransLang("Totale tijd:"));
+						lblTransfer.setText(Translate.TransLang("Overdracht:"));
+						lblTrackArrival.setText(Translate.TransLang("Spoor:"));
+						lblTrackDeparture.setText(Translate.TransLang("Spoor:"));
+						lblPrice.setText(Translate.TransLang("Prijs:"));
+						lblDistance_1.setText(Translate.TransLang("Afstand:"));
+						lblDepartureTime.setText(Translate.TransLang("Vertrektijd:"));
+						//Delays
+						lblVertragingen.setText(Translate.TransLang("Vertragingen:"));
+						
 						
 						}
 					
@@ -939,12 +961,12 @@ public class OvApp
 		panelMap.setLayout(null);
 		
 		//labels		
-		JLabel lblDepartureTime = new JLabel("Verttrektijd:");		
+		lblDepartureTime = new JLabel("Vertrektijd:");		
 		lblDepartureTime.setBounds(44, 39, 84, 25);
 		lblDepartureTime.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panelMap.add(lblDepartureTime);
 		
-		JLabel lblArrivalTime = new JLabel("Aankomsttijd:");										// make new label named lblArrivalTime
+		lblArrivalTime = new JLabel("Aankomsttijd:");										// make new label named lblArrivalTime
 		lblArrivalTime.setBounds(44, 75, 84, 25);													//Set the outlining design for the button
 		lblArrivalTime.setFont(new Font("Tahoma", Font.BOLD, 11));									//set the text in a new design, called "font" in programming
 		panelMap.add(lblArrivalTime);																//panelMap add the lblArrivalTime to the panel
@@ -954,27 +976,27 @@ public class OvApp
 		lblImageLoation.setIcon(new ImageIcon(OvApp.class.getResource("/resources/maplocation.png")));
 		panelMap.add(lblImageLoation);
 		
-		JLabel lblTotalTime = new JLabel("Totale tijd:");
+		lblTotalTime = new JLabel("Totale tijd:");
 		lblTotalTime.setBounds(44, 135, 84, 25);
 		lblTotalTime.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panelMap.add(lblTotalTime);
 		
-		JLabel lblTransfer = new JLabel("Overdracht:");
+		lblTransfer = new JLabel("Overdracht:");
 		lblTransfer.setBounds(44, 169, 84, 25);
 		lblTransfer.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panelMap.add(lblTransfer);
 		
-		JLabel lblTrackDeparture = new JLabel("Spoor:");
+		lblTrackDeparture = new JLabel("Spoor:");
 		lblTrackDeparture.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblTrackDeparture.setBounds(282, 39, 56, 25);
 		panelMap.add(lblTrackDeparture);
 		
-		JLabel lblTrackArrival = new JLabel("Spoor:");
+		lblTrackArrival = new JLabel("Spoor:");
 		lblTrackArrival.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblTrackArrival.setBounds(282, 75, 56, 25);
 		panelMap.add(lblTrackArrival);
 		
-		JLabel lblPrice = new JLabel("Prijs:");
+		lblPrice = new JLabel("Prijs:");
 		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblPrice.setBounds(282, 135, 56, 25);
 		panelMap.add(lblPrice);
@@ -1093,7 +1115,7 @@ public class OvApp
 		btnDistance.setIcon(new ImageIcon(OvApp.class.getResource("/resources/transfer.png")));
 		panelMap.add(btnDistance);
 		
-		JLabel lblDistance_1 = new JLabel("Afstand:");
+		lblDistance_1 = new JLabel("Afstand:");
 		lblDistance_1.setFont(new Font("Dialog", Font.BOLD, 11));
 		lblDistance_1.setBounds(282, 167, 84, 25);
 		panelMap.add(lblDistance_1);
@@ -1159,7 +1181,7 @@ public class OvApp
 		panelDelays = new JPanel();
 		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
 		
-		JLabel lblVertragingen = new JLabel("Vertragingen:");
+		lblVertragingen = new JLabel("Vertragingen:");
 		
 		JScrollPane scrollPane = new JScrollPane();
 
@@ -1188,14 +1210,19 @@ public class OvApp
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
+				
+			new Object[][] 
+			{
 				{"Amersfoort", "Groningen", "00:15"},
 				{"Heerenveen", "Groningen", "00:15"},
 				{"Delft", "Groningen", "00:15"},
 			},
-			new String[] {
+			new String[] 
+			{
+					
 				"Vertrekpunt", "Aankomstpunt", "Vertragingen"
 			}
+			
 		));
 		panelDelays.setLayout(gl_panelDelays);
 		
