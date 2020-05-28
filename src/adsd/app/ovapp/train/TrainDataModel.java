@@ -1,31 +1,58 @@
 package adsd.app.ovapp.train;
 
+import adsd.app.ovapp.metro.MetroTime;
 import adsd.app.ovapp.ovapp.TravelTime;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
+import static adsd.app.ovapp.ovapp.DBConnection.Connection;
 
 public class TrainDataModel
 {
-    private ArrayList<TravelTime> trainTimesList = new ArrayList<TravelTime>();
+    private List<TravelTime> trainTimesList = new ArrayList<TravelTime>();
+    private Connection connection;
 
     public void parseDataAndBuildList()
     {
+        trainTimesList.clear();
 
-        TrainTime train1 = new TrainTime("13:00", "13:15", "Spoor 2", "Utrecht CRL", "Amsterdam Crl", "4c");
-        TrainTime train2 = new TrainTime("14:00", "14:15", "Spoor 4", "Amsterdam CRL", "Amersfoort Crl", "5b");
-        trainTimesList.add(train1);
-        trainTimesList.add(train2);
+        try
+        {
+            connection = Connection();
+
+            String SQL = "SELECT * FROM trainTime";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next())
+            {
+                trainTimesList.add(new MetroTime(
+                        resultSet.getString("arrivalTime"),
+                        resultSet.getString("departureTime"),
+                        resultSet.getString("platform"),
+                        resultSet.getString("departure"),
+                        resultSet.getString("destination"),
+                        resultSet.getString("route"),
+                        9000
+                        //resultSet.getInt("distance")
+                ));
+            }
+        }
+        catch (SQLException throwables)
+        {
+            throwables.printStackTrace();
+        }
+
     }
 
-    public ArrayList<TravelTime> getArrivalTimes()
-    {
-
-        parseDataAndBuildList();
-        return trainTimesList;
-    }
-
-    public ArrayList<TravelTime> getDepatureTimes()
+    public List<TravelTime> getArrivalTimes()
     {
 
         parseDataAndBuildList();

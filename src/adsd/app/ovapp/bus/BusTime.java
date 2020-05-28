@@ -7,79 +7,56 @@ import adsd.app.ovapp.ovapp.TravelTime;
  */
 public class BusTime extends TravelTime
 {
-	private String arrivalTime;
-	private String departureTime;
-	private String platform;
-	private String stationName;
-	private String destination;
-	private String route;
+    private String platform;
+    private String stationName;
+    private String destination;
+    private String route;
+    private int distance;
 
-	public BusTime() 
-	{
-		this(null,null,null,null,null,null);
-	}
-	
-	public BusTime(String arrivalTime,
-            String departureTime,
-            String platform,
-            String stationName,
-            String destination,
-            String route)
-						 
-	{
-		 this.arrivalTime = arrivalTime;
-	     this.departureTime = departureTime;
-	     this.platform = platform;
-	     this.stationName = stationName;
-	     this.destination = destination;
-	     this.route = route;
-	
-	}
+    public BusTime(String arrivalTime,
+                   String departureTime,
+                   String platform,
+                   String stationName,
+                   String destination,
+                   String route,
+                   int distance
+    )
+    {
+        super(departureTime, arrivalTime);
+        this.platform = platform;
+        this.stationName = stationName;
+        this.destination = destination;
+        this.route = route;
+        this.distance = distance;
+    }
+    // Get platform
+    public String getPlatform()
+    {
+        return platform;
+    }
 
-	// Set and Get arrivalTime
-	public String getArrivalTime() 
-	{
-		return arrivalTime;
-	}
-	//
-	public void setArrivalTime(String arrivalTime) 
-	{
-		this.arrivalTime = arrivalTime;
-	}
+    // Get stationName
+    public String getStationName()
+    {
+        return stationName;
+    }
 
-	// Set and Get departureTime
-	public String getDepartureTime() 
-	{
-		return departureTime;
-	}
-	//
-	public void setDepartureTime(String departureTime) 
-	{
-		this.departureTime = departureTime;
-	}
+    // Get destination
+    public String getDestination()
+    {
+        return destination;
+    }
 
-	// Get platform
-	public String getPlatform()
-	{
-		return platform;
-	}
+    // Get route
+    public String getRoute()
+    {
+        return route;
+    }
 
-	// Get stationName
-	public String getStationName() 
-	{
-		return stationName;
-	}
-
-	// Get destination
-	public String getDestination() 
-	{
-		return destination;
-	}
-
-	// Get route
-	public String getRoute()
-	{
-		return route;
-	}
+    // Get distance
+    public String getDistance()
+    {
+        return String.format("%s km", distance / 1000);
+    }
 }
 
