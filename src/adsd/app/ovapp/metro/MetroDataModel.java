@@ -1,25 +1,55 @@
 package adsd.app.ovapp.metro;
 
+import adsd.app.ovapp.bus.BusTime;
 import adsd.app.ovapp.ovapp.TravelTime;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-
-
-
+import static adsd.app.ovapp.ovapp.DBConnection.Connection;
 
 public class MetroDataModel
 {
 	private ArrayList<TravelTime> metroTimeList = new ArrayList<>();
+	private Connection connection;
 
 	private void parseDataAndBuildList() 
 	{
 		// Clear the list first
 		metroTimeList.clear();
 
-		// Parse some data and build list
-		metroTimeList.add(new MetroTime("12:00", "12:15", "perron 1c", "Amsterdam ZD","Amsterdam OST","6c"));
-		metroTimeList.add(new MetroTime("13:00", "13:15", "perron 1a", "Amsterdam Ctrl","Amsterdam WST","2d"));
+		try
+		{
+			connection = Connection();
+
+			String SQL = "SELECT * FROM metroTime";
+
+			PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next())
+			{
+				metroTimeList.add(new MetroTime(
+						resultSet.getString("arrivalTime"),
+						resultSet.getString("departureTime"),
+						resultSet.getString("platform"),
+						resultSet.getString("departure"),
+						resultSet.getString("destination"),
+						resultSet.getString("route"),
+						9000
+						//resultSet.getInt("distance")
+				));
+			}
+		}
+		catch (SQLException throwables)
+		{
+			throwables.printStackTrace();
+		}
+
 	}
 	
 	public ArrayList<TravelTime> getArrivalTimes()
