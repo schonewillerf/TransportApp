@@ -2,11 +2,11 @@ package adsd.app.ovapp.metro;
 
 public class TestMetroDataModel 
 {
-	
+	/*
 	private static Boolean overallTestResult = true;
 	
 	/**     * Default constructor for test class TestTraintDataModel     
-	 * @param traintime */
+	 * @param traintime *
 	
 	 public static Boolean runTester() 
 	 {
@@ -71,4 +71,6 @@ public class TestMetroDataModel
 	{
 		System.out.println("\n[!] Overall test result: " + runTester() + "\n"); 
 	}
+
+	 */
 }

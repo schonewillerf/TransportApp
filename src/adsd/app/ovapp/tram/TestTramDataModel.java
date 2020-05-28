@@ -2,11 +2,11 @@ package adsd.app.ovapp.tram;
 
 public class TestTramDataModel 
 {
-	
+	/*
 	private static Boolean overallTestResult = true;
 	
 	/**     * Default constructor for test class TestTraintDataModel     
-	 * @param traintime */
+	 * @param traintime *
 	
 	 public static Boolean runTester() 
 	 {
@@ -71,4 +71,6 @@ public class TestTramDataModel
 	{
 		System.out.println("\n[!] Overall test result: " + runTester() + "\n"); 
 	}
+
+	 */
 }
