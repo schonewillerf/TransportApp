@@ -1,10 +1,6 @@
 package adsd.app.ovapp.ovapp;
 
-import adsd.app.ovapp.bus.BusDataModel;
 import adsd.app.ovapp.bus.BusTime;
-import adsd.app.ovapp.metro.MetroDataModel;
-import adsd.app.ovapp.train.TrainDataModel;
-import adsd.app.ovapp.tram.TramDataModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,28 +12,42 @@ import static adsd.app.ovapp.ovapp.DBConnection.Connection;
 public class DBHandler
 {
     private Connection connection;
-    private BusTime busTime;
+    private TravelTime busTime;
+    private String SQL;
 
-    public TravelTime getTravelTime(String transportType, int id)
+    public TravelTime getTravelTime(String transportType, String departureTime, String platform, String destination)
     {
-        String SQL = switch (String.valueOf(transportType))
-                {
-                    case "Bus" -> "SELECT * FROM busTime WHERE route=?";
-                    case "Train" -> "SELECT * FROM trainTime WHERE route=?";
-                    case "Tram" -> "SELECT * FROM tramTime WHERE route=?";
-                    case "Metro" -> "SELECT * FROM metroTime WHERE route=?";
-                    default -> throw new IllegalStateException("Unexpected value: " + transportType);
-                };
+        // Pre-prepare the SQL statement with the correct travel type
+        if (transportType.equals("Bus"))
+        {
+            SQL = "SELECT * FROM busTime WHERE departureTime=? AND platform=? AND destination=?;";
+        }
+        else if (transportType.equals("Train"))
+        {
+            SQL = "SELECT * FROM trainTime WHERE departureTime=? AND platform=? AND destination=?;";
+        }
+        else if (transportType.equals("Tram"))
+        {
+            SQL = "SELECT * FROM tramTime WHERE departureTime=? AND platform=? AND destination=?;";
+        }
+        else if (transportType.equals("Metro"))
+        {
+            SQL = "SELECT * FROM metroTime WHERE departureTime=? AND platform=? AND destination=?;";
+        }
 
         try
         {
             connection = Connection();
 
+            // Actually prepare the SQL statement with parameters from selected travelTime
             PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, departureTime);
+            preparedStatement.setString(2, platform);
+            preparedStatement.setString(3, destination);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            // Execute if there is a result in the DB
             if (resultSet.next())
             {
                 if (transportType.equals("Bus"))
@@ -49,7 +59,7 @@ public class DBHandler
                             resultSet.getString("departure"),
                             resultSet.getString("destination"),
                             resultSet.getString("route"),
-                            resultSet.getInt("distance")
+                            resultSet.getInt("distance") // Only the busTime table has a distance column
                     );
                 }
                 else
@@ -61,11 +71,10 @@ public class DBHandler
                             resultSet.getString("departure"),
                             resultSet.getString("destination"),
                             resultSet.getString("route"),
-                            9000
                             //resultSet.getInt("distance")
+                            9000 // Use hard coded distance for other travel types until available in DB
                     );
                 }
-
 
                 return busTime;
             }
@@ -75,6 +84,6 @@ public class DBHandler
             throwables.printStackTrace();
         }
 
-        return null;
+        return null; // Should check if return is not null when using this method
     }
 }

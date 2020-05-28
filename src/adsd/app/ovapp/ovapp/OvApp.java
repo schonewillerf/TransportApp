@@ -130,13 +130,6 @@ public class OvApp
 		
 	}
 	
-
-	//public void ChangeTabTxt()
-	//{
-	//	tabbedPane.addTab("Profile", null, panelLogin, null);
-
-	//}
-	
 	public void TabTxtEn()
     {
         tabbedPane.removeAll();
@@ -159,7 +152,6 @@ public class OvApp
 
     }
 
-	
 	public void AddPanels()													//methode for adding all panels at once through one word. It keeps yur code clean and out of duplication
 	{
 		tabbedPane.addTab("Profiel", null, panelProfile, null);				//Panel is added to the tabbedpaneframe
@@ -647,9 +639,7 @@ public class OvApp
 					
 				//tabbedPane.add(panelProfile);
 	}
-	
-	
-	
+
 	public void Panel_TravelPlanner() 
 	{
 		//creates a new panel
@@ -769,6 +759,10 @@ public class OvApp
 		btnLocationChange = new JButton("Wijzig reis");
 		btnLocationChange.addActionListener(actionEvent -> tabbedPane.setSelectedIndex(1));
 
+		// Create a button for opening detail view
+		JButton btnDetails = new JButton("Details");
+		btnDetails.addActionListener(actionEvent -> tabbedPane.setSelectedIndex(3));
+
 		// Create labels for departuretime, platform and destination
 		lblLocationDeparture = new JLabel("Vertrek:");
 		lblLocationDestination = new JLabel("Bestemming:");
@@ -779,17 +773,9 @@ public class OvApp
 		JLabel lblDynamicDestination = new JLabel();
 		JLabel lblDynamicTransportType = new JLabel();
 
-		// Create a tableModel for holding columns and data
-		locationTableModel = new DefaultTableModel();
-
-		// Add table columns to table model
-		// For some reason columns will not show
-		locationTableModel.addColumn("arrivalTime");
-		locationTableModel.addColumn("departureTime");
-		locationTableModel.addColumn("platForm");
-		locationTableModel.addColumn("stationName");
-		locationTableModel.addColumn("destination");
-		locationTableModel.addColumn("route");
+		tblLocation = new JTable();
+		JScrollPane scpLocation = new JScrollPane();
+		scpLocation.setViewportView(tblLocation);
 
 		// Add content to dynamic labels and table when tab is opened
 		tabbedPane.addChangeListener(changeEvent ->
@@ -798,158 +784,118 @@ public class OvApp
 
 			if (activeTab == 2) // Returns true when Location tab is opened
 			{
-				// Retrieve filter criteria
-				//
-				// selectedTransportType is already private String
 				String selectedDeparture = txtFieldDeparture.getText();
 				String selectedDestination = txtFieldDestination.getText();
-				// retrieving a selectedTime is still a challenge
-				//int selectedTime = (Integer) SpnrDateTime.getValue();
 
-				// Create dynamic labels
 				lblDynamicDeparture.setText(selectedDeparture);
 				lblDynamicDestination.setText(selectedDestination);
 				lblDynamicTransportType.setText(selectedTransportType);
 
-				// Remove old data from table
-				for (int i = locationTableModel.getRowCount() - 1; i >= 0; i--)
-				{
-					locationTableModel.removeRow(i);
-				}
+				String[] header = {"Vertrektijk", "Spoor/Halte", "Bestemming"};
+				header[1] = selectedTransportType.equals("Bus") ? "Halte" : "Spoor";
+
+				DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, header);
+				tblLocation.setModel(dtm);
 
 				List<TravelTime> travelTimes = new ArrayList<>();
 
 				// Here the new data for selected transport type will be added to the table
 				// In a non repeating way saving about 100+ lines
+				// Had to replace switch statement with if and else if's
 				//
-				switch (String.valueOf(selectedTransportType))
+				if (selectedTransportType.equals("Bus"))
 				{
-					case "Bus":  {
-						BusDataModel dataModel = new BusDataModel();
-						travelTimes = dataModel.getArrivalTimes();
-					}
-					case "Train": {
-						TrainDataModel dataModel = new TrainDataModel();
-						travelTimes = dataModel.getArrivalTimes();
-					}
-					case "Tram": {
-						TramDataModel dataModel = new TramDataModel();
-						travelTimes = dataModel.getArrivalTimes();
-					}
-					case "Metro": {
-						MetroDataModel dataModel = new MetroDataModel();
-						travelTimes = dataModel.getArrivalTimes();
-					}
+					// Create the correct dataModel for the travel type
+					BusDataModel dataModel = new BusDataModel();
+					// Use the getArrivalTimes() method to get all arraval time in the travelTimes variable
+					travelTimes = dataModel.getArrivalTimes();
+				}
+				else if (selectedTransportType.equals("Train"))
+				{
+					TrainDataModel dataModel = new TrainDataModel();
+					System.out.println("test train");
+					travelTimes = dataModel.getArrivalTimes();
+				}
+				else if (selectedTransportType.equals("Tram"))
+				{
+					TramDataModel dataModel = new TramDataModel();
+					travelTimes = dataModel.getArrivalTimes();
+				}
+				else if (selectedTransportType.equals("Metro"))
+				{
+					MetroDataModel dataModel = new MetroDataModel();
+					travelTimes = dataModel.getArrivalTimes();
 				}
 
+				// Loop over items in the travelTimes list
 				for (TravelTime travelTime : travelTimes)
 				{
+					// Check if to and from fields in search panel match departure and arrival
 					if (travelTime.getDestination().contains(selectedDestination) &&
-									travelTime.getStationName().contains(selectedDeparture))
+							travelTime.getStationName().contains(selectedDeparture))
 					{
 						// Add row to table if filter criteria are met
-						locationTableModel.addRow(new Object[]
-												{
-														// Add data to columns, some will be made hidden later
-														// This way we can retrieve date more easily in detail view
-														//
-														// Hidden columns first
-														travelTime.getArrivalTime(),
-														travelTime.getRoute(),
-														travelTime.getStationName(),
-														//
-														// Then visible columns
-														travelTime.getDepartureTime(),
-														travelTime.getPlatform(),
-														travelTime.getDestination(),
-												}
-								);
-							}
-						}
-				}
-			});
-
-		tblLocation = new JTable(locationTableModel);
-
-		// Remove columns from table
-		// For some strange reason it is only allowed to remove columns with index < 4
-		tblLocation.removeColumn(tblLocation.getColumnModel().getColumn(2));// stationName
-		tblLocation.removeColumn(tblLocation.getColumnModel().getColumn(1));// route
-		tblLocation.removeColumn(tblLocation.getColumnModel().getColumn(0));// arrivalTime
-
-		// Get a single selection model and listen for the selection change event
-		tblLocation.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		ListSelectionModel selectLocationModel = tblLocation.getSelectionModel();
-		selectLocationModel.addListSelectionListener(listSelectionEvent ->
-		{
-			// Does not execute while the value is changing, but when it is changed
-			if (!listSelectionEvent.getValueIsAdjusting())
-			{
-				int selectedRow = tblLocation.getSelectedRow();
-
-				if (selectedRow >= 0)
-				{
-					// Print output to console
-					//
-					// Hidden fields
-					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 0));//arrivalTime
-					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 1));//route
-					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 2));//stationName
-					//
-					// Displayed fields
-					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 3));//departureTime
-					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 4));//platForm
-					System.out.println(tblLocation.getModel().getValueAt(selectedRow, 5));//destination
+						dtm.addRow(new Object[]
+								{
+										// Add data to columns
+										travelTime.getDepartureTime(),
+										travelTime.getPlatform(),
+										travelTime.getDestination(),
+								}
+						);
+					}
 				}
 			}
 		});
-
 
 		//From here on only auto generated styling and adding of components
 		//
 		GroupLayout gl_panelLocation = new GroupLayout(panelLocation);
 		gl_panelLocation.setHorizontalGroup(
-			gl_panelLocation.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelLocation.createSequentialGroup()
-					.addContainerGap(20, Short.MAX_VALUE)
-					.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+				gl_panelLocation.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panelLocation.createSequentialGroup()
-							.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(lblLocationDepartureType, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnLocationChange)
-								.addComponent(lblLocationDeparture, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lblLocationDestination, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
-							.addGap(18)
-							.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblDynamicTransportType, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDynamicDestination, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDynamicDeparture)))
-						.addComponent(tblLocation, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap())
+								.addContainerGap(20, Short.MAX_VALUE)
+								.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnDetails, Alignment.TRAILING)
+										.addGroup(Alignment.TRAILING, gl_panelLocation.createParallelGroup(Alignment.LEADING)
+												.addComponent(scpLocation, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
+												.addGroup(gl_panelLocation.createSequentialGroup()
+														.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING, false)
+																.addComponent(lblLocationDepartureType, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+																.addComponent(btnLocationChange)
+																.addComponent(lblLocationDeparture, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+																.addComponent(lblLocationDestination, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+														.addGap(18)
+														.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+																.addComponent(lblDynamicTransportType, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+																.addComponent(lblDynamicDestination, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+																.addComponent(lblDynamicDeparture)))))
+								.addContainerGap())
 		);
 		gl_panelLocation.setVerticalGroup(
-			gl_panelLocation.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelLocation.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(btnLocationChange)
-					.addGap(18)
-					.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblLocationDestination)
-						.addComponent(lblDynamicDeparture))
-					.addGap(18)
-					.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblLocationDeparture)
-						.addComponent(lblDynamicDestination))
-					.addGap(18)
-					.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblLocationDepartureType)
-						.addComponent(lblDynamicTransportType))
-					.addGap(18)
-					.addComponent(tblLocation, GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
-					.addContainerGap())
+				gl_panelLocation.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelLocation.createSequentialGroup()
+								.addContainerGap()
+								.addComponent(btnLocationChange)
+								.addGap(18)
+								.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblLocationDestination)
+										.addComponent(lblDynamicDeparture))
+								.addGap(18)
+								.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblLocationDeparture)
+										.addComponent(lblDynamicDestination))
+								.addGap(18)
+								.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblLocationDepartureType)
+										.addComponent(lblDynamicTransportType))
+								.addGap(18)
+								.addComponent(scpLocation, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+								.addGap(18)
+								.addComponent(btnDetails)
+								.addContainerGap())
 		);
 		panelLocation.setLayout(gl_panelLocation);
-		
 	}
 	
 	public void Panel_Map() 
@@ -1130,44 +1076,35 @@ public class OvApp
 		{
 			int selectedTab = tabbedPane.getSelectedIndex();
 
+			// Execute code when map tab is open
 			if (selectedTab == 3)
 			{
 				int selectedRow = tblLocation.getSelectedRow();
 
 				if (selectedRow >= 0)
 				{
-					// Retrieve values from selected row in table
-					String startTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 3));
-					String finishTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 0));
-					String startLocation = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 2));
-					String finishLocation = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 5));
+					// Retrieve selected info
+					String departureTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 0));
+					String platform = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 1));
+					String destination = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 2));
+
+					// Retrieve travelTime from DB
+					// Check DBHandler
+					DBHandler dbHandler = new DBHandler();
+					TravelTime travelTime = dbHandler.getTravelTime(
+							selectedTransportType,
+							departureTime,
+							platform,
+							destination
+							);
 
 					// Add data from table to labels
-					lblDepartureTimeTxt.setText(startTime);
-					lblArrivalTimeTxt.setText(finishTime);
-
-					// Soon to be fetched from DB
-					//
-					if (startLocation.equals("Utrecht CRL") && finishLocation.equals("Amsterdam Crl"))
-					{
-						lblDistanceTxt.setText("36 km");
-						lblPriceTxt.setText("€6,69");
-					}
-					else if (startLocation.equals("Amsterdam CRL") && finishLocation.equals("Amersfoort Crl"))
-					{
-						lblDistanceTxt.setText("69 km");
-						lblPriceTxt.setText("1000");
-					}
-					else if (startLocation.equals("Amersfoort") && finishLocation.equals("Amersfoort ZD"))
-					{
-						lblDistanceTxt.setText("100 m");
-						lblPriceTxt.setText("29 kCal");
-					}
-					else if (startLocation.equals("Amersfoort") && finishLocation.equals("Amersfoort CRL"))
-					{
-						lblDistanceTxt.setText("10 stappen");
-						lblPriceTxt.setText("2 kCal");
-					}
+					lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+					lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+					lblTotalTimeTxt.setText(travelTime.getDuration());
+					lblDistanceTxt.setText(travelTime.getDistance());
+					lblTrackDepartureTxt.setText(travelTime.getPlatform());
+					lblTrackArrivalTxt.setText(travelTime.getDestination());
 				}
 			}
 		});

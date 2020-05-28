@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static adsd.app.ovapp.ovapp.DBConnection.Connection;
 
@@ -15,10 +16,9 @@ import static adsd.app.ovapp.ovapp.DBConnection.Connection;
  *
  * Future place of magic, for now just two hard coded BusTime objects
  */
-
 public class BusDataModel
 {
-	private ArrayList<TravelTime> busTimeList = new ArrayList<>();
+	private List<TravelTime> busTimeList = new ArrayList<>();
 	private Connection connection;
 
 	private void parseDataAndBuildList() 
@@ -54,7 +54,7 @@ public class BusDataModel
 		}
 	}
 	
-	public ArrayList<TravelTime> getArrivalTimes()
+	public List<TravelTime> getArrivalTimes()
 	{
 		parseDataAndBuildList();
 		

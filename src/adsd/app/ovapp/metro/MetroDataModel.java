@@ -1,6 +1,5 @@
 package adsd.app.ovapp.metro;
 
-import adsd.app.ovapp.bus.BusTime;
 import adsd.app.ovapp.ovapp.TravelTime;
 
 import java.sql.Connection;
@@ -8,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import static adsd.app.ovapp.ovapp.DBConnection.Connection;
 
@@ -52,14 +52,7 @@ public class MetroDataModel
 
 	}
 	
-	public ArrayList<TravelTime> getArrivalTimes()
-	{
-		parseDataAndBuildList();
-		
-		return metroTimeList;
-	}
-	
-	public ArrayList<TravelTime> getDepartureTimes()
+	public List<TravelTime> getArrivalTimes()
 	{
 		parseDataAndBuildList();
 		

@@ -3,11 +3,12 @@ package adsd.app.ovapp.tram;
 import adsd.app.ovapp.ovapp.TravelTime;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TramDataModel
 {
-	private ArrayList<TravelTime> tramTimeList = new ArrayList<>();
+	private List<TravelTime> tramTimeList = new ArrayList<>();
 
 	private void parseDataAndBuildList() 
 	{
@@ -16,14 +17,7 @@ public class TramDataModel
 
 	}
 	
-	public ArrayList<TravelTime> getArrivalTimes()
-	{
-		parseDataAndBuildList();
-		
-		return tramTimeList;
-	}
-	
-	public ArrayList<TravelTime> getDepartureTimes()
+	public List<TravelTime> getArrivalTimes()
 	{
 		parseDataAndBuildList();
 		
