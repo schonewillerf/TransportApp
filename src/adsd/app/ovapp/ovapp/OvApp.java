@@ -970,7 +970,7 @@ public class OvApp
 		lblTrackArrivalTxt.setBounds(348, 75, 70, 23);
 		panelMap.add(lblTrackArrivalTxt);
 		
-		JLabel lblPriceTxt = new JLabel("<dynamic>");
+		JLabel lblPriceTxt = new JLabel("");
 		lblPriceTxt.setBounds(348, 135, 70, 23);
 		panelMap.add(lblPriceTxt);
 		
