@@ -45,6 +45,7 @@ public class MetroDataModel
 				));
 			}
 		}
+		
 		catch (SQLException throwables)
 		{
 			throwables.printStackTrace();
@@ -55,7 +56,6 @@ public class MetroDataModel
 	public List<TravelTime> getArrivalTimes()
 	{
 		parseDataAndBuildList();
-		
 		return metroTimeList;
 	}
 }

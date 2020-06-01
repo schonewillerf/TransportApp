@@ -24,11 +24,8 @@ public class TrainDataModel
         try
         {
             connection = Connection();
-
             String SQL = "SELECT * FROM trainTime";
-
             PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next())
@@ -54,7 +51,6 @@ public class TrainDataModel
 
     public List<TravelTime> getArrivalTimes()
     {
-
         parseDataAndBuildList();
         return trainTimesList;
     }

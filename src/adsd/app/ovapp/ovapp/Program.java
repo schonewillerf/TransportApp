@@ -7,26 +7,28 @@ import java.awt.Window;
 import adsd.app.ovapp.train.TrainDataModel;
 import adsd.app.ovapp.train.TrainTime;
 
-
-
-
-
-public class Program {
+public class Program 
+{
 	static OvApp  ovapp;
 
-public static void main(String[] args) {
-	
-	EventQueue.invokeLater(new Runnable() {
-		public void run() {
-			try {
+public static void main(String[] args) 
+{
+	EventQueue.invokeLater(new Runnable() 
+	{
+		public void run() 
+		{
+			try 
+			{
 				OvApp nw = new OvApp();	
-				nw.NewScreen(); // om te verwijzen naar ovapp met gui moet er een newscreen aan gemaakt worden
+				nw.newScreen(); // om te verwijzen naar ovapp met gui moet er een newscreen aan gemaakt worden	
 				
-			} catch (Exception e) {
+			} catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
+			
 		}
+		
 	});
-	
 	
 }}

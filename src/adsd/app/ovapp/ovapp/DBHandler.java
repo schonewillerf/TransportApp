@@ -22,14 +22,17 @@ public class DBHandler
         {
             SQL = "SELECT * FROM busTime WHERE departureTime=? AND platform=? AND destination=?;";
         }
+        
         else if (transportType.equals("Train"))
         {
             SQL = "SELECT * FROM trainTime WHERE departureTime=? AND platform=? AND destination=?;";
         }
+        
         else if (transportType.equals("Tram"))
         {
             SQL = "SELECT * FROM tramTime WHERE departureTime=? AND platform=? AND destination=?;";
         }
+        
         else if (transportType.equals("Metro"))
         {
             SQL = "SELECT * FROM metroTime WHERE departureTime=? AND platform=? AND destination=?;";
@@ -62,6 +65,7 @@ public class DBHandler
                             resultSet.getInt("distance") // Only the busTime table has a distance column
                     );
                 }
+                
                 else
                 {
                     busTime = new BusTime(
@@ -79,6 +83,7 @@ public class DBHandler
                 return busTime;
             }
         }
+        
         catch (SQLException throwables)
         {
             throwables.printStackTrace();

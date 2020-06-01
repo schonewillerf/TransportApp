@@ -48,6 +48,7 @@ public class BusDataModel
 				));
 			}
 		}
+		
 		catch (SQLException throwables)
 		{
 			throwables.printStackTrace();
@@ -57,7 +58,6 @@ public class BusDataModel
 	public List<TravelTime> getArrivalTimes()
 	{
 		parseDataAndBuildList();
-		
 		return busTimeList;
 	}
 }
