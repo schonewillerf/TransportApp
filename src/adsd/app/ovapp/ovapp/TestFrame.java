@@ -113,12 +113,10 @@ public class TestFrame
 		Panel_Location();
 		Panel_Map();
 		Panel_Delays();
-	
 	}
 	
 	public void Panel_Profile() 
 	{
-		
 				panelProfile = new JPanel();
 				panelProfile.setBackground(Color.WHITE);
 				tabbedPane.addTab("Profiel", null, panelProfile, null);

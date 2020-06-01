@@ -14,14 +14,13 @@ public class TramDataModel
 	{
 		// Clear the list first
 		tramTimeList.clear();
-
 	}
 	
 	public List<TravelTime> getArrivalTimes()
 	{
 		parseDataAndBuildList();
-		
 		return tramTimeList;
 	}
+	
 }
 

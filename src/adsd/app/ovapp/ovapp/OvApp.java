@@ -106,7 +106,7 @@ public class OvApp
 	private JLabel lblTransfer;
 	private JLabel lblVertragingen;
 	
-	public static void NewScreen()						//newscreen is a alias for OvApp, here is Ovapp opened as a new main program
+	public static void newScreen()						//newscreen is a alias for OvApp, here is Ovapp opened as a new main program
 	{
 		EventQueue.invokeLater(new Runnable() 
 		{
@@ -124,13 +124,12 @@ public class OvApp
 		});
 	}
 
-	public void SwitchPanels()							//a methode made so this can be used in a single word for removing all the panels
+	public void switchPanels()							//a methode made so this can be used in a single word for removing all the panels
 	{
 		tabbedPane.removeAll();							// the code used for removing all paneltabs at once
-		
 	}
 	
-	public void TabTxtEn()
+	private void tabTxtEn()
     {
         tabbedPane.removeAll();
         tabbedPane.addTab("Profile", null, panelProfile, null);
@@ -138,21 +137,19 @@ public class OvApp
         tabbedPane.addTab("Location", null, panelLocation, null);
         tabbedPane.addTab("Map", null, panelMap, null);
         tabbedPane.addTab("Delays", null, panelDelays, null);
-
     }
 	
-	public void TabTxtNL()
+	private void tabTxtNl()
     {
         tabbedPane.removeAll();
         tabbedPane.addTab("Profiel", null, panelProfile, null);
         tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
         tabbedPane.addTab("Locatie", null, panelLocation, null);
         tabbedPane.addTab("Kaart", null, panelMap, null);
-        tabbedPane.addTab("Belemmeringen", null, panelDelays, null);
-
+        tabbedPane.addTab("Vertragingen", null, panelDelays, null);
     }
 
-	public void AddPanels()													//methode for adding all panels at once through one word. It keeps yur code clean and out of duplication
+	private void addPanels()													//methode for adding all panels at once through one word. It keeps yur code clean and out of duplication
 	{
 		tabbedPane.addTab("Profiel", null, panelProfile, null);				//Panel is added to the tabbedpaneframe
 		tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
@@ -174,35 +171,29 @@ public class OvApp
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 11, 485, 655);
 		frame.getContentPane().add(tabbedPane);
-		Translate = new Translate("NL");
+		Translate = new Translate("NL"); //standard language
 		initialize();
 		createEvents();
-		Panel_Profile();
-		Panel_Login();
-		Panel_TravelPlanner();
-		Panel_Location();
-		Panel_Map();
-		Panel_Delays();
-		
+		panelProfile();
+		panelLogin();
+		panelTravelPlanner();
+		panelLocation();
+		panelMap();
+		panelDelays();	
 	}
 
-	private void Panel_Login()
+	private void panelLogin()
 	{
 		panelLogin = new JPanel();
 		panelLogin.setBackground(Color.WHITE);
 		tabbedPane.addTab("Login", null, panelLogin, null);
 		panelLogin.setLayout(null);
-
-
-
 		JLabel title = new JLabel("Login");
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lgn = new JLabel("Login: ");
 		JLabel whtd = new JLabel("Wachtwoord: ");
-
 		userName = new JTextField();
 		password = new JPasswordField();
-
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(e ->
 		{
@@ -211,23 +202,20 @@ public class OvApp
 				String usn = userName.getText();
 				String psd = password.getText();
 				conn = Connection();
-
 				usn = userName.getText();
 				psd = password.getText();
 				PreparedStatement DBLogin = conn.prepareStatement("SELECT * FROM profile WHERE emailAdress=? AND password=?");
 				DBLogin.setString(1, String.valueOf(usn));
 				DBLogin.setString(2, String.valueOf(psd));
-
 				ResultSet es = DBLogin.executeQuery();
-
-
-				if (es.next()) {
+				
+				if (es.next()) 
+				{
 					System.out.println("User doesn't exist");
 
 					tabbedPane.remove(panelLogin);
 					panelProfile.revalidate();
-					AddPanels();
-
+					addPanels();
 					PreparedStatement DBProfile = conn.prepareStatement("SELECT * FROM profile WHERE emailAdress=? AND password=?");
 					DBProfile.setString(1, String.valueOf(usn));
 					DBProfile.setString(2, String.valueOf(psd));
@@ -236,7 +224,6 @@ public class OvApp
 					while (rs.next())
 					{
 						newProfile = new Profile(rs.getInt("ID"), rs.getInt("age"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("streetName"), rs.getString("residence"), rs.getString("card"));
-
 						userid.setText(String.valueOf(rs.getInt("ID")));
 						cardtxt.setText(rs.getString("card"));
 						firstnametxt.setText(rs.getString("firstName"));
@@ -247,10 +234,12 @@ public class OvApp
 					}
 				}
 
-				else {
+				else 
+				{
 					System.out.println("User doesn't exist");
 				}
 			}
+			
 			catch (SQLException throwables)
 			{
 				throwables.printStackTrace();
@@ -264,7 +253,6 @@ public class OvApp
 		userName.setBounds(200, 134,200, 20);
 		password.setBounds(200, 165,200, 20);
 		btnLogin.setBounds(325,221, 75,25);
-
 		panelLogin.add(title);
 		panelLogin.add(lgn);
 		panelLogin.add(whtd);
@@ -274,53 +262,49 @@ public class OvApp
 		
 	}
 
-	public void Panel_Profile() 										//methode for panel profile, everything is that is made in profile panel is in this methode.
+	private void panelProfile() 										//methode for panel profile, everything is that is made in profile panel is in this methode.
 	{																	// you can call the methode and get all this code working with just one word of code.
 				panelProfile = new JPanel();
 				panelProfile.setBackground(Color.WHITE);
 				panelProfile.setLayout(null);
-			
 				// we need this to store userid
 				userid = new JLabel("");
-
 				//Labels
 				JLabel lbimage = new JLabel();
 				lbimage.setBackground(UIManager.getColor("ToolBar.highlight"));
 				lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));		//image added to the label
 				lbimage.setBounds(24, 21, 207, 222);
 				panelProfile.add(lbimage);
-
+				//Map
 				lbMyCard = new JLabel("Kaart:");
 				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCard.setBounds(55, 280, 74, 20);
 				panelProfile.add(lbMyCard);
-				
-				
+				//Name
 				lbMyFirstName = new JLabel("Naam:");
 				lbMyFirstName.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyFirstName.setBounds(55, 310, 74, 20);
 				panelProfile.add(lbMyFirstName);
-
+				//LastName
 				lbMyLastName = new JLabel("Achternaam:");
 				lbMyLastName.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyLastName.setBounds(55, 340, 74, 20);
 				panelProfile.add(lbMyLastName);
-				
+				//age
 				lbMyAge = new JLabel("Leeftijd:");
 				lbMyAge.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyAge.setBounds(55, 370, 74, 20);
 				panelProfile.add(lbMyAge);
-				
+				//city
 				lbMyCity = new JLabel("Stad:");
 				lbMyCity.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCity.setBounds(55, 400, 74, 20);
 				panelProfile.add(lbMyCity);
-				
+				//streetadress
 				lbMyStreet = new JLabel("Straatnaam:");
 				lbMyStreet.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyStreet.setBounds(55, 430, 74, 20);
 				panelProfile.add(lbMyStreet);
-				
 				
 				//editorpanes profilepanel
 				cardtxt  = new JEditorPane();
@@ -391,13 +375,11 @@ public class OvApp
 				lbHome.setHorizontalAlignment(SwingConstants.LEFT);
 				lbHome.setBounds(24, 430, 24, 27);
 				panelProfile.add(lbHome);
-				
 				//textpanes
 				JTextPane textPane = new JTextPane();
 				textPane.setBackground(new Color(211, 211, 211));
 				textPane.setBounds(24, 505, 386, 111);
 				panelProfile.add(textPane);
-				
 				//buttons
 				editButton = new JButton("Wijzig profiel");									//button for changing profile
 				// Action Event for 
@@ -455,7 +437,6 @@ public class OvApp
 				editButton.setBounds(55, 240, 120, 20);
 				panelProfile.add(editButton);
 				
-				
 				JButton btnPencil = new JButton("");
 				btnPencil.setForeground(Color.WHITE);
 				btnPencil.setBackground(Color.WHITE);
@@ -482,8 +463,7 @@ public class OvApp
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						
-						SwitchPanels();
+						switchPanels();
 						tabbedPane.add(panelFavorites);
 						tabbedPane.addTab("Favorieten", null ,panelFavorites, null);
 					}
@@ -500,12 +480,12 @@ public class OvApp
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						SwitchPanels();
+						switchPanels();
 						tabbedPane.add(panelSaved);
 						tabbedPane.addTab("Opgeslagen", null ,panelSaved, null);
-						
 					}
 				});
+				
 				btnSaved.setForeground(Color.WHITE);
 				btnSaved.setBackground(Color.WHITE);
 				btnSaved.setIcon(new ImageIcon(OvApp.class.getResource("/resources/saved.png")));
@@ -517,11 +497,12 @@ public class OvApp
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						SwitchPanels();
+						switchPanels();
 						tabbedPane.add(panelReminder);
 						tabbedPane.addTab("Herinneringen", null , panelReminder, null);
 					}
 				});
+				
 				btnReminder.setForeground(Color.WHITE);
 				btnReminder.setBackground(Color.WHITE);
 				btnReminder.setIcon(new ImageIcon(OvApp.class.getResource("/resources/reminder.png")));
@@ -532,23 +513,24 @@ public class OvApp
 				btnLanguage.setHorizontalAlignment(SwingConstants.LEFT);
 				btnLanguage.setBackground(Color.WHITE);
 				btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryEnglish.png")));
-				btnLanguage.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-					
-						if (Translate.Language.equals("EN")) 
+				btnLanguage.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						if (Translate.Language.equals("EN")) //display Language Dutch
 						{
 							Translate.Language = "NL";
 							System.out.println(Translate.Language);
-							TabTxtNL();
+							tabTxtNl();
 							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryEnglish.png")));
 							btnLanguage.setText(Translate.TransLang(("EN")));
-							
 						}
-						else if(Translate.Language.equals("NL")) 
+						
+						else if (Translate.Language.equals("NL")) //display Language English
 						{
 							Translate.Language = "EN";
 							System.out.println(Translate.Language);
-							TabTxtEn();
+							tabTxtEn();
 							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryNetherlands.png")));
 							btnLanguage.setText(Translate.TransLang(("EN")));
 						}
@@ -570,7 +552,6 @@ public class OvApp
 						lblDeparture.setText(Translate.TransLang("Vertrek:"));
 						btnPlanTrip.setText(Translate.TransLang("Zoeken"));
 						btnNow.setText(Translate.TransLang("Nu"));
-						
 						//Location
 						btnLocationChange.setText(Translate.TransLang("Wijzig reis"));
 						lblLocationDestination.setText(Translate.TransLang("Bestemming:"));
@@ -587,39 +568,38 @@ public class OvApp
 						lblDistance_1.setText(Translate.TransLang("Afstand:"));
 						lblDepartureTime.setText(Translate.TransLang("Vertrektijd:"));
 						//Delays
-						lblVertragingen.setText(Translate.TransLang("Vertragingen:"));
-						
-						
+						lblVertragingen.setText(Translate.TransLang("Vertragingen:"));	
 						}
 					
 				});
 				btnLanguage.setBounds(389, 11, 74, 23);										//set he line out for the buttondesign
 				panelProfile.add(btnLanguage);
-				
 				//buttons "back"
 				JButton btnBackFavorites = new JButton("Terug ");
+				
 				btnBackFavorites.addActionListener(new ActionListener() 
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						AddPanels();
+						addPanels();
 						tabbedPane.remove(panelFavorites);
-						
 					}
+					
 				});
+				
 				btnBackFavorites.setBounds(364, 28, 89, 23);
 				panelFavorites.add(btnBackFavorites);
-				
 				JButton btnBackSaved = new JButton("Terug");
 				btnBackSaved.addActionListener(new ActionListener() 
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						AddPanels();
-						tabbedPane.remove(panelSaved);
-						
+						addPanels();
+						tabbedPane.remove(panelSaved);	
 					}
+					
 				});
+				
 				btnBackSaved.setBounds(332, 57, 89, 23);
 				panelSaved.add(btnBackSaved);
 				
@@ -628,19 +608,18 @@ public class OvApp
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
-						AddPanels();
-						tabbedPane.remove(panelReminder);
-						
-						
+						addPanels();
+						tabbedPane.remove(panelReminder);	
 					}
 				});
+				
 				btnBackReminder.setBounds(316, 30, 89, 23);
 				panelReminder.add(btnBackReminder);
 					
 				//tabbedPane.add(panelProfile);
 	}
 
-	public void Panel_TravelPlanner() 
+	private void panelTravelPlanner() 
 	{
 		//creates a new panel
 		panelTravelPlanner = new JPanel();
@@ -648,20 +627,15 @@ public class OvApp
 		//buttons for different search options
 		JButton btnBus = new JButton("");
 		btnBus.setIcon(new ImageIcon(OvApp.class.getResource("/resources/bus_50.png")));
-		
 		JButton btnTrain = new JButton("");
 		btnTrain.setIcon(new ImageIcon(OvApp.class.getResource("/resources/train_50.png")));
-		
 		JButton btnMetro = new JButton("");
 		btnMetro.setIcon(new ImageIcon(OvApp.class.getResource("/resources/Metro_50.png")));
-		
 		JButton btnTram = new JButton("");
 		btnTram.setIcon(new ImageIcon(OvApp.class.getResource("/resources/Tram_50.png")));
 		
 		lblDeparture = new JLabel("Vertrektijd:");
-		
 		lblDestination = new JLabel("Aankomst:");
-		
 		btnPlanTrip = new JButton("Zoeken");
 		// ActionListener for search button
 		btnPlanTrip.addActionListener(actionEvent ->
@@ -716,6 +690,7 @@ public class OvApp
 								.addComponent(lblDestination))))
 					.addContainerGap(54, Short.MAX_VALUE))
 		);
+		
 		gl_panelTravelPlanner.setVerticalGroup(
 			gl_panelTravelPlanner.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelTravelPlanner.createSequentialGroup()
@@ -741,6 +716,7 @@ public class OvApp
 					.addComponent(btnPlanTrip, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(121, Short.MAX_VALUE))
 		);
+		
 		panelTravelPlanner.setLayout(gl_panelTravelPlanner);
 
 	}
@@ -749,7 +725,7 @@ public class OvApp
 	 * Panel for displaying available departures
 	 * Saved about 100+ lines by not looping over each transport type
 	 */
-	public void Panel_Location() 
+	private void panelLocation() 
 	{
 		// Create the panel and add it as tab
 		panelLocation = new JPanel();
@@ -803,6 +779,7 @@ public class OvApp
 				// In a non repeating way saving about 100+ lines
 				// Had to replace switch statement with if and else if's
 				//
+				
 				if (selectedTransportType.equals("Bus"))
 				{
 					// Create the correct dataModel for the travel type
@@ -810,17 +787,20 @@ public class OvApp
 					// Use the getArrivalTimes() method to get all arraval time in the travelTimes variable
 					travelTimes = dataModel.getArrivalTimes();
 				}
+				
 				else if (selectedTransportType.equals("Train"))
 				{
 					TrainDataModel dataModel = new TrainDataModel();
 					System.out.println("test train");
 					travelTimes = dataModel.getArrivalTimes();
 				}
+				
 				else if (selectedTransportType.equals("Tram"))
 				{
 					TramDataModel dataModel = new TramDataModel();
 					travelTimes = dataModel.getArrivalTimes();
 				}
+				
 				else if (selectedTransportType.equals("Metro"))
 				{
 					MetroDataModel dataModel = new MetroDataModel();
@@ -872,6 +852,7 @@ public class OvApp
 																.addComponent(lblDynamicDeparture)))))
 								.addContainerGap())
 		);
+		
 		gl_panelLocation.setVerticalGroup(
 				gl_panelLocation.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelLocation.createSequentialGroup()
@@ -895,10 +876,11 @@ public class OvApp
 								.addComponent(btnDetails)
 								.addContainerGap())
 		);
+		
 		panelLocation.setLayout(gl_panelLocation);
 	}
 	
-	public void Panel_Map() 
+	private void panelMap() 
 	{
 		panelMap = new JPanel();																	// make a new panel named panelMap
 		panelMap.setBackground(Color.WHITE);														// set the background to the color white
@@ -1048,10 +1030,13 @@ public class OvApp
 				{null, null},
 				{null, null},
 			},
-			new String[] {											//naming for the colums/rows
+			
+			new String[] 
+			{											//naming for the colums/rows
 				"Tijd", "Stop"
 			}
 		));
+		
 		scrollPaneMap.setViewportView(tableMap);					// set the tableMap in scrollpane, this will make the table scrollable
 		
 		JButton btnDistance = new JButton("");
@@ -1072,11 +1057,12 @@ public class OvApp
 		// Seanan and Raymond working on awesome code for calculating distance
 		// Code will execute when user selects the detail view tab
 		//
+		
 		tabbedPane.addChangeListener(changeEvent ->
 		{
 			int selectedTab = tabbedPane.getSelectedIndex();
-
 			// Execute code when map tab is open
+			
 			if (selectedTab == 3)
 			{
 				int selectedRow = tblLocation.getSelectedRow();
@@ -1109,19 +1095,13 @@ public class OvApp
 			}
 		});
 	}		
-				
-			
 	
-	public void Panel_Delays() 
+	private void panelDelays() 
 	{
 		panelDelays = new JPanel();
 		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
-		
 		lblVertragingen = new JLabel("Vertragingen:");
-		
 		JScrollPane scrollPane = new JScrollPane();
-
-
 
 		GroupLayout gl_panelDelays = new GroupLayout(panelDelays);
 		gl_panelDelays.setHorizontalGroup(
@@ -1142,7 +1122,6 @@ public class OvApp
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(159, Short.MAX_VALUE))
 		);
-		
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setModel(new DefaultTableModel(
@@ -1153,9 +1132,9 @@ public class OvApp
 				{"Heerenveen", "Groningen", "00:15"},
 				{"Delft", "Groningen", "00:15"},
 			},
+			
 			new String[] 
 			{
-					
 				"Vertrekpunt", "Aankomstpunt", "Vertragingen"
 			}
 			
@@ -1185,7 +1164,6 @@ public class OvApp
 		tabbedPane.addTab("Favorieten", null ,panelFavorites, null);
 		panelFavorites.setLayout(null);
 		*/
-		
 	}
 	/*
 	 * This method contains all of the code for creating events

@@ -29,12 +29,13 @@ public class BusTime extends TravelTime
         this.route = route;
         this.distance = distance;
     }
+    
     // Get platform
     public String getPlatform()
     {
         return platform;
     }
-
+    
     // Get stationName
     public String getStationName()
     {

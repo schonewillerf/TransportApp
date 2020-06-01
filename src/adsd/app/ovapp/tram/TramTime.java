@@ -51,4 +51,5 @@ public class TramTime extends TravelTime
     {
         return String.format("%s km", distance / 1000);
     }
+    
 }
