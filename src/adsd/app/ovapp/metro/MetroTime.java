@@ -49,6 +49,6 @@ public class MetroTime extends TravelTime
 
     public String getDistance()
     {
-        return String.format("%s km", distance / 1000);
+        return String.format("%s m", distance);
     }
 }

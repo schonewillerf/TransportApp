@@ -1,5 +1,6 @@
 package adsd.app.ovapp.bus;
 
+import adsd.app.ovapp.metro.MetroTime;
 import adsd.app.ovapp.ovapp.TravelTime;
 
 import java.sql.Connection;
@@ -59,6 +60,46 @@ public class BusDataModel
 	{
 		parseDataAndBuildList();
 		return busTimeList;
+	}
+
+	public TravelTime getTravelTime(String departureTime, String platform, String destination)
+	{
+		String SQL = "SELECT * FROM busTime WHERE departureTime=? AND platform=? AND destination=?;";
+
+		try
+		{
+			connection = Connection();
+
+			// Actually prepare the SQL statement with parameters from selected travelTime
+			PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+			preparedStatement.setString(1, departureTime);
+			preparedStatement.setString(2, platform);
+			preparedStatement.setString(3, destination);
+
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			// Execute if there is a result in the DB
+			if (resultSet.next())
+			{
+				BusTime busTime = new BusTime(
+						resultSet.getString("arrivalTime"),
+						resultSet.getString("departureTime"),
+						resultSet.getString("platform"),
+						resultSet.getString("departure"),
+						resultSet.getString("destination"),
+						resultSet.getString("route"),
+						resultSet.getInt("distance")
+				);
+
+				return busTime;
+			}
+		}
+		catch (SQLException throwables)
+		{
+			throwables.printStackTrace();
+		}
+
+		return null; // Should check if return is not null when using this method
 	}
 }
 
