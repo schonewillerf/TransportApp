@@ -1074,23 +1074,75 @@ public class OvApp
 					String platform = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 1));
 					String destination = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 2));
 
-					// Retrieve travelTime from DB
-					// Check DBHandler
-					DBHandler dbHandler = new DBHandler();
-					TravelTime travelTime = dbHandler.getTravelTime(
-							selectedTransportType,
-							departureTime,
-							platform,
-							destination
-							);
+					//
+					if (selectedTransportType.equals("Bus"))
+					{
+						BusDataModel busDataModel = new BusDataModel();
+						TravelTime travelTime = busDataModel.getTravelTime(
+								departureTime,
+								platform,
+								destination
+						);
 
-					// Add data from table to labels
-					lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
-					lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
-					lblTotalTimeTxt.setText(travelTime.getDuration());
-					lblDistanceTxt.setText(travelTime.getDistance());
-					lblTrackDepartureTxt.setText(travelTime.getPlatform());
-					lblTrackArrivalTxt.setText(travelTime.getDestination());
+						// Add data from table to labels
+						lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+						lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+						lblTotalTimeTxt.setText(travelTime.getDuration());
+						lblDistanceTxt.setText(travelTime.getDistance());
+						lblTrackDepartureTxt.setText(travelTime.getPlatform());
+						lblTrackArrivalTxt.setText(travelTime.getDestination());
+					}
+					else if (selectedTransportType.equals("Train"))
+					{
+						TrainDataModel trainDataModel = new TrainDataModel();
+						TravelTime travelTime = trainDataModel.getTravelTime(
+								departureTime,
+								platform,
+								destination
+						);
+
+						// Add data from table to labels
+						lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+						lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+						lblTotalTimeTxt.setText(travelTime.getDuration());
+						lblDistanceTxt.setText(travelTime.getDistance());
+						lblTrackDepartureTxt.setText(travelTime.getPlatform());
+						lblTrackArrivalTxt.setText(travelTime.getDestination());
+					}
+					else if (selectedTransportType.equals("Tram"))
+					{
+						TramDataModel tramDataModel = new TramDataModel();
+						TravelTime travelTime = tramDataModel.getTravelTime(
+								departureTime,
+								platform,
+								destination
+						);
+
+						// Add data from table to labels
+						lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+						lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+						lblTotalTimeTxt.setText(travelTime.getDuration());
+						lblDistanceTxt.setText(travelTime.getDistance());
+						lblTrackDepartureTxt.setText(travelTime.getPlatform());
+						lblTrackArrivalTxt.setText(travelTime.getDestination());
+					}
+					else if (selectedTransportType.equals("Metro"))
+					{
+						MetroDataModel metroDataModel = new MetroDataModel();
+						TravelTime travelTime = metroDataModel.getTravelTime(
+								departureTime,
+								platform,
+								destination
+						);
+
+						// Add data from table to labels
+						lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+						lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+						lblTotalTimeTxt.setText(travelTime.getDuration());
+						lblDistanceTxt.setText(travelTime.getDistance());
+						lblTrackDepartureTxt.setText(travelTime.getPlatform());
+						lblTrackArrivalTxt.setText(travelTime.getDestination());
+					}
 				}
 			}
 		});
