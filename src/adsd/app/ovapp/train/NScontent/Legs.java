@@ -24,6 +24,7 @@ public class Legs {
     private String shorterStock;
     private String reachable;
     private String punctuality;
+    private String crossPlatformTransfer;
 
     public Origin getOrigin() {
         return origin;
@@ -175,5 +176,13 @@ public class Legs {
 
     public void setPunctuality(String punctuality) {
         this.punctuality = punctuality;
+    }
+
+    public String getCrossPlatformTransfer() {
+        return crossPlatformTransfer;
+    }
+
+    public void setCrossPlatformTransfer(String crossPlatformTransfer) {
+        this.crossPlatformTransfer = crossPlatformTransfer;
     }
 }
