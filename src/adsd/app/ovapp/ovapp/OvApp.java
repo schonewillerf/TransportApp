@@ -1,13 +1,9 @@
 package adsd.app.ovapp.ovapp;
 
 import adsd.app.ovapp.bus.BusDataModel;
-import adsd.app.ovapp.bus.BusTime;
 import adsd.app.ovapp.metro.MetroDataModel;
-import adsd.app.ovapp.metro.MetroTime;
 import adsd.app.ovapp.train.TrainDataModel;
-import adsd.app.ovapp.train.TrainTime;
 import adsd.app.ovapp.tram.TramDataModel;
-import adsd.app.ovapp.tram.TramTime;
 
 import java.awt.EventQueue;
 import java.awt.Toolkit;
@@ -105,6 +101,7 @@ public class OvApp
 	private JLabel lblTotalTime;
 	private JLabel lblTransfer;
 	private JLabel lblVertragingen;
+	private JTable tableSaved;
 	
 	public static void newScreen()						//newscreen is a alias for OvApp, here is Ovapp opened as a new main program
 	{
@@ -180,6 +177,30 @@ public class OvApp
 		panelLocation();
 		panelMap();
 		panelDelays();	
+	}
+
+	private void setPanelSaved()
+	{
+		String[] header = {"Vervoerstype", "Vertrektijd", "Vertrek", "Aankomsttijd", "Bestemming"};
+		DefaultTableModel defaultTableModel = new DefaultTableModel(new Object[][]{}, header);
+
+		DBHandler dbHandler = new DBHandler();
+		List<SavedTime> savedTimes = dbHandler.getSavedTimes(newProfile.getId());
+
+		for (SavedTime savedTime : savedTimes)
+		{
+			defaultTableModel.addRow(new Object[]
+					{
+							savedTime.getTransportType(),
+							savedTime.getDepartureTime(),
+							savedTime.getDeparture(),
+							savedTime.getArrivalTime(),
+							savedTime.getDestination()
+					}
+			);
+		}
+
+		tableSaved.setModel(defaultTableModel);
 	}
 
 	private void panelLogin()
@@ -481,10 +502,14 @@ public class OvApp
 					public void actionPerformed(ActionEvent e) 
 					{
 						switchPanels();
+						setPanelSaved();
 						tabbedPane.add(panelSaved);
 						tabbedPane.addTab("Opgeslagen", null ,panelSaved, null);
 					}
 				});
+				
+				// Uncomment to edit savedPanel in Window Builder
+				//tabbedPane.add(panelSaved);
 				
 				btnSaved.setForeground(Color.WHITE);
 				btnSaved.setBackground(Color.WHITE);
@@ -600,8 +625,19 @@ public class OvApp
 					
 				});
 				
-				btnBackSaved.setBounds(332, 57, 89, 23);
+				btnBackSaved.setBounds(12, 12, 89, 23);
 				panelSaved.add(btnBackSaved);
+				
+				JScrollPane scrollPaneSaved = new JScrollPane();
+				scrollPaneSaved.setBounds(12, 47, 456, 528);
+				panelSaved.add(scrollPaneSaved);
+				
+				tableSaved = new JTable();
+				scrollPaneSaved.setViewportView(tableSaved);
+				
+				JButton btnDetailsSaved = new JButton("Details");
+				btnDetailsSaved.setBounds(363, 587, 105, 27);
+				panelSaved.add(btnDetailsSaved);
 				
 				JButton btnBackReminder = new JButton("Terug");
 				btnBackReminder.addActionListener(new ActionListener() 
@@ -616,7 +652,8 @@ public class OvApp
 				btnBackReminder.setBounds(316, 30, 89, 23);
 				panelReminder.add(btnBackReminder);
 					
-				//tabbedPane.add(panelProfile);
+				// Uncomment to edit panelProfile in Window Builder
+				// tabbedPane.add(panelProfile);
 	}
 
 	private void panelTravelPlanner() 
