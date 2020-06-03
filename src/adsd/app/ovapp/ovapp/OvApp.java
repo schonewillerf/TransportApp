@@ -638,6 +638,15 @@ public class OvApp
 				JButton btnDetailsSaved = new JButton("Details");
 				btnDetailsSaved.setBounds(363, 587, 105, 27);
 				panelSaved.add(btnDetailsSaved);
+				btnDetailsSaved.addActionListener(new ActionListener() 
+				{
+					public void actionPerformed(ActionEvent e) 
+					{
+						addPanels();
+						tabbedPane.remove(panelSaved);	
+						tabbedPane.setSelectedIndex(3);
+					}
+				});
 				
 				JButton btnBackReminder = new JButton("Terug");
 				btnBackReminder.addActionListener(new ActionListener() 
@@ -1111,7 +1120,7 @@ public class OvApp
 					String platform = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 1));
 					String destination = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 2));
 
-					//
+					
 					if (selectedTransportType.equals("Bus"))
 					{
 						BusDataModel busDataModel = new BusDataModel();
@@ -1179,6 +1188,93 @@ public class OvApp
 						lblDistanceTxt.setText(travelTime.getDistance());
 						lblTrackDepartureTxt.setText(travelTime.getPlatform());
 						lblTrackArrivalTxt.setText(travelTime.getDestination());
+					}
+				}
+				else 
+				{
+					int selectedSavedRow = tableSaved.getSelectedRow();
+					
+					if (selectedSavedRow >= 0)
+					{
+						String transportType = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 0));
+						String departureTime = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 1));
+						String departure = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 2));
+						String arrivalTime = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 3));
+						String destination = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 4));
+						System.out.println(destination);
+						
+						if (transportType.equals("Bus"))
+						{
+							BusDataModel busDataModel = new BusDataModel();
+							TravelTime travelTime = busDataModel.getSavedTravelTime(
+									departureTime,
+									departure,
+									arrivalTime,
+									destination
+							);
+
+							// Add data from table to labels
+							lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+							lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+							lblTotalTimeTxt.setText(travelTime.getDuration());
+							lblDistanceTxt.setText(travelTime.getDistance());
+							lblTrackDepartureTxt.setText(travelTime.getPlatform());
+							lblTrackArrivalTxt.setText(travelTime.getDestination());
+						}
+						else if (transportType.equals("Metro"))
+						{
+							MetroDataModel metroDataModel = new MetroDataModel();
+							TravelTime travelTime = metroDataModel.getSavedTravelTime(
+									departureTime,
+									departure,
+									arrivalTime,
+									destination
+							);
+
+							// Add data from table to labels
+							lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+							lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+							lblTotalTimeTxt.setText(travelTime.getDuration());
+							lblDistanceTxt.setText(travelTime.getDistance());
+							lblTrackDepartureTxt.setText(travelTime.getPlatform());
+							lblTrackArrivalTxt.setText(travelTime.getDestination());
+						}
+						else if (transportType.equals("Trein"))
+						{
+							TrainDataModel trainDataModel = new TrainDataModel();
+							TravelTime travelTime = trainDataModel.getSavedTravelTime(
+									departureTime,
+									departure,
+									arrivalTime,
+									destination
+							);
+
+							// Add data from table to labels
+							lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+							lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+							lblTotalTimeTxt.setText(travelTime.getDuration());
+							lblDistanceTxt.setText(travelTime.getDistance());
+							lblTrackDepartureTxt.setText(travelTime.getPlatform());
+							lblTrackArrivalTxt.setText(travelTime.getDestination());
+						}
+						else if (transportType.equals("Tram"))
+						{
+							TramDataModel tramDataModel = new TramDataModel();
+							TravelTime travelTime = tramDataModel.getSavedTravelTime(
+									departureTime,
+									departure,
+									arrivalTime,
+									destination
+							);
+
+							// Add data from table to labels
+							lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+							lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+							lblTotalTimeTxt.setText(travelTime.getDuration());
+							lblDistanceTxt.setText(travelTime.getDistance());
+							lblTrackDepartureTxt.setText(travelTime.getPlatform());
+							lblTrackArrivalTxt.setText(travelTime.getDestination());
+						}
 					}
 				}
 			}

@@ -94,4 +94,45 @@ public class TrainDataModel
 
         return null; // Should check if return is not null when using this method
     }
+    
+    public TravelTime getSavedTravelTime(String departureTime, String departure, String arrivalTime, String destination)
+    {
+        String SQL = "SELECT * FROM trainTime WHERE departureTime=? AND departure=? AND arrivalTime=? AND destination=?;";
+
+        try
+        {
+            connection = Connection();
+
+            // Actually prepare the SQL statement with parameters from selected travelTime
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setString(1, departureTime);
+			preparedStatement.setString(2, departure);
+			preparedStatement.setString(3, arrivalTime);
+			preparedStatement.setString(4, destination);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Execute if there is a result in the DB
+            if (resultSet.next())
+            {
+                TrainTime trainTime = new TrainTime(
+                        resultSet.getString("arrivalTime"),
+                        resultSet.getString("departureTime"),
+                        resultSet.getString("platform"),
+                        resultSet.getString("departure"),
+                        resultSet.getString("destination"),
+                        resultSet.getString("route"),
+                        9000
+                );
+
+                return trainTime;
+            }
+        }
+        catch (SQLException throwables)
+        {
+            throwables.printStackTrace();
+        }
+
+        return null; // Should check if return is not null when using this method
+    }
 }
