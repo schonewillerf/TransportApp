@@ -1,3 +1,4 @@
+
 package TestGoogleMap;
 
 import java.awt.BorderLayout;
@@ -7,6 +8,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import chrriis.common.UIUtils;
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
+import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
+
+
+
 public class MyBrowser extends JFrame {
 
 	private JPanel contentPane;
@@ -15,6 +22,8 @@ public class MyBrowser extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		UIUtils.setPreferredLookAndFeel();
+		NativeInterface.isOpen();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -32,11 +41,18 @@ public class MyBrowser extends JFrame {
 	 */
 	public MyBrowser() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 369);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 11, 414, 308);
+		contentPane.add(panel);
+		
+		final JWebBrowser browser = new JWebBrowser();
+		browser.navigate("C:\\googlemapsHTML\\simple_map.html");
+		panel.add(browser, BorderLayout.CENTER);
 	}
-
 }
