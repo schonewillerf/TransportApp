@@ -10,9 +10,6 @@ public class Profile {
     private String residence;
     private String card;
 
-//test
-
-
     public Profile()
     {
         this(0, 0, null, null, null,null, null);
@@ -44,7 +41,6 @@ public class Profile {
         this.card = card;
     }
 
-
     public  void setId(int id)
     {
         this.id = id;
@@ -54,7 +50,6 @@ public class Profile {
     {
         return this.id;
     }
-
 
     public void setFirstName(String firstName)
     {

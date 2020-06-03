@@ -3,8 +3,8 @@ package adsd.app.ovapp.ovapp;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Translate {
-
+public class Translate 
+{
     private Map languageMap;
     protected String Language;
 
@@ -30,7 +30,6 @@ public class Translate {
         languageMap.put("Stad:", "City:");
         languageMap.put("Straatnaam:", "Streetname:");
         languageMap.put("EN", "NL");
-
         //TravelPlanner
         languageMap.put("Aankomst:", "Destination:");
         languageMap.put("Vertrek:", "Departure:");
@@ -50,23 +49,19 @@ public class Translate {
         languageMap.put("Afstand:", "Distance:");
         //Delays
         languageMap.put("Vertragingen:", "Delays");
-
     }
+    
     //gets the translated word from languagemap and returns the word.
     public String TransLang(String word) 
     {
-
-        if(Language == "EN")
+        if (Language == "EN")
         {
-            if((String)languageMap.get(word) != null)
+            if ((String)languageMap.get(word) != null)
             {
                 return (String)languageMap.get(word);
             }
         }
-
         return word;
-
     }
-
 
 }
