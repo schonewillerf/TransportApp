@@ -1,13 +1,9 @@
 package adsd.app.ovapp.ovapp;
 
 import adsd.app.ovapp.bus.BusDataModel;
-import adsd.app.ovapp.bus.BusTime;
 import adsd.app.ovapp.metro.MetroDataModel;
-import adsd.app.ovapp.metro.MetroTime;
 import adsd.app.ovapp.train.TrainDataModel;
-import adsd.app.ovapp.train.TrainTime;
 import adsd.app.ovapp.tram.TramDataModel;
-import adsd.app.ovapp.tram.TramTime;
 
 import java.awt.EventQueue;
 import java.awt.Toolkit;
@@ -105,6 +101,7 @@ public class OvApp
 	private JLabel lblTotalTime;
 	private JLabel lblTransfer;
 	private JLabel lblVertragingen;
+	private JTable tableSaved;
 	
 	public static void newScreen()						//newscreen is a alias for OvApp, here is Ovapp opened as a new main program
 	{
@@ -486,6 +483,9 @@ public class OvApp
 					}
 				});
 				
+				// Uncomment to edit savedPanel in Window Builder
+				//tabbedPane.add(panelSaved);
+				
 				btnSaved.setForeground(Color.WHITE);
 				btnSaved.setBackground(Color.WHITE);
 				btnSaved.setIcon(new ImageIcon(OvApp.class.getResource("/resources/saved.png")));
@@ -600,8 +600,30 @@ public class OvApp
 					
 				});
 				
-				btnBackSaved.setBounds(332, 57, 89, 23);
+				btnBackSaved.setBounds(12, 12, 89, 23);
 				panelSaved.add(btnBackSaved);
+				
+				JScrollPane scrollPaneSaved = new JScrollPane();
+				scrollPaneSaved.setBounds(12, 47, 456, 528);
+				panelSaved.add(scrollPaneSaved);
+				
+				tableSaved = new JTable();
+				tableSaved.setModel(new DefaultTableModel(
+					new Object[][]
+							{
+									{"12:30", "Amersfoort", "13:50", "Groningen"},
+									{"12:30", "Amersfoort", "13:50", "Groningen"},
+									{"12:30", "Amersfoort", "13:50", "Groningen"},
+					},
+					new String[] {
+						"Vertrektijd", "Vertrek", "Aankomsttijd", "Bestemming"
+					}
+				));
+				scrollPaneSaved.setViewportView(tableSaved);
+				
+				JButton btnDetailsSaved = new JButton("Details");
+				btnDetailsSaved.setBounds(363, 587, 105, 27);
+				panelSaved.add(btnDetailsSaved);
 				
 				JButton btnBackReminder = new JButton("Terug");
 				btnBackReminder.addActionListener(new ActionListener() 
@@ -616,7 +638,8 @@ public class OvApp
 				btnBackReminder.setBounds(316, 30, 89, 23);
 				panelReminder.add(btnBackReminder);
 					
-				//tabbedPane.add(panelProfile);
+				// Uncomment to edit panelProfile in Window Builder
+				// tabbedPane.add(panelProfile);
 	}
 
 	private void panelTravelPlanner() 
