@@ -19,7 +19,7 @@ public static void main(String[] args)
 			try 
 			{
 				OvApp nw = new OvApp();	
-				nw.NewScreen(); // om te verwijzen naar ovapp met gui moet er een newscreen aan gemaakt worden
+				nw.newScreen(); // om te verwijzen naar ovapp met gui moet er een newscreen aan gemaakt worden
 			}
 			catch (Exception e)
 			{
