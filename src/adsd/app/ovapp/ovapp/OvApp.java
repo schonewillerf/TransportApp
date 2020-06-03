@@ -179,6 +179,33 @@ public class OvApp
 		panelDelays();	
 	}
 
+	private void setPanelSaved()
+	{
+		String[] header = {"Vertrektijd", "Vertrek", "Aankomsttijd", "Bestemming"};
+		DefaultTableModel defaultTableModel = new DefaultTableModel(new Object[][]{}, header);
+
+		// Execute code to fill table here
+
+		// ogeslagen trajecten vinden in DB
+		DBHandler dbHandler = new DBHandler();
+		List<TravelTime> savedTimes = dbHandler.getSavedTimes();
+
+		// elk traject toevengn als object
+		for (TravelTime travelTime : savedTimes)
+		{
+			defaultTableModel.addRow(new Object[]
+					{
+							travelTime.getDepartureTime(),
+							travelTime.getStationName(),
+							travelTime.getArrivalTime(),
+							travelTime.getDestination()
+					}
+			);
+		}
+
+		tableSaved.setModel(defaultTableModel);
+	}
+
 	private void panelLogin()
 	{
 		panelLogin = new JPanel();
@@ -478,6 +505,7 @@ public class OvApp
 					public void actionPerformed(ActionEvent e) 
 					{
 						switchPanels();
+						setPanelSaved();
 						tabbedPane.add(panelSaved);
 						tabbedPane.addTab("Opgeslagen", null ,panelSaved, null);
 					}
@@ -608,17 +636,6 @@ public class OvApp
 				panelSaved.add(scrollPaneSaved);
 				
 				tableSaved = new JTable();
-				tableSaved.setModel(new DefaultTableModel(
-					new Object[][]
-							{
-									{"12:30", "Amersfoort", "13:50", "Groningen"},
-									{"12:30", "Amersfoort", "13:50", "Groningen"},
-									{"12:30", "Amersfoort", "13:50", "Groningen"},
-					},
-					new String[] {
-						"Vertrektijd", "Vertrek", "Aankomsttijd", "Bestemming"
-					}
-				));
 				scrollPaneSaved.setViewportView(tableSaved);
 				
 				JButton btnDetailsSaved = new JButton("Details");
