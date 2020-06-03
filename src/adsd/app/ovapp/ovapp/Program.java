@@ -1,6 +1,5 @@
 package adsd.app.ovapp.ovapp;
 
-
 import java.awt.EventQueue;
 import java.awt.Window;
 
@@ -20,15 +19,12 @@ public static void main(String[] args)
 			try 
 			{
 				OvApp nw = new OvApp();	
-				nw.newScreen(); // om te verwijzen naar ovapp met gui moet er een newscreen aan gemaakt worden	
-				
-			} catch (Exception e) 
+				nw.newScreen(); // om te verwijzen naar ovapp met gui moet er een newscreen aan gemaakt worden
+			}
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}
-			
 		}
-		
 	});
-	
 }}

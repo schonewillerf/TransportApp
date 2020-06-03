@@ -181,24 +181,21 @@ public class OvApp
 
 	private void setPanelSaved()
 	{
-		String[] header = {"Vertrektijd", "Vertrek", "Aankomsttijd", "Bestemming"};
+		String[] header = {"Vervoerstype", "Vertrektijd", "Vertrek", "Aankomsttijd", "Bestemming"};
 		DefaultTableModel defaultTableModel = new DefaultTableModel(new Object[][]{}, header);
 
-		// Execute code to fill table here
-
-		// ogeslagen trajecten vinden in DB
 		DBHandler dbHandler = new DBHandler();
-		List<TravelTime> savedTimes = dbHandler.getSavedTimes();
+		List<SavedTime> savedTimes = dbHandler.getSavedTimes(newProfile.getId());
 
-		// elk traject toevengn als object
-		for (TravelTime travelTime : savedTimes)
+		for (SavedTime savedTime : savedTimes)
 		{
 			defaultTableModel.addRow(new Object[]
 					{
-							travelTime.getDepartureTime(),
-							travelTime.getStationName(),
-							travelTime.getArrivalTime(),
-							travelTime.getDestination()
+							savedTime.getTransportType(),
+							savedTime.getDepartureTime(),
+							savedTime.getDeparture(),
+							savedTime.getArrivalTime(),
+							savedTime.getDestination()
 					}
 			);
 		}
