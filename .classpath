@@ -9,14 +9,14 @@
 	<classpathentry kind="lib" path="mssql-jdbc-8.2.2.jre11.jar"/>
 	<classpathentry kind="lib" path="mssql-jdbc-8.2.2.jre13.jar"/>
 	<classpathentry kind="lib" path="mssql-jdbc-8.2.2.jre8.jar"/>
-	<classpathentry kind="lib" path="D:/Gebruikersmappen/Downloads/jxbrowser-7.8-cross-desktop-win_mac_linux(1)/lib/jxbrowser-7.8.jar"/>
-	<classpathentry kind="lib" path="D:/Gebruikersmappen/Downloads/jxbrowser-7.8-cross-desktop-win_mac_linux(1)/lib/jxbrowser-javafx-7.8.jar"/>
-	<classpathentry kind="lib" path="D:/Gebruikersmappen/Downloads/jxbrowser-7.8-cross-desktop-win_mac_linux(1)/lib/jxbrowser-linux64-7.8.jar"/>
-	<classpathentry kind="lib" path="D:/Gebruikersmappen/Downloads/jxbrowser-7.8-cross-desktop-win_mac_linux(1)/lib/jxbrowser-linux64-arm-7.8.jar"/>
-	<classpathentry kind="lib" path="D:/Gebruikersmappen/Downloads/jxbrowser-7.8-cross-desktop-win_mac_linux(1)/lib/jxbrowser-mac-7.8.jar"/>
-	<classpathentry kind="lib" path="D:/Gebruikersmappen/Downloads/jxbrowser-7.8-cross-desktop-win_mac_linux(1)/lib/jxbrowser-swing-7.8.jar"/>
-	<classpathentry kind="lib" path="D:/Gebruikersmappen/Downloads/jxbrowser-7.8-cross-desktop-win_mac_linux(1)/lib/jxbrowser-swt-7.8.jar"/>
-	<classpathentry kind="lib" path="D:/Gebruikersmappen/Downloads/jxbrowser-7.8-cross-desktop-win_mac_linux(1)/lib/jxbrowser-win32-7.8.jar"/>
-	<classpathentry kind="lib" path="D:/Gebruikersmappen/Downloads/jxbrowser-7.8-cross-desktop-win_mac_linux(1)/lib/jxbrowser-win64-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-win64-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-win32-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-swt-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-swing-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-mac-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-linux64-arm-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-linux64-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-javafx-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-7.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
