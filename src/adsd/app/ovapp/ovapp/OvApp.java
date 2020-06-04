@@ -13,8 +13,12 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,8 +27,14 @@ import java.util.*;
 import java.awt.event.ActionEvent;
 
 import static adsd.app.ovapp.ovapp.DBConnection.Connection;
+import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 
 import javax.swing.table.DefaultTableModel;
+
+import com.teamdev.jxbrowser.browser.Browser;
+import com.teamdev.jxbrowser.engine.Engine;
+import com.teamdev.jxbrowser.engine.EngineOptions;
+import com.teamdev.jxbrowser.view.swing.BrowserView;
 
 public class OvApp
 {
@@ -43,6 +53,7 @@ public class OvApp
 	private JPanel panelFavorites;
 	private JPanel panelSaved;
 	private JPanel panelReminder;
+	private JPanel panelGoogleMaps;
 	
 	private JButton editButton;
 	private JEditorPane cardtxt;
@@ -928,7 +939,11 @@ public class OvApp
 	}
 	
 	private void panelMap() 
-	{
+	{	
+		
+		
+        open_site();   
+		
 		panelMap = new JPanel();																	// make a new panel named panelMap
 		panelMap.setBackground(Color.WHITE);														// set the background to the color white
 		tabbedPane.addTab("Kaart", null, panelMap, null);
@@ -943,12 +958,7 @@ public class OvApp
 		lblArrivalTime = new JLabel("Aankomsttijd:");										// make new label named lblArrivalTime
 		lblArrivalTime.setBounds(44, 75, 84, 25);													//Set the outlining design for the button
 		lblArrivalTime.setFont(new Font("Tahoma", Font.BOLD, 11));									//set the text in a new design, called "font" in programming
-		panelMap.add(lblArrivalTime);																//panelMap add the lblArrivalTime to the panel
-		
-		JLabel lblImageLoation = new JLabel("");
-		lblImageLoation.setBounds(10, 234, 262, 275);
-		lblImageLoation.setIcon(new ImageIcon(OvApp.class.getResource("/resources/maplocation.png")));
-		panelMap.add(lblImageLoation);
+		panelMap.add(lblArrivalTime);
 		
 		lblTotalTime = new JLabel("Totale tijd:");
 		lblTotalTime.setBounds(44, 135, 84, 25);
@@ -1055,7 +1065,7 @@ public class OvApp
 		tableMap = new JTable();									//make a new table named tableMap
 		tableMap.setModel(new DefaultTableModel(					//set a model for tableMap	
 			new Object[][] {				
-				{null, null},
+				{null, null},										// all empty"null" for show in gui.
 				{null, null},
 				{null, null},
 				{null, null},
@@ -1100,6 +1110,9 @@ public class OvApp
 		JLabel lblDistanceTxt = new JLabel("<dynamic>");
 		lblDistanceTxt.setBounds(358, 167, 70, 23);
 		panelMap.add(lblDistanceTxt);
+		
+		panelGoogleMaps = new JPanel();
+
 
 		// Seanan and Raymond working on awesome code for calculating distance
 		// Code will execute when user selects the detail view tab
@@ -1354,6 +1367,40 @@ public class OvApp
 	/*
 	 * This method contains all of the code for creating events
 	 */
+	private void open_site() 
+	{
+		System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
+    	System.setProperty("teamdev.license.info", "true");
+    	
+    	// Creating and running Chromium engine
+        Engine engine = Engine.newInstance(
+                EngineOptions.newBuilder(HARDWARE_ACCELERATED).build());
+
+        Browser browser = engine.newBrowser();
+        // Loading the required web page
+        browser.navigation().loadUrl("file:///C:/googlemapsHTML/simple_map.html");
+       
+
+        SwingUtilities.invokeLater(() -> {
+            // Creating Swing component for rendering web content
+            // loaded in the given Browser instance
+            BrowserView view = BrowserView.newInstance(browser);
+            
+            frame.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    engine.close();
+                }
+            });
+            
+            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            panelGoogleMaps.add(view, BorderLayout.CENTER);
+            panelGoogleMaps.setBounds(10, 233, 262, 276);
+    		panelMap.add(panelGoogleMaps);
+ 
+        });  
+		
+	}
 
 	private void createEvents() 
 	{
