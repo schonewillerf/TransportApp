@@ -1134,7 +1134,7 @@ public class OvApp
 		panelMap.add(lblDistance_1);
 		
 		JLabel lblDistanceTxt = new JLabel("<dynamic>");
-		lblDistanceTxt.setBounds(358, 167, 70, 23);
+		lblDistanceTxt.setBounds(348, 170, 70, 23);
 		panelMap.add(lblDistanceTxt);
 		
 	
@@ -1394,7 +1394,7 @@ public class OvApp
 
         Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/simple_map.html");
+        browser.navigation().loadUrl("resources/simple_map.html");
        
 
         SwingUtilities.invokeLater(() -> {
