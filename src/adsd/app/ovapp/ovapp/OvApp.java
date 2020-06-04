@@ -13,10 +13,14 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Connection;
@@ -35,6 +39,7 @@ import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
+import java.awt.GridLayout;
 
 public class OvApp
 {
@@ -53,7 +58,7 @@ public class OvApp
 	private JPanel panelFavorites;
 	private JPanel panelSaved;
 	private JPanel panelReminder;
-	private JPanel panelGoogleMaps;
+	
 	
 	private JButton editButton;
 	private JEditorPane cardtxt;
@@ -96,6 +101,7 @@ public class OvApp
 	private JButton btnLanguage;
 	private JButton btnPlanTrip;
 	private JButton btnNow;
+	
 
 	private DefaultTableModel locationTableModel;
 	private JButton btnLocationChange;
@@ -114,6 +120,20 @@ public class OvApp
 	private JLabel lblTransfer;
 	private JLabel lblVertragingen;
 	private JTable tableSaved;
+	
+	JInternalFrame internalFrame;
+	
+	
+	 private static final int MIN_ZOOM = 0;
+	 private static final int MAX_ZOOM = 21;
+	 private static final String setMarkerScript =
+	            "var myLatlng = new google.maps.LatLng(48.4431727,23.0488126);\n" +
+	                    "var marker = new google.maps.Marker({\n" +
+	                    "    position: myLatlng,\n" +
+	                    "    map: map,\n" +
+	                    "    title: 'Hello World!'\n" +
+	                    "});";
+	 private static int zoomValue = 4;
 	
 	public static void newScreen()						//newscreen is a alias for OvApp, here is Ovapp opened as a new main program
 	{
@@ -942,7 +962,7 @@ public class OvApp
 	{	
 		
 		
-        open_site();   
+        open_map();   
 		
 		panelMap = new JPanel();																	// make a new panel named panelMap
 		panelMap.setBackground(Color.WHITE);														// set the background to the color white
@@ -1058,7 +1078,7 @@ public class OvApp
 		
 		//srollpane
 		JScrollPane scrollPaneMap = new JScrollPane();
-		scrollPaneMap.setBounds(276, 233, 194, 276);
+		scrollPaneMap.setBounds(296, 233, 184, 276);
 		panelMap.add(scrollPaneMap);
 		
 		//table
@@ -1111,7 +1131,16 @@ public class OvApp
 		lblDistanceTxt.setBounds(358, 167, 70, 23);
 		panelMap.add(lblDistanceTxt);
 		
-		panelGoogleMaps = new JPanel();
+	
+		internalFrame = new JInternalFrame("Map");
+		internalFrame.setToolTipText("");
+		internalFrame.setFrameIcon(null);
+		internalFrame.setBorder(null);
+		internalFrame.setBounds(10, 233, 262, 282);
+		panelMap.add(internalFrame);
+		
+		
+		
 
 
 		// Seanan and Raymond working on awesome code for calculating distance
@@ -1367,7 +1396,7 @@ public class OvApp
 	/*
 	 * This method contains all of the code for creating events
 	 */
-	private void open_site() 
+	private void open_map() 
 	{
 		System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
     	System.setProperty("teamdev.license.info", "true");
@@ -1386,18 +1415,20 @@ public class OvApp
             // loaded in the given Browser instance
             BrowserView view = BrowserView.newInstance(browser);
             
-            frame.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosing(WindowEvent e) {
-                    engine.close();
-                }
-            });
-            
-            frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            panelGoogleMaps.add(view, BorderLayout.CENTER);
-            panelGoogleMaps.setBounds(10, 233, 262, 276);
-    		panelMap.add(panelGoogleMaps);
- 
+          
+           
+            internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            internalFrame.add(view,BorderLayout.CENTER);
+            internalFrame.setSize(276, 276);
+    		panelMap.add(internalFrame);
+    		internalFrame.setVisible(true);
+    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
+    		internalFrame.remove(titlePane);
+    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
+    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
+    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
+    		}
+    		
         });  
 		
 	}
