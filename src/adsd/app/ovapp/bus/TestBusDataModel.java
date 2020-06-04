@@ -6,7 +6,6 @@ package adsd.app.ovapp.bus;
 
 import adsd.app.ovapp.ovapp.TravelTime;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TestBusDataModel
