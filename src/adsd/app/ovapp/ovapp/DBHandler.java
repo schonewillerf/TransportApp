@@ -49,4 +49,32 @@ public class DBHandler
         return savedTimes;
     }
 
+    public void saveTime(String departureTime,
+                         String departure,
+                         String arrivalTime,
+                         String destination,
+                         int transportType,
+                         int loggedInUser)
+    {
+        try
+        {
+            connection = Connection();
+
+            String SQL = "INSERT INTO savedRoute VALUES (?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+            preparedStatement.setString(1, departureTime);
+            preparedStatement.setString(2, departure);
+            preparedStatement.setString(3, arrivalTime);
+            preparedStatement.setString(4, destination);
+            preparedStatement.setInt(5, transportType);
+            preparedStatement.setInt(6, loggedInUser);
+
+            int row = preparedStatement.executeUpdate();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 }

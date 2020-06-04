@@ -1,31 +1,25 @@
 package adsd.app.ovapp.ovapp;
 
 import java.awt.EventQueue;
-import java.awt.Window;
 
-import adsd.app.ovapp.train.TrainDataModel;
-import adsd.app.ovapp.train.TrainTime;
-
-public class Program 
+public class Program
 {
-    static OvApp  ovapp;
-
-public static void main(String[] args) 
-{
-    EventQueue.invokeLater(new Runnable() 
+    public static void main(String[] args)
     {
-        public void run() 
+        EventQueue.invokeLater(new Runnable()
         {
-            try 
+            public void run()
             {
-                OvApp nw = new OvApp();
-                nw.newScreen(); // om te verwijzen naar ovapp met gui moet er een newscreen aan gemaakt worden
+                try
+                {
+                    //newscreen is a alias for OvApp, here is Ovapp opened as a new main program
+                    new OvApp().newScreen();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-    });
-}}
-
+        });
+    }
+}
