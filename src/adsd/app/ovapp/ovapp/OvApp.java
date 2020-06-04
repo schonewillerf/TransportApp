@@ -1394,7 +1394,7 @@ public class OvApp
 
         Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("resources/simple_map.html");
+        browser.navigation().loadUrl("file:///C:/Users/Dani%EBlle%20van%20Rijn/git/ovapp/src/resources/simple_map.html");
        
 
         SwingUtilities.invokeLater(() -> {
