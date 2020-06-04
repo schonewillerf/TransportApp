@@ -1,17 +1,10 @@
 package adsd.app.ovapp.ovapp;
 
 import java.awt.EventQueue;
-import java.awt.Window;
 
-import adsd.app.ovapp.train.TrainDataModel;
-import adsd.app.ovapp.train.TrainTime;
-
-public class Program 
+public class Program
 {
-	static OvApp  ovapp;
-
-public static void main(String[] args) 
-{
+<<<<<<< src/adsd/app/ovapp/ovapp/Program.java
 	EventQueue.invokeLater(new Runnable() 
 	{
 		public void run() 
@@ -28,3 +21,24 @@ public static void main(String[] args)
 		}
 	});
 }}
+=======
+    public static void main(String[] args)
+    {
+        EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                try
+                {
+                    //newscreen is a alias for OvApp, here is Ovapp opened as a new main program
+                    new OvApp().newScreen();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+}
+>>>>>>> src/adsd/app/ovapp/ovapp/Program.java
