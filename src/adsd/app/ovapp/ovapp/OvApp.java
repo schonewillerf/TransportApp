@@ -339,27 +339,27 @@ public class OvApp
 				lbMyCard.setBounds(55, 280, 74, 20);
 				panelProfile.add(lbMyCard);
 				//Name
-				lbMyFirstName = new JLabel("Naam");
+				lbMyFirstName = new JLabel("Naam"+":");
 				lbMyFirstName.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyFirstName.setBounds(55, 310, 74, 20);
 				panelProfile.add(lbMyFirstName);
 				//LastName
-				lbMyLastName = new JLabel("Achternaam");
+				lbMyLastName = new JLabel("Achternaam"+":");
 				lbMyLastName.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyLastName.setBounds(55, 340, 74, 20);
 				panelProfile.add(lbMyLastName);
 				//age
-				lbMyAge = new JLabel("Leeftijd");
+				lbMyAge = new JLabel("Leeftijd"+":");
 				lbMyAge.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyAge.setBounds(55, 370, 74, 20);
 				panelProfile.add(lbMyAge);
 				//city
-				lbMyCity = new JLabel("Stad");
+				lbMyCity = new JLabel("Stad"+":");
 				lbMyCity.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCity.setBounds(55, 400, 74, 20);
 				panelProfile.add(lbMyCity);
 				//streetadress
-				lbMyStreet = new JLabel("Straatnaam");
+				lbMyStreet = new JLabel("Straatnaam"+":");
 				lbMyStreet.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyStreet.setBounds(55, 430, 74, 20);
 				panelProfile.add(lbMyStreet);
@@ -408,22 +408,22 @@ public class OvApp
 				panelProfile.add(streettxt);
 
 				
-				lbMyDescription = new JLabel("Mijn beschrijving");
+				lbMyDescription = new JLabel("Mijn beschrijving"+":");
 				lbMyDescription.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyDescription.setBounds(55, 467, 118, 20);
 				panelProfile.add(lbMyDescription);
 				
-				lbFavorites = new JLabel("Favorieten");
+				lbFavorites = new JLabel("Favorieten"+":");
 				lbFavorites.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbFavorites.setBounds(301, 43, 74, 20);
 				panelProfile.add(lbFavorites);
 				
-				lbSaved = new JLabel("Opgeslagen");
+				lbSaved = new JLabel("Opgeslagen"+":");
 				lbSaved.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbSaved.setBounds(301, 85, 74, 20);
 				panelProfile.add(lbSaved);
 				
-				lbReminders = new JLabel("Herinneringen");
+				lbReminders = new JLabel("Herinneringen"+":");
 				lbReminders.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbReminders.setBounds(301, 138, 94, 20);
 				panelProfile.add(lbReminders);
@@ -615,11 +615,13 @@ public class OvApp
 						btnNow.setText(Translate.TransLang("Nu"));
 						//Location
 						btnLocationChange.setText(Translate.TransLang("Wijzig reis"));
-						lblLocationDestination.setText(Translate.TransLang("Bestemming")+":");
+						lblLocationDestination.setText(Translate.TransLang("Aankomst")+":");
 						lblLocationDeparture.setText(Translate.TransLang("Vertrek")+":");
 						lblLocationDepartureType.setText(Translate.TransLang("Vervoerstype")+":");
+						//Saved
+						
 						//Map
-						lblDeparture.setText(Translate.TransLang("Vertrektijd")+":");
+						//lblDeparture.setText(Translate.TransLang("Vertrektijd")+":");
 						lblArrivalTime.setText(Translate.TransLang("Aankomsttijd")+":");
 						lblTotalTime.setText(Translate.TransLang("Totale tijd")+":");
 						lblTransfer.setText(Translate.TransLang("Overdracht")+":");
@@ -679,14 +681,13 @@ public class OvApp
 								
 							));
 						
-							
 						}
 					
 				});
 				btnLanguage.setBounds(389, 11, 74, 23);										//set he line out for the buttondesign
 				panelProfile.add(btnLanguage);
 				//buttons "back"
-				JButton btnBackFavorites = new JButton("Terug ");
+				JButton btnBackFavorites = new JButton("Terug");
 				
 				btnBackFavorites.addActionListener(new ActionListener() 
 				{
@@ -766,7 +767,7 @@ public class OvApp
 		JButton btnTram = new JButton("");
 		btnTram.setIcon(new ImageIcon(OvApp.class.getResource("/resources/Tram_50.png")));
 		
-		lblDeparture = new JLabel("Vertrektijd:");
+		lblDeparture = new JLabel("Vertrek"+":");
 		lblDestination = new JLabel("Aankomst:");
 		btnPlanTrip = new JButton("Zoeken");
 		// ActionListener for search button
@@ -872,9 +873,9 @@ public class OvApp
 		btnDetails.addActionListener(actionEvent -> tabbedPane.setSelectedIndex(3));
 
 		// Create labels for departuretime, platform and destination
-		lblLocationDeparture = new JLabel("Vertrek:");
-		lblLocationDestination = new JLabel("Bestemming:");
-		lblLocationDepartureType = new JLabel("Vervoerstype");
+		lblLocationDeparture = new JLabel("Vertrek"+":");
+		lblLocationDestination = new JLabel("Aankomst"+":");
+		lblLocationDepartureType = new JLabel("Vervoerstype"+":");
 
 		// Create dynamic labels for departuretime, platform and destination from search panel
 		JLabel lblDynamicDeparture = new JLabel();
@@ -899,8 +900,8 @@ public class OvApp
 				lblDynamicDestination.setText(selectedDestination);
 				lblDynamicTransportType.setText(selectedTransportType);
 
-				String[] header = {"Vertrektijd", "Spoor/Halte", "Bestemming"};
-				header[1] = selectedTransportType.equals("Bus") ? "Halte" : "Spoor";
+				String[] header = {Translate.TransLang("Vertrektijd"),"Spoor/Halte", Translate.TransLang("Bestemming")};
+				header[1] = selectedTransportType.equals("Bus") ? Translate.TransLang("Halte") :Translate.TransLang("Spoor");
 
 				DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, header);
 				tableLocation.setModel(dtm);
@@ -964,49 +965,51 @@ public class OvApp
 		//
 		GroupLayout gl_panelLocation = new GroupLayout(panelLocation);
 		gl_panelLocation.setHorizontalGroup(
-				gl_panelLocation.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panelLocation.createSequentialGroup()
-								.addContainerGap(20, Short.MAX_VALUE)
+			gl_panelLocation.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelLocation.createSequentialGroup()
+					.addContainerGap(22, Short.MAX_VALUE)
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnDetails)
+						.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+							.addComponent(scpLocation, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_panelLocation.createSequentialGroup()
+								.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(lblLocationDepartureType, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnLocationChange)
+									.addComponent(lblLocationDeparture, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addGap(18)
 								.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnDetails, Alignment.TRAILING)
-										.addGroup(Alignment.TRAILING, gl_panelLocation.createParallelGroup(Alignment.LEADING)
-												.addComponent(scpLocation, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_panelLocation.createSequentialGroup()
-														.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING, false)
-																.addComponent(lblLocationDepartureType, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																.addComponent(btnLocationChange)
-																.addComponent(lblLocationDeparture, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																.addComponent(lblLocationDestination, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
-														.addGap(18)
-														.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
-																.addComponent(lblDynamicTransportType, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-																.addComponent(lblDynamicDestination, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-																.addComponent(lblDynamicDeparture)))))
-								.addContainerGap())
+									.addComponent(lblDynamicTransportType, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblDynamicDestination, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblDynamicDeparture)))
+							.addComponent(lblLocationDestination, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
-		
 		gl_panelLocation.setVerticalGroup(
-				gl_panelLocation.createParallelGroup(Alignment.LEADING)
+			gl_panelLocation.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelLocation.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnLocationChange)
+					.addGap(18)
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_panelLocation.createSequentialGroup()
+							.addComponent(lblDynamicDeparture)
+							.addGap(32))
 						.addGroup(gl_panelLocation.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(btnLocationChange)
-								.addGap(18)
-								.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblLocationDestination)
-										.addComponent(lblDynamicDeparture))
-								.addGap(18)
-								.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblLocationDeparture)
-										.addComponent(lblDynamicDestination))
-								.addGap(18)
-								.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblLocationDepartureType)
-										.addComponent(lblDynamicTransportType))
-								.addGap(18)
-								.addComponent(scpLocation, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
-								.addGap(18)
-								.addComponent(btnDetails)
-								.addContainerGap())
+							.addComponent(lblLocationDeparture)
+							.addGap(18)))
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblDynamicDestination)
+						.addComponent(lblLocationDestination))
+					.addGap(18)
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblLocationDepartureType)
+						.addComponent(lblDynamicTransportType))
+					.addGap(18)
+					.addComponent(scpLocation, GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btnDetails)
+					.addContainerGap())
 		);
 		
 		panelLocation.setLayout(gl_panelLocation);
@@ -1024,7 +1027,7 @@ public class OvApp
 		panelMap.setLayout(null);
 		
 		//labels		
-		lblDepartureTime = new JLabel("Vertrektijd:");		
+		lblDepartureTime = new JLabel("Vertrek"+":");		
 		lblDepartureTime.setBounds(44, 39, 84, 25);
 		lblDepartureTime.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panelMap.add(lblDepartureTime);
@@ -1365,7 +1368,7 @@ public class OvApp
 	{
 		panelDelays = new JPanel();
 		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
-		lblVertragingen = new JLabel("Vertragingen");
+		lblVertragingen = new JLabel("Vertragingen"+":");
 		JScrollPane scrollPane = new JScrollPane();
 
 		GroupLayout gl_panelDelays = new GroupLayout(panelDelays);
@@ -1400,9 +1403,8 @@ public class OvApp
 			
 			new String[] 
 			{
-				//Translate.TransLang("Vertrekpunt"),Translate.TransLang("Aankomstpunt"),Translate.TransLang("Vertragingen")
-				
 				"Vertrek station", "Aankomst station", "Vertraging"
+				
 			}
 			
 		));

@@ -6,17 +6,30 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="mssql-jdbc-8.2.2.jre11.jar"/>
-	<classpathentry kind="lib" path="mssql-jdbc-8.2.2.jre13.jar"/>
-	<classpathentry kind="lib" path="mssql-jdbc-8.2.2.jre8.jar"/>
-	<classpathentry kind="lib" path="jxbrowser-win64-7.8.jar"/>
-	<classpathentry kind="lib" path="jxbrowser-win32-7.8.jar"/>
-	<classpathentry kind="lib" path="jxbrowser-swt-7.8.jar"/>
-	<classpathentry kind="lib" path="jxbrowser-swing-7.8.jar"/>
-	<classpathentry kind="lib" path="jxbrowser-mac-7.8.jar"/>
-	<classpathentry kind="lib" path="jxbrowser-linux64-arm-7.8.jar"/>
-	<classpathentry kind="lib" path="jxbrowser-linux64-7.8.jar"/>
-	<classpathentry kind="lib" path="jxbrowser-javafx-7.8.jar"/>
-	<classpathentry kind="lib" path="jxbrowser-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-jar/jxbrowser-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-jar/jxbrowser-javafx-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-jar/jxbrowser-linux64-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-jar/jxbrowser-linux64-arm-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-jar/jxbrowser-mac-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-jar/jxbrowser-swing-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-jar/jxbrowser-swt-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-jar/jxbrowser-win32-7.8.jar"/>
+	<classpathentry kind="lib" path="jxbrowser-jar/jxbrowser-win64-7.8.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/commons-codec-1.11.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/fluent-hc-4.5.12.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/httpclient-4.5.12.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/httpclient-cache-4.5.12.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/httpclient-osgi-4.5.12.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/httpclient-win-4.5.12.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/httpcore-4.4.13.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/httpmime-4.5.12.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/jna-4.5.2.jar"/>
+	<classpathentry kind="lib" path="httpcomponents-client-jar/jna-platform-4.5.2.jar"/>
+	<classpathentry kind="lib" path="jackson-jar/jackson-core-lgpl-0.9.8.jar"/>
+	<classpathentry kind="lib" path="jackson-jar/jackson-mapper-lgpl-0.9.8.jar"/>
+	<classpathentry kind="lib" path="mssql-jar/mssql-jdbc-8.2.2.jre11.jar"/>
+	<classpathentry kind="lib" path="mssql-jar/mssql-jdbc-8.2.2.jre13.jar"/>
+	<classpathentry kind="lib" path="mssql-jar/mssql-jdbc-8.2.2.jre8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
