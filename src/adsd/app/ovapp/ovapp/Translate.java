@@ -61,7 +61,6 @@ public class Translate
         languageMap.put("Aankomst station", "Arrival station");
         languageMap.put("Vertraging", "Delay");
         languageMap.put("Vertrek station", "Departure station");
-        //
     }
     
     //gets the translated word from languagemap and returns the word.
