@@ -98,7 +98,7 @@ public class OvApp
 	private JLabel lbSaved;
 	private JLabel lbFavorites;
 	private JLabel lbMyDescription;
-	private JTable tblLocation;
+	private JTable tableLocation;
 	
 	private JLabel lblDeparture;
 	private JLabel lblDestination;
@@ -112,7 +112,7 @@ public class OvApp
 	private JLabel lblLocationDestination;
 	private JLabel lblLocationDeparture;
 	private JLabel lblLocationDepartureType;
-	private JTable table;
+	private JTable tableDelays;
 	private Translate Translate;
 	private JLabel lblDepartureTime;
 	private JLabel lblArrivalTime;
@@ -333,32 +333,32 @@ public class OvApp
 				lbimage.setBounds(24, 21, 207, 222);
 				panelProfile.add(lbimage);
 				//Map
-				lbMyCard = new JLabel("Kaart:");
+				lbMyCard = new JLabel("Kaart");
 				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCard.setBounds(55, 280, 74, 20);
 				panelProfile.add(lbMyCard);
 				//Name
-				lbMyFirstName = new JLabel("Naam:");
+				lbMyFirstName = new JLabel("Naam");
 				lbMyFirstName.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyFirstName.setBounds(55, 310, 74, 20);
 				panelProfile.add(lbMyFirstName);
 				//LastName
-				lbMyLastName = new JLabel("Achternaam:");
+				lbMyLastName = new JLabel("Achternaam");
 				lbMyLastName.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyLastName.setBounds(55, 340, 74, 20);
 				panelProfile.add(lbMyLastName);
 				//age
-				lbMyAge = new JLabel("Leeftijd:");
+				lbMyAge = new JLabel("Leeftijd");
 				lbMyAge.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyAge.setBounds(55, 370, 74, 20);
 				panelProfile.add(lbMyAge);
 				//city
-				lbMyCity = new JLabel("Stad:");
+				lbMyCity = new JLabel("Stad");
 				lbMyCity.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCity.setBounds(55, 400, 74, 20);
 				panelProfile.add(lbMyCity);
 				//streetadress
-				lbMyStreet = new JLabel("Straatnaam:");
+				lbMyStreet = new JLabel("Straatnaam");
 				lbMyStreet.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyStreet.setBounds(55, 430, 74, 20);
 				panelProfile.add(lbMyStreet);
@@ -407,7 +407,7 @@ public class OvApp
 				panelProfile.add(streettxt);
 
 				
-				lbMyDescription = new JLabel("Mijn beschrijving:");
+				lbMyDescription = new JLabel("Mijn beschrijving");
 				lbMyDescription.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyDescription.setBounds(55, 467, 118, 20);
 				panelProfile.add(lbMyDescription);
@@ -586,7 +586,6 @@ public class OvApp
 							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryEnglish.png")));
 							btnLanguage.setText(Translate.TransLang(("EN")));
 						}
-						
 						else if (Translate.Language.equals("NL")) //display Language English
 						{
 							Translate.Language = "EN";
@@ -595,41 +594,91 @@ public class OvApp
 							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryNetherlands.png")));
 							btnLanguage.setText(Translate.TransLang(("EN")));
 						}
+						
 						//Profile
-						lbMyFirstName.setText(Translate.TransLang("Naam:"));
-						lbFavorites.setText(Translate.TransLang("Favorieten:"));
-						lbSaved.setText(Translate.TransLang("Opgeslagen:"));
-						lbReminders.setText(Translate.TransLang("Herinneringen:"));
+						lbMyFirstName.setText(Translate.TransLang("Naam")+":");
+						lbFavorites.setText(Translate.TransLang("Favorieten")+":");
+						lbSaved.setText(Translate.TransLang("Opgeslagen")+":");
+						lbReminders.setText(Translate.TransLang("Herinneringen:")+":");
 						editButton.setText(Translate.TransLang("Wijzig profiel"));
-						lbMyCard.setText(Translate.TransLang("Kaart:"));
-						lbMyFirstName.setText(Translate.TransLang("Naam:"));
-						lbMyLastName.setText(Translate.TransLang("Achternaam:"));
-						lbMyAge.setText(Translate.TransLang("Leeftijd:"));
-						lbMyCity.setText(Translate.TransLang("Stad:"));
-						lbMyStreet.setText(Translate.TransLang("Straatnaam:"));
-						lbMyDescription.setText(Translate.TransLang("Mijn beschrijving:"));
+						lbMyCard.setText(Translate.TransLang("Kaart")+":");
+						lbMyLastName.setText(Translate.TransLang("Achternaam")+":");
+						lbMyAge.setText(Translate.TransLang("Leeftijd")+":");
+						lbMyCity.setText(Translate.TransLang("Stad")+":");
+						lbMyStreet.setText(Translate.TransLang("Straatnaam")+":");
+						lbMyDescription.setText(Translate.TransLang("Mijn beschrijving")+":");
 						//TravelPlanner
-						lblDestination.setText(Translate.TransLang("Aankomst:"));
-						lblDeparture.setText(Translate.TransLang("Vertrek:"));
+						lblDestination.setText(Translate.TransLang("Aankomst")+":");
+						lblDeparture.setText(Translate.TransLang("Vertrek")+":");
 						btnPlanTrip.setText(Translate.TransLang("Zoeken"));
 						btnNow.setText(Translate.TransLang("Nu"));
 						//Location
 						btnLocationChange.setText(Translate.TransLang("Wijzig reis"));
-						lblLocationDestination.setText(Translate.TransLang("Bestemming:"));
-						lblLocationDeparture.setText(Translate.TransLang("Vertrek:"));
-						lblLocationDepartureType.setText(Translate.TransLang("Vervoerstype:"));
+						lblLocationDestination.setText(Translate.TransLang("Bestemming")+":");
+						lblLocationDeparture.setText(Translate.TransLang("Vertrek")+":");
+						lblLocationDepartureType.setText(Translate.TransLang("Vervoerstype")+":");
 						//Map
-						lblDeparture.setText(Translate.TransLang("Vertrektijd:"));
-						lblArrivalTime.setText(Translate.TransLang("Aankomsttijd:"));
-						lblTotalTime.setText(Translate.TransLang("Totale tijd:"));
-						lblTransfer.setText(Translate.TransLang("Overdracht:"));
-						lblTrackArrival.setText(Translate.TransLang("Spoor:"));
-						lblTrackDeparture.setText(Translate.TransLang("Spoor:"));
-						lblPrice.setText(Translate.TransLang("Prijs:"));
-						lblDistance_1.setText(Translate.TransLang("Afstand:"));
-						lblDepartureTime.setText(Translate.TransLang("Vertrektijd:"));
+						lblDeparture.setText(Translate.TransLang("Vertrektijd")+":");
+						lblArrivalTime.setText(Translate.TransLang("Aankomsttijd")+":");
+						lblTotalTime.setText(Translate.TransLang("Totale tijd")+":");
+						lblTransfer.setText(Translate.TransLang("Overdracht")+":");
+						lblTrackArrival.setText(Translate.TransLang("Spoor")+":");
+						lblTrackDeparture.setText(Translate.TransLang("Spoor")+":");
+						lblPrice.setText(Translate.TransLang("Prijs")+":");
+						lblDistance_1.setText(Translate.TransLang("Afstand")+":");
+						lblDepartureTime.setText(Translate.TransLang("Vertrektijd")+":");
+						tableMap.setModel(new DefaultTableModel(					//comments for the model start at 1176
+							new Object[][] 
+							{				
+								{null, null},										
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+							},
+							
+							new String[] 
+							{				
+								Translate.TransLang("Tijd"),Translate.TransLang("Stop")	//Translating the label words 
+							}
+							
+							));
+						
 						//Delays
-						lblVertragingen.setText(Translate.TransLang("Vertragingen:"));	
+						lblVertragingen.setText(Translate.TransLang("Vertragingen")+":");	
+						tableDelays.setModel(new DefaultTableModel(
+								
+								new Object[][] 
+								{
+									{"Amersfoort", "Groningen", "00:15"},
+									{"Heerenveen", "Groningen", "00:15"},
+									{"Delft", "Groningen", "00:15"},
+								},
+								
+								new String[] 
+								{
+									Translate.TransLang("Vertrek station"),Translate.TransLang("Aankomst station"),Translate.TransLang("Vertraging")	//Translating the label words 
+								}
+								
+							));
+						
+							
 						}
 					
 				});
@@ -831,9 +880,9 @@ public class OvApp
 		JLabel lblDynamicDestination = new JLabel();
 		JLabel lblDynamicTransportType = new JLabel();
 
-		tblLocation = new JTable();
+		tableLocation = new JTable();
 		JScrollPane scpLocation = new JScrollPane();
-		scpLocation.setViewportView(tblLocation);
+		scpLocation.setViewportView(tableLocation);
 
 		// Add content to dynamic labels and table when tab is opened
 		tabbedPane.addChangeListener(changeEvent ->
@@ -849,11 +898,11 @@ public class OvApp
 				lblDynamicDestination.setText(selectedDestination);
 				lblDynamicTransportType.setText(selectedTransportType);
 
-				String[] header = {"Vertrektijk", "Spoor/Halte", "Bestemming"};
+				String[] header = {"Vertrektijd", "Spoor/Halte", "Bestemming"};
 				header[1] = selectedTransportType.equals("Bus") ? "Halte" : "Spoor";
 
 				DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, header);
-				tblLocation.setModel(dtm);
+				tableLocation.setModel(dtm);
 
 				List<TravelTime> travelTimes = new ArrayList<>();
 
@@ -1160,15 +1209,15 @@ public class OvApp
 			
 			if (selectedTab == 3)
 			{
-				int selectedRow = tblLocation.getSelectedRow();
+				int selectedRow = tableLocation.getSelectedRow();
 
 				if (selectedRow >= 0)
 				{
 					// Retrieve selected info
-					String departureTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 0));
-					String platform = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 1));
-					String destination = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 2));
-
+					String departureTime = String.valueOf(tableLocation.getModel().getValueAt(selectedRow, 0));
+					String platform = String.valueOf(tableLocation.getModel().getValueAt(selectedRow, 1));
+					String destination = String.valueOf(tableLocation.getModel().getValueAt(selectedRow, 2));
+					
 					
 					if (selectedTransportType.equals("Bus"))
 					{
@@ -1315,7 +1364,7 @@ public class OvApp
 	{
 		panelDelays = new JPanel();
 		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
-		lblVertragingen = new JLabel("Vertragingen:");
+		lblVertragingen = new JLabel("Vertragingen");
 		JScrollPane scrollPane = new JScrollPane();
 
 		GroupLayout gl_panelDelays = new GroupLayout(panelDelays);
@@ -1337,9 +1386,9 @@ public class OvApp
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(159, Short.MAX_VALUE))
 		);
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(
+		tableDelays = new JTable();
+		scrollPane.setViewportView(tableDelays);
+		tableDelays.setModel(new DefaultTableModel(
 				
 			new Object[][] 
 			{
@@ -1350,7 +1399,9 @@ public class OvApp
 			
 			new String[] 
 			{
-				"Vertrekpunt", "Aankomstpunt", "Vertragingen"
+				//Translate.TransLang("Vertrekpunt"),Translate.TransLang("Aankomstpunt"),Translate.TransLang("Vertragingen")
+				
+				"Vertrek station", "Aankomst station", "Vertraging"
 			}
 			
 		));
@@ -1394,7 +1445,7 @@ public class OvApp
 
         Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("resources/simple_map.html");
+        browser.navigation().loadUrl("file:///C:/googlemapsHTML/simple_map.html");
        
 
         SwingUtilities.invokeLater(() -> {
