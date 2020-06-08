@@ -1,6 +1,5 @@
 package adsd.app.ovapp.ovapp;
 
-
 import adsd.app.ovapp.bus.BusDataModel;
 import adsd.app.ovapp.metro.MetroDataModel;
 import adsd.app.ovapp.train.TrainDataModel;
@@ -18,11 +17,8 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,14 +35,27 @@ import com.teamdev.jxbrowser.browser.Browser;
 import com.teamdev.jxbrowser.engine.Engine;
 import com.teamdev.jxbrowser.engine.EngineOptions;
 import com.teamdev.jxbrowser.view.swing.BrowserView;
-import java.awt.GridLayout;
 
 public class OvApp
 {
-													//al the objects that are made, now they can be used everywhere in the code and outside in other files.
+	// Instance Variables
+	//
+	// Should we order these in some less random way such as below
+	// Open to suggestions such as alphabetically, type or user story
+	//
+	// Objects
+	private Connection conn;
 	private Map languageMap;
-	private String language;
+	private Profile profile = new Profile();
+	private Translate Translate;
+	private TravelTime travelTime;
+	//
+	// String
 	private String selectedTransportType = "Bus"; 	// Bus is assumed to be default for simplicity
+	//
+	// Java Swing Components
+	//
+	// Frame and Panels
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
 	private JPanel panelProfile;
@@ -58,35 +67,28 @@ public class OvApp
 	private JPanel panelFavorites;
 	private JPanel panelSaved;
 	private JPanel panelReminder;
-	
-	
+	//
+	// Profile Components
 	private JButton editButton;
 	private JEditorPane cardtxt;
-	private JEditorPane firstnametxt; 
-	private JEditorPane lastnametxt; 
+	private JEditorPane firstnametxt;
+	private JEditorPane lastnametxt;
 	private JEditorPane citytxt;
 	private JEditorPane streettxt;
-	private JEditorPane agetxt; 
-	private JLabel lblDistance;
-
+	private JEditorPane agetxt;
+	//
+	// Planner Components
 	private JTextField txtFieldDeparture;
 	private JTextField txtFieldDestination;
 	private JSpinner SpnrDateTime;
+	//
+	// Login Components
 	private JTextField userName;
-
 	private JPasswordField password;
-
 	private JButton btnLogin;
-
 	private JLabel userid;
-
-	private Profile newProfile = new Profile();
-	private TravelTime travelTime;
-
-	// Quick fix to get to the departure location
-	private String departureFix;
-
-	private Connection conn;
+	//
+	// Dont know where
 	private JTable tableMap;
 	private JLabel lbMyCard;
 	private JLabel lbMyFirstName;
@@ -98,22 +100,28 @@ public class OvApp
 	private JLabel lbSaved;
 	private JLabel lbFavorites;
 	private JLabel lbMyDescription;
-	private JTable tblLocation;
-	
+	private JTable tableLocation;
+	//
+	//
 	private JLabel lblDeparture;
 	private JLabel lblDestination;
 	private JButton btnLanguage;
 	private JButton btnPlanTrip;
 	private JButton btnNow;
-	
-
-	private DefaultTableModel locationTableModel;
+	//
+	// Labels from panelMap that are dynamic
+	private JLabel lblDepartureTimeTxt;
+	private JLabel lblArrivalTimeTxt;
+	private JLabel lblTotalTimeTxt;
+	private JLabel lblDistanceTxt;
+	private JLabel lblTrackDepartureTxt;
+	private JLabel lblTrackArrivalTxt;
+	//
 	private JButton btnLocationChange;
 	private JLabel lblLocationDestination;
 	private JLabel lblLocationDeparture;
 	private JLabel lblLocationDepartureType;
-	private JTable table;
-	private Translate Translate;
+	private JTable tableDelays;
 	private JLabel lblDepartureTime;
 	private JLabel lblArrivalTime;
 	private JLabel lblTrackDeparture;
@@ -121,13 +129,12 @@ public class OvApp
 	private JLabel lblPrice;
 	private JLabel lblDistance_1;
 	private JLabel lblTotalTime;
-	private JLabel lblTransfer;
+	private JLabel lblSaveTraject;
 	private JLabel lblVertragingen;
 	private JTable tableSaved;
 	
 	JInternalFrame internalFrame;
-	
-	
+
 	 private static final int MIN_ZOOM = 0;
 	 private static final int MAX_ZOOM = 21;
 	 private static final String setMarkerScript =
@@ -206,7 +213,6 @@ public class OvApp
 		frame.getContentPane().add(tabbedPane);
 		Translate = new Translate("NL"); //standard language
 		initialize();
-		createEvents();
 		panelProfile();
 		panelLogin();
 		panelTravelPlanner();
@@ -221,7 +227,7 @@ public class OvApp
 		DefaultTableModel defaultTableModel = new DefaultTableModel(new Object[][]{}, header);
 
 		DBHandler dbHandler = new DBHandler();
-		List<SavedTime> savedTimes = dbHandler.getSavedTimes(newProfile.getId());
+		List<SavedTime> savedTimes = dbHandler.getSavedTimes(profile.getId());
 
 		for (SavedTime savedTime : savedTimes)
 		{
@@ -280,7 +286,7 @@ public class OvApp
 
 					while (rs.next())
 					{
-						newProfile = new Profile(rs.getInt("ID"), rs.getInt("age"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("streetName"), rs.getString("residence"), rs.getString("card"));
+						profile = new Profile(rs.getInt("ID"), rs.getInt("age"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("streetName"), rs.getString("residence"), rs.getString("card"));
 						userid.setText(String.valueOf(rs.getInt("ID")));
 						cardtxt.setText(rs.getString("card"));
 						firstnametxt.setText(rs.getString("firstName"));
@@ -333,32 +339,32 @@ public class OvApp
 				lbimage.setBounds(24, 21, 207, 222);
 				panelProfile.add(lbimage);
 				//Map
-				lbMyCard = new JLabel("Kaart:");
+				lbMyCard = new JLabel("Kaart");
 				lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCard.setBounds(55, 280, 74, 20);
 				panelProfile.add(lbMyCard);
 				//Name
-				lbMyFirstName = new JLabel("Naam:");
+				lbMyFirstName = new JLabel("Naam"+":");
 				lbMyFirstName.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyFirstName.setBounds(55, 310, 74, 20);
 				panelProfile.add(lbMyFirstName);
 				//LastName
-				lbMyLastName = new JLabel("Achternaam:");
+				lbMyLastName = new JLabel("Achternaam"+":");
 				lbMyLastName.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyLastName.setBounds(55, 340, 74, 20);
 				panelProfile.add(lbMyLastName);
 				//age
-				lbMyAge = new JLabel("Leeftijd:");
+				lbMyAge = new JLabel("Leeftijd"+":");
 				lbMyAge.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyAge.setBounds(55, 370, 74, 20);
 				panelProfile.add(lbMyAge);
 				//city
-				lbMyCity = new JLabel("Stad:");
+				lbMyCity = new JLabel("Stad"+":");
 				lbMyCity.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyCity.setBounds(55, 400, 74, 20);
 				panelProfile.add(lbMyCity);
 				//streetadress
-				lbMyStreet = new JLabel("Straatnaam:");
+				lbMyStreet = new JLabel("Straatnaam"+":");
 				lbMyStreet.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyStreet.setBounds(55, 430, 74, 20);
 				panelProfile.add(lbMyStreet);
@@ -407,22 +413,22 @@ public class OvApp
 				panelProfile.add(streettxt);
 
 				
-				lbMyDescription = new JLabel("Mijn beschrijving:");
+				lbMyDescription = new JLabel("Mijn beschrijving"+":");
 				lbMyDescription.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbMyDescription.setBounds(55, 467, 118, 20);
 				panelProfile.add(lbMyDescription);
 				
-				lbFavorites = new JLabel("Favorieten");
+				lbFavorites = new JLabel("Favorieten"+":");
 				lbFavorites.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbFavorites.setBounds(301, 43, 74, 20);
 				panelProfile.add(lbFavorites);
 				
-				lbSaved = new JLabel("Opgeslagen");
+				lbSaved = new JLabel("Opgeslagen"+":");
 				lbSaved.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbSaved.setBounds(301, 85, 74, 20);
 				panelProfile.add(lbSaved);
 				
-				lbReminders = new JLabel("Herinneringen");
+				lbReminders = new JLabel("Herinneringen"+":");
 				lbReminders.setFont(new Font("Tahoma", Font.BOLD, 11));
 				lbReminders.setBounds(301, 138, 94, 20);
 				panelProfile.add(lbReminders);
@@ -455,7 +461,6 @@ public class OvApp
 							lastnametxt.setEnabled(true);
 							editButton.setText("Opslaan");
 						}
-						
 						else
 						{
 							cardtxt.setEnabled(false);
@@ -586,7 +591,6 @@ public class OvApp
 							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryEnglish.png")));
 							btnLanguage.setText(Translate.TransLang(("EN")));
 						}
-						
 						else if (Translate.Language.equals("NL")) //display Language English
 						{
 							Translate.Language = "EN";
@@ -595,48 +599,99 @@ public class OvApp
 							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryNetherlands.png")));
 							btnLanguage.setText(Translate.TransLang(("EN")));
 						}
+						
 						//Profile
-						lbMyFirstName.setText(Translate.TransLang("Naam:"));
-						lbFavorites.setText(Translate.TransLang("Favorieten:"));
-						lbSaved.setText(Translate.TransLang("Opgeslagen:"));
-						lbReminders.setText(Translate.TransLang("Herinneringen:"));
+						lbMyFirstName.setText(Translate.TransLang("Naam")+":");
+						lbFavorites.setText(Translate.TransLang("Favorieten")+":");
+						lbSaved.setText(Translate.TransLang("Opgeslagen")+":");
+						lbReminders.setText(Translate.TransLang("Herinneringen:")+":");
 						editButton.setText(Translate.TransLang("Wijzig profiel"));
-						lbMyCard.setText(Translate.TransLang("Kaart:"));
-						lbMyFirstName.setText(Translate.TransLang("Naam:"));
-						lbMyLastName.setText(Translate.TransLang("Achternaam:"));
-						lbMyAge.setText(Translate.TransLang("Leeftijd:"));
-						lbMyCity.setText(Translate.TransLang("Stad:"));
-						lbMyStreet.setText(Translate.TransLang("Straatnaam:"));
-						lbMyDescription.setText(Translate.TransLang("Mijn beschrijving:"));
+						lbMyCard.setText(Translate.TransLang("Kaart")+":");
+						lbMyLastName.setText(Translate.TransLang("Achternaam")+":");
+						lbMyAge.setText(Translate.TransLang("Leeftijd")+":");
+						lbMyCity.setText(Translate.TransLang("Stad")+":");
+						lbMyStreet.setText(Translate.TransLang("Straatnaam")+":");
+						lbMyDescription.setText(Translate.TransLang("Mijn beschrijving")+":");
 						//TravelPlanner
-						lblDestination.setText(Translate.TransLang("Aankomst:"));
-						lblDeparture.setText(Translate.TransLang("Vertrek:"));
+						lblDestination.setText(Translate.TransLang("Aankomst")+":");
+						lblDeparture.setText(Translate.TransLang("Vertrek")+":");
 						btnPlanTrip.setText(Translate.TransLang("Zoeken"));
 						btnNow.setText(Translate.TransLang("Nu"));
 						//Location
 						btnLocationChange.setText(Translate.TransLang("Wijzig reis"));
-						lblLocationDestination.setText(Translate.TransLang("Bestemming:"));
-						lblLocationDeparture.setText(Translate.TransLang("Vertrek:"));
-						lblLocationDepartureType.setText(Translate.TransLang("Vervoerstype:"));
+						lblLocationDestination.setText(Translate.TransLang("Aankomst")+":");
+						lblLocationDeparture.setText(Translate.TransLang("Vertrek")+":");
+						lblLocationDepartureType.setText(Translate.TransLang("Vervoerstype")+":");
+						//Saved
+						
 						//Map
-						lblDeparture.setText(Translate.TransLang("Vertrektijd:"));
-						lblArrivalTime.setText(Translate.TransLang("Aankomsttijd:"));
-						lblTotalTime.setText(Translate.TransLang("Totale tijd:"));
-						lblTransfer.setText(Translate.TransLang("Overdracht:"));
-						lblTrackArrival.setText(Translate.TransLang("Spoor:"));
-						lblTrackDeparture.setText(Translate.TransLang("Spoor:"));
-						lblPrice.setText(Translate.TransLang("Prijs:"));
-						lblDistance_1.setText(Translate.TransLang("Afstand:"));
-						lblDepartureTime.setText(Translate.TransLang("Vertrektijd:"));
+						//lblDeparture.setText(Translate.TransLang("Vertrektijd")+":");
+						lblArrivalTime.setText(Translate.TransLang("Aankomsttijd")+":");
+						lblTotalTime.setText(Translate.TransLang("Totale tijd")+":");
+						lblSaveTraject.setText(Translate.TransLang("Overdracht")+":");
+						lblTrackArrival.setText(Translate.TransLang("Spoor")+":");
+						lblTrackDeparture.setText(Translate.TransLang("Spoor")+":");
+						lblPrice.setText(Translate.TransLang("Prijs")+":");
+						lblDistance_1.setText(Translate.TransLang("Afstand")+":");
+						lblDepartureTime.setText(Translate.TransLang("Vertrektijd")+":");
+						tableMap.setModel(new DefaultTableModel(					//comments for the model start at 1176
+							new Object[][] 
+							{				
+								{null, null},										
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+								{null, null},
+							},
+							
+							new String[] 
+							{				
+								Translate.TransLang("Tijd"),Translate.TransLang("Stop")	//Translating the label words 
+							}
+							
+							));
+						
 						//Delays
-						lblVertragingen.setText(Translate.TransLang("Vertragingen:"));	
+						lblVertragingen.setText(Translate.TransLang("Vertragingen")+":");	
+						tableDelays.setModel(new DefaultTableModel(
+								
+								new Object[][] 
+								{
+									{"Amersfoort", "Groningen", "00:15"},
+									{"Heerenveen", "Groningen", "00:15"},
+									{"Delft", "Groningen", "00:15"},
+								},
+								
+								new String[] 
+								{
+									Translate.TransLang("Vertrek station"),Translate.TransLang("Aankomst station"),Translate.TransLang("Vertraging")	//Translating the label words 
+								}
+								
+							));
+						
 						}
 					
 				});
 				btnLanguage.setBounds(389, 11, 74, 23);										//set he line out for the buttondesign
 				panelProfile.add(btnLanguage);
 				//buttons "back"
-				JButton btnBackFavorites = new JButton("Terug ");
+				JButton btnBackFavorites = new JButton("Terug");
 				
 				btnBackFavorites.addActionListener(new ActionListener() 
 				{
@@ -674,12 +729,81 @@ public class OvApp
 				JButton btnDetailsSaved = new JButton("Details");
 				btnDetailsSaved.setBounds(363, 587, 105, 27);
 				panelSaved.add(btnDetailsSaved);
+
 				btnDetailsSaved.addActionListener(new ActionListener() 
 				{
 					public void actionPerformed(ActionEvent e) 
 					{
 						addPanels();
-						tabbedPane.remove(panelSaved);	
+						tabbedPane.remove(panelSaved);
+
+						// Get the selected TravelTime from tableLocation
+						int selectedRow = tableSaved.getSelectedRow();
+
+						// If there is a selected row it will be stored in the private variable travelTime
+						if (selectedRow >= 0)
+						{
+							System.out.println("there is a selected row in saved table");
+							//String transportType = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 0));
+							selectedTransportType = String.valueOf(tableSaved.getModel().getValueAt(selectedRow, 0));
+							String departureTime = String.valueOf(tableSaved.getModel().getValueAt(selectedRow, 1));
+							String departure = String.valueOf(tableSaved.getModel().getValueAt(selectedRow, 2));
+							String arrivalTime = String.valueOf(tableSaved.getModel().getValueAt(selectedRow, 3));
+							String destination = String.valueOf(tableSaved.getModel().getValueAt(selectedRow, 4));
+							System.out.println(destination);
+
+							if (selectedTransportType.equals("Bus"))
+							{
+								BusDataModel busDataModel = new BusDataModel();
+								travelTime = busDataModel.getSavedTravelTime(
+										departureTime,
+										departure,
+										arrivalTime,
+										destination
+								);
+							}
+							else if (selectedTransportType.equals("Metro"))
+							{
+								MetroDataModel metroDataModel = new MetroDataModel();
+								travelTime = metroDataModel.getSavedTravelTime(
+										departureTime,
+										departure,
+										arrivalTime,
+										destination
+								);
+							}
+							else if (selectedTransportType.equals("Trein"))
+							{
+								TrainDataModel trainDataModel = new TrainDataModel();
+								travelTime = trainDataModel.getSavedTravelTime(
+										departureTime,
+										departure,
+										arrivalTime,
+										destination
+								);
+
+							}
+							else if (selectedTransportType.equals("Tram"))
+							{
+								TramDataModel tramDataModel = new TramDataModel();
+								travelTime = tramDataModel.getSavedTravelTime(
+										departureTime,
+										departure,
+										arrivalTime,
+										destination
+								);
+							}
+						}
+
+						// Set labels to the selected TravelTime
+						System.out.println("before resetting labels in savedbtn action");
+						lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+						lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+						lblTotalTimeTxt.setText(travelTime.getDuration());
+						lblDistanceTxt.setText(travelTime.getDistance());
+						lblTrackDepartureTxt.setText(travelTime.getPlatform());
+						lblTrackArrivalTxt.setText(travelTime.getDestination());
+
 						tabbedPane.setSelectedIndex(3);
 					}
 				});
@@ -716,7 +840,7 @@ public class OvApp
 		JButton btnTram = new JButton("");
 		btnTram.setIcon(new ImageIcon(OvApp.class.getResource("/resources/Tram_50.png")));
 		
-		lblDeparture = new JLabel("Vertrektijd:");
+		lblDeparture = new JLabel("Vertrek"+":");
 		lblDestination = new JLabel("Aankomst:");
 		btnPlanTrip = new JButton("Zoeken");
 		// ActionListener for search button
@@ -805,7 +929,6 @@ public class OvApp
 	
 	/**
 	 * Panel for displaying available departures
-	 * Saved about 100+ lines by not looping over each transport type
 	 */
 	private void panelLocation() 
 	{
@@ -819,21 +942,20 @@ public class OvApp
 
 		// Create a button for opening detail view
 		JButton btnDetails = new JButton("Details");
-		btnDetails.addActionListener(actionEvent -> tabbedPane.setSelectedIndex(3));
 
 		// Create labels for departuretime, platform and destination
-		lblLocationDeparture = new JLabel("Vertrek:");
-		lblLocationDestination = new JLabel("Bestemming:");
-		lblLocationDepartureType = new JLabel("Vervoerstype");
+		lblLocationDeparture = new JLabel("Vertrek"+":");
+		lblLocationDestination = new JLabel("Aankomst"+":");
+		lblLocationDepartureType = new JLabel("Vervoerstype"+":");
 
 		// Create dynamic labels for departuretime, platform and destination from search panel
 		JLabel lblDynamicDeparture = new JLabel();
 		JLabel lblDynamicDestination = new JLabel();
 		JLabel lblDynamicTransportType = new JLabel();
 
-		tblLocation = new JTable();
+		tableLocation = new JTable();
 		JScrollPane scpLocation = new JScrollPane();
-		scpLocation.setViewportView(tblLocation);
+		scpLocation.setViewportView(tableLocation);
 
 		// Add content to dynamic labels and table when tab is opened
 		tabbedPane.addChangeListener(changeEvent ->
@@ -849,11 +971,11 @@ public class OvApp
 				lblDynamicDestination.setText(selectedDestination);
 				lblDynamicTransportType.setText(selectedTransportType);
 
-				String[] header = {"Vertrektijk", "Spoor/Halte", "Bestemming"};
-				header[1] = selectedTransportType.equals("Bus") ? "Halte" : "Spoor";
+				String[] header = {Translate.TransLang("Vertrektijd"),"Spoor/Halte", Translate.TransLang("Bestemming")};
+				header[1] = selectedTransportType.equals("Bus") ? Translate.TransLang("Halte") :Translate.TransLang("Spoor");
 
 				DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, header);
-				tblLocation.setModel(dtm);
+				tableLocation.setModel(dtm);
 
 				List<TravelTime> travelTimes = new ArrayList<>();
 
@@ -869,20 +991,17 @@ public class OvApp
 					// Use the getArrivalTimes() method to get all arraval time in the travelTimes variable
 					travelTimes = dataModel.getArrivalTimes();
 				}
-				
 				else if (selectedTransportType.equals("Train"))
 				{
 					TrainDataModel dataModel = new TrainDataModel();
 					System.out.println("test train");
 					travelTimes = dataModel.getArrivalTimes();
 				}
-				
 				else if (selectedTransportType.equals("Tram"))
 				{
 					TramDataModel dataModel = new TramDataModel();
 					travelTimes = dataModel.getArrivalTimes();
 				}
-				
 				else if (selectedTransportType.equals("Metro"))
 				{
 					MetroDataModel dataModel = new MetroDataModel();
@@ -910,62 +1029,130 @@ public class OvApp
 			}
 		});
 
+		// Add ActionEvent to btnDetails
+		// Set labels in panelMap to selected travelTime
+		// Used to be set within an EventListener for activating the panelMap but this way is less complicated
+		btnDetails.addActionListener(actionEvent ->
+				{
+					// Get the selected TravelTime from tableLocation
+					int selectedRow = tableLocation.getSelectedRow();
+
+					// If there is a selected row it will be stored in the private variable travelTime
+					if (selectedRow >= 0)
+					{
+						// Retrieve selected info
+						String departureTime = String.valueOf(tableLocation.getModel().getValueAt(selectedRow, 0));
+						String platform = String.valueOf(tableLocation.getModel().getValueAt(selectedRow, 1));
+						String destination = String.valueOf(tableLocation.getModel().getValueAt(selectedRow, 2));
+
+						// Load from the correct data model
+						if (selectedTransportType.equals("Bus"))
+						{
+							BusDataModel busDataModel = new BusDataModel();
+							travelTime = busDataModel.getTravelTime(
+									departureTime,
+									platform,
+									destination
+							);
+						}
+						else if (selectedTransportType.equals("Train"))
+						{
+							TrainDataModel trainDataModel = new TrainDataModel();
+							travelTime = trainDataModel.getTravelTime(
+									departureTime,
+									platform,
+									destination
+							);
+						}
+						else if (selectedTransportType.equals("Tram"))
+						{
+							TramDataModel tramDataModel = new TramDataModel();
+							travelTime = tramDataModel.getTravelTime(
+									departureTime,
+									platform,
+									destination
+							);
+						}
+						else if (selectedTransportType.equals("Metro"))
+						{
+							MetroDataModel metroDataModel = new MetroDataModel();
+							travelTime = metroDataModel.getTravelTime(
+									departureTime,
+									platform,
+									destination
+							);
+						}
+					}
+
+					// Set labels to the selected TravelTime
+					lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
+					lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
+					lblTotalTimeTxt.setText(travelTime.getDuration());
+					lblDistanceTxt.setText(travelTime.getDistance());
+					lblTrackDepartureTxt.setText(travelTime.getPlatform());
+					lblTrackArrivalTxt.setText(travelTime.getDestination());
+
+					// Switch to the panelMap
+					tabbedPane.setSelectedIndex(3);
+				}
+		);
+
 		//From here on only auto generated styling and adding of components
 		//
 		GroupLayout gl_panelLocation = new GroupLayout(panelLocation);
 		gl_panelLocation.setHorizontalGroup(
-				gl_panelLocation.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panelLocation.createSequentialGroup()
-								.addContainerGap(20, Short.MAX_VALUE)
+			gl_panelLocation.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelLocation.createSequentialGroup()
+					.addContainerGap(22, Short.MAX_VALUE)
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.TRAILING)
+						.addComponent(btnDetails)
+						.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+							.addComponent(scpLocation, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_panelLocation.createSequentialGroup()
+								.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(lblLocationDepartureType, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(btnLocationChange)
+									.addComponent(lblLocationDeparture, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addGap(18)
 								.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnDetails, Alignment.TRAILING)
-										.addGroup(Alignment.TRAILING, gl_panelLocation.createParallelGroup(Alignment.LEADING)
-												.addComponent(scpLocation, GroupLayout.PREFERRED_SIZE, 448, GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_panelLocation.createSequentialGroup()
-														.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING, false)
-																.addComponent(lblLocationDepartureType, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																.addComponent(btnLocationChange)
-																.addComponent(lblLocationDeparture, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																.addComponent(lblLocationDestination, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
-														.addGap(18)
-														.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
-																.addComponent(lblDynamicTransportType, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-																.addComponent(lblDynamicDestination, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
-																.addComponent(lblDynamicDeparture)))))
-								.addContainerGap())
+									.addComponent(lblDynamicTransportType, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblDynamicDestination, GroupLayout.PREFERRED_SIZE, 200, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblDynamicDeparture)))
+							.addComponent(lblLocationDestination, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
-		
 		gl_panelLocation.setVerticalGroup(
-				gl_panelLocation.createParallelGroup(Alignment.LEADING)
+			gl_panelLocation.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelLocation.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(btnLocationChange)
+					.addGap(18)
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_panelLocation.createSequentialGroup()
+							.addComponent(lblDynamicDeparture)
+							.addGap(32))
 						.addGroup(gl_panelLocation.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(btnLocationChange)
-								.addGap(18)
-								.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblLocationDestination)
-										.addComponent(lblDynamicDeparture))
-								.addGap(18)
-								.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblLocationDeparture)
-										.addComponent(lblDynamicDestination))
-								.addGap(18)
-								.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblLocationDepartureType)
-										.addComponent(lblDynamicTransportType))
-								.addGap(18)
-								.addComponent(scpLocation, GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
-								.addGap(18)
-								.addComponent(btnDetails)
-								.addContainerGap())
+							.addComponent(lblLocationDeparture)
+							.addGap(18)))
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblDynamicDestination)
+						.addComponent(lblLocationDestination))
+					.addGap(18)
+					.addGroup(gl_panelLocation.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblLocationDepartureType)
+						.addComponent(lblDynamicTransportType))
+					.addGap(18)
+					.addComponent(scpLocation, GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btnDetails)
+					.addContainerGap())
 		);
 		
 		panelLocation.setLayout(gl_panelLocation);
 	}
 	
 	private void panelMap() 
-	{	
-		
-		
+	{
         open_map();   
 		
 		panelMap = new JPanel();																	// make a new panel named panelMap
@@ -974,7 +1161,7 @@ public class OvApp
 		panelMap.setLayout(null);
 		
 		//labels		
-		lblDepartureTime = new JLabel("Vertrektijd:");		
+		lblDepartureTime = new JLabel("Vertrek"+":");		
 		lblDepartureTime.setBounds(44, 39, 84, 25);
 		lblDepartureTime.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panelMap.add(lblDepartureTime);
@@ -989,11 +1176,10 @@ public class OvApp
 		lblTotalTime.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panelMap.add(lblTotalTime);
 
-		// Quick fix
-		lblTransfer = new JLabel("Traject Opslaan");
-		lblTransfer.setBounds(44, 169, 84, 25);
-		lblTransfer.setFont(new Font("Tahoma", Font.BOLD, 11));
-		panelMap.add(lblTransfer);
+		lblSaveTraject = new JLabel("Traject Opslaan");
+		lblSaveTraject.setBounds(44, 169, 84, 25);
+		lblSaveTraject.setFont(new Font("Tahoma", Font.BOLD, 11));
+		panelMap.add(lblSaveTraject);
 		
 		lblTrackDeparture = new JLabel("Spoor:");
 		lblTrackDeparture.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -1010,28 +1196,23 @@ public class OvApp
 		lblPrice.setBounds(282, 135, 56, 25);
 		panelMap.add(lblPrice);
 		
-		JLabel lblDepartureTimeTxt = new JLabel("<dynamic>");
+		lblDepartureTimeTxt = new JLabel("<dynamic>");
 		lblDepartureTimeTxt.setBounds(138, 39, 70, 19);
 		panelMap.add(lblDepartureTimeTxt);
 		
-		JLabel lblArrivalTimeTxt = new JLabel("<dynamic>");
+		lblArrivalTimeTxt = new JLabel("<dynamic>");
 		lblArrivalTimeTxt.setBounds(138, 75, 70, 19);
 		panelMap.add(lblArrivalTimeTxt);
 		
-		JLabel lblTotalTimeTxt = new JLabel("<dynamic>");
+		lblTotalTimeTxt = new JLabel("<dynamic>");
 		lblTotalTimeTxt.setBounds(138, 135, 70, 25);
 		panelMap.add(lblTotalTimeTxt);
-
-		// Quick fix
-		JLabel lblTransferTxt = new JLabel("");
-		lblTransferTxt.setBounds(138, 169, 70, 23);
-		panelMap.add(lblTransferTxt);
 		
-		JLabel lblTrackDepartureTxt = new JLabel("<dynamic>");
+		lblTrackDepartureTxt = new JLabel("<dynamic>");
 		lblTrackDepartureTxt.setBounds(348, 40, 70, 23);
 		panelMap.add(lblTrackDepartureTxt);
 		
-		JLabel lblTrackArrivalTxt = new JLabel("<dynamic>");
+		lblTrackArrivalTxt = new JLabel("<dynamic>");
 		lblTrackArrivalTxt.setBounds(348, 75, 70, 23);
 		panelMap.add(lblTrackArrivalTxt);
 		
@@ -1058,11 +1239,11 @@ public class OvApp
 		btnTotalTime.setBackground(Color.WHITE);
 		panelMap.add(btnTotalTime);
 		
-		JButton btnTransfers = new JButton("");
-		btnTransfers.setBounds(10, 169, 25, 23);
-		btnTransfers.setBackground(Color.WHITE);
-		btnTransfers.setIcon(new ImageIcon(OvApp.class.getResource("/resources/saved.png")));
-		panelMap.add(btnTransfers);
+		JButton btnSaveTraject = new JButton("");
+		btnSaveTraject.setBounds(10, 169, 25, 23);
+		btnSaveTraject.setBackground(Color.WHITE);
+		btnSaveTraject.setIcon(new ImageIcon(OvApp.class.getResource("/resources/saved.png")));
+		panelMap.add(btnSaveTraject);
 		
 		JButton btnTrackDeparture = new JButton("");
 		btnTrackDeparture.setBounds(247, 40, 25, 23);
@@ -1133,191 +1314,65 @@ public class OvApp
 		lblDistance_1.setBounds(282, 167, 84, 25);
 		panelMap.add(lblDistance_1);
 		
-		JLabel lblDistanceTxt = new JLabel("<dynamic>");
+		lblDistanceTxt = new JLabel("<dynamic>");
 		lblDistanceTxt.setBounds(348, 170, 70, 23);
 		panelMap.add(lblDistanceTxt);
-		
-	
+
 		internalFrame = new JInternalFrame("Map");
 		internalFrame.setToolTipText("");
 		internalFrame.setFrameIcon(null);
 		internalFrame.setBorder(null);
 		internalFrame.setBounds(10, 233, 262, 282);
 		panelMap.add(internalFrame);
-		
-		
-		
 
-
-		// Seanan and Raymond working on awesome code for calculating distance
-		// Code will execute when user selects the detail view tab
-		//
-		
-		tabbedPane.addChangeListener(changeEvent ->
+		// Add an ActionListener to save Traject to DB
+		btnSaveTraject.addActionListener(actionEvent ->
 		{
-			int selectedTab = tabbedPane.getSelectedIndex();
-			// Execute code when map tab is open
-			
-			if (selectedTab == 3)
-			{
-				int selectedRow = tblLocation.getSelectedRow();
-
-				if (selectedRow >= 0)
-				{
-					// Retrieve selected info
-					String departureTime = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 0));
-					String platform = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 1));
-					String destination = String.valueOf(tblLocation.getModel().getValueAt(selectedRow, 2));
-
-					
-					if (selectedTransportType.equals("Bus"))
-					{
-						BusDataModel busDataModel = new BusDataModel();
-						travelTime = busDataModel.getTravelTime(
-								departureTime,
-								platform,
-								destination
-						);
-					}
-					else if (selectedTransportType.equals("Train"))
-					{
-						TrainDataModel trainDataModel = new TrainDataModel();
-						travelTime = trainDataModel.getTravelTime(
-								departureTime,
-								platform,
-								destination
-						);
-					}
-					else if (selectedTransportType.equals("Tram"))
-					{
-						TramDataModel tramDataModel = new TramDataModel();
-						travelTime = tramDataModel.getTravelTime(
-								departureTime,
-								platform,
-								destination
-						);
-					}
-					else if (selectedTransportType.equals("Metro"))
-					{
-						MetroDataModel metroDataModel = new MetroDataModel();
-						travelTime = metroDataModel.getTravelTime(
-								departureTime,
-								platform,
-								destination
-						);
-					}
-				}
-				else 
-				{
-					int selectedSavedRow = tableSaved.getSelectedRow();
-					
-					if (selectedSavedRow >= 0)
-					{
-						//String transportType = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 0));
-						selectedTransportType = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 0));
-						String departureTime = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 1));
-						String departure = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 2));
-						String arrivalTime = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 3));
-						String destination = String.valueOf(tableSaved.getModel().getValueAt(selectedSavedRow, 4));
-						System.out.println(destination);
-						
-						if (selectedTransportType.equals("Bus"))
-						{
-							BusDataModel busDataModel = new BusDataModel();
-							travelTime = busDataModel.getSavedTravelTime(
-									departureTime,
-									departure,
-									arrivalTime,
-									destination
-							);
-						}
-						else if (selectedTransportType.equals("Metro"))
-						{
-							MetroDataModel metroDataModel = new MetroDataModel();
-							travelTime = metroDataModel.getSavedTravelTime(
-									departureTime,
-									departure,
-									arrivalTime,
-									destination
-							);
-						}
-						else if (selectedTransportType.equals("Trein"))
-						{
-							TrainDataModel trainDataModel = new TrainDataModel();
-							travelTime = trainDataModel.getSavedTravelTime(
-									departureTime,
-									departure,
-									arrivalTime,
-									destination
-							);
-
-						}
-						else if (selectedTransportType.equals("Tram"))
-						{
-							TramDataModel tramDataModel = new TramDataModel();
-							travelTime = tramDataModel.getSavedTravelTime(
-									departureTime,
-									departure,
-									arrivalTime,
-									destination
-							);
-						}
-					}
-				}
-				// Add data from table to labels
-				lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
-				lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
-				lblTotalTimeTxt.setText(travelTime.getDuration());
-				lblDistanceTxt.setText(travelTime.getDistance());
-				lblTrackDepartureTxt.setText(travelTime.getPlatform());
-				lblTrackArrivalTxt.setText(travelTime.getDestination());
-
-				// Quick fix to get to the departure location
-				departureFix = travelTime.getStationName();
-			}
-		});
-
-		btnTransfers.addActionListener(actionEvent ->
-		{
-			String departureTime = lblDepartureTimeTxt.getText();
-			String arrivalTime = lblArrivalTimeTxt.getText();
-			String destination = lblTrackArrivalTxt.getText();
-			int loggedInUser = newProfile.getId();
-			int transportType = 0;
-
-			// Quick fix to get to the departure location
-			String departure = departureFix;
-
-			if (selectedTransportType.equals("Bus"))
-			{
-				transportType = 1;
-			}
-			else if (selectedTransportType.equals("Metro"))
-			{
-				transportType = 2;
-			}
-			else if (selectedTransportType.equals("Train"))
-			{
-				transportType = 3;
-			}
-			else if (selectedTransportType.equals("Tram"))
-			{
-				transportType = 4;
-			}
-
-
 			DBHandler dbHandler = new DBHandler();
-			dbHandler.saveTime(departureTime, departure, arrivalTime, destination, transportType, loggedInUser);
+
+			// Save the travelTime to DB
+			dbHandler.saveTime(
+					travelTime.getDepartureTime(),
+					travelTime.getStationName(),
+					travelTime.getArrivalTime(),
+					travelTime.getDestination(),
+					selectedTransportType,
+					profile.getId());
 		});
-	}		
-	
+	}
+
+	/**
+	 * Create tab for displaying hard-coded delays
+	 */
 	private void panelDelays() 
 	{
+		// Create the panel and add it as tab
 		panelDelays = new JPanel();
 		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
-		lblVertragingen = new JLabel("Vertragingen:");
-		JScrollPane scrollPane = new JScrollPane();
 
+		// Add a label above table
+		lblVertragingen = new JLabel("Vertragingen"+":");
+
+		// Create a JTable with hard-coded data and headers
+		tableDelays = new JTable(
+				// Hard coded data
+				new Object[][]
+				{
+						{"Amersfoort", "Groningen", "00:15"},
+						{"Heerenveen", "Groningen", "00:15"},
+						{"Delft", "Groningen", "00:15"},
+				},
+				// Hard coded headers
+				new String[]
+						{
+								"Vertrek station", "Aankomst station", "Vertraging"
+						}
+		);
+
+		// Add table to a JScrollPane in order to display headers
+		JScrollPane scrollPane = new JScrollPane(tableDelays);
+
+		// Autogenerated code from Window Builder from here on
 		GroupLayout gl_panelDelays = new GroupLayout(panelDelays);
 		gl_panelDelays.setHorizontalGroup(
 			gl_panelDelays.createParallelGroup(Alignment.TRAILING)
@@ -1337,31 +1392,12 @@ public class OvApp
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 408, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(159, Short.MAX_VALUE))
 		);
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		table.setModel(new DefaultTableModel(
-				
-			new Object[][] 
-			{
-				{"Amersfoort", "Groningen", "00:15"},
-				{"Heerenveen", "Groningen", "00:15"},
-				{"Delft", "Groningen", "00:15"},
-			},
-			
-			new String[] 
-			{
-				"Vertrekpunt", "Aankomstpunt", "Vertragingen"
-			}
-			
-		));
 		panelDelays.setLayout(gl_panelDelays);
-		
 	}
 	
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	
 	private void initialize() 
 	{
 		panelFavorites = new JPanel();
@@ -1380,7 +1416,8 @@ public class OvApp
 		panelFavorites.setLayout(null);
 		*/
 	}
-	/*
+
+	/**
 	 * This method contains all of the code for creating events
 	 */
 	private void open_map() 
@@ -1394,7 +1431,7 @@ public class OvApp
 
         Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/Users/Dani%EBlle%20van%20Rijn/git/ovapp/src/resources/simple_map.html");
+        browser.navigation().loadUrl("file:///C:/googlemapsHTML/simple_map.html");
        
 
         SwingUtilities.invokeLater(() -> {
@@ -1415,13 +1452,8 @@ public class OvApp
     		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
     		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
     		}
-    		
+    		//test
         });  
-		
-	}
-
-	private void createEvents() 
-	{
 		
 	}
 }

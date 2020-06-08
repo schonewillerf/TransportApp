@@ -1,5 +1,5 @@
 package adsd.app.ovapp.train;
-/*
+
 import adsd.app.ovapp.train.NScontent.NStrain;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -70,4 +70,3 @@ public class NSapi {
         }
     }
 }
-*/
