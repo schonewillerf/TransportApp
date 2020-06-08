@@ -370,7 +370,7 @@ public class OvApp
         panelLogin.add(btnLogin);
     }
 
-    //methode for panel profile, everything is that is made in profile panel is in this methode.
+    // Method for panel profile, everything is that is made in profile panel is in this methode.
     private void panelProfile()
     {
         // you can call the methode and get all this code working with just one word of code.
