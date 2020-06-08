@@ -38,10 +38,24 @@ import com.teamdev.jxbrowser.view.swing.BrowserView;
 
 public class OvApp
 {
-	//al the objects that are made, now they can be used everywhere in the code and outside in other files.
+	// Instance Variables
+	//
+	// Should we order these in some less random way such as below
+	// Open to suggestions such as alphabetically, type or user story
+	//
+	// Objects
+	private Connection conn;
 	private Map languageMap;
-	private String language;
+	private Profile profile = new Profile();
+	private Translate Translate;
+	private TravelTime travelTime;
+	//
+	// String
 	private String selectedTransportType = "Bus"; 	// Bus is assumed to be default for simplicity
+	//
+	// Java Swing Components
+	//
+	// Frame and Panels
 	private JFrame frame;
 	private JTabbedPane tabbedPane;
 	private JPanel panelProfile;
@@ -53,32 +67,28 @@ public class OvApp
 	private JPanel panelFavorites;
 	private JPanel panelSaved;
 	private JPanel panelReminder;
-
+	//
+	// Profile Components
 	private JButton editButton;
 	private JEditorPane cardtxt;
-	private JEditorPane firstnametxt; 
-	private JEditorPane lastnametxt; 
+	private JEditorPane firstnametxt;
+	private JEditorPane lastnametxt;
 	private JEditorPane citytxt;
 	private JEditorPane streettxt;
-	private JEditorPane agetxt; 
-	private JLabel lblDistance;
-
+	private JEditorPane agetxt;
+	//
+	// Planner Components
 	private JTextField txtFieldDeparture;
 	private JTextField txtFieldDestination;
 	private JSpinner SpnrDateTime;
+	//
+	// Login Components
 	private JTextField userName;
-
 	private JPasswordField password;
-
 	private JButton btnLogin;
-
 	private JLabel userid;
-
-	private Profile newProfile = new Profile();
-	private TravelTime travelTime;
-
-
-	private Connection conn;
+	//
+	// Dont know where
 	private JTable tableMap;
 	private JLabel lbMyCard;
 	private JLabel lbMyFirstName;
@@ -91,27 +101,27 @@ public class OvApp
 	private JLabel lbFavorites;
 	private JLabel lbMyDescription;
 	private JTable tableLocation;
-	
+	//
+	//
 	private JLabel lblDeparture;
 	private JLabel lblDestination;
 	private JButton btnLanguage;
 	private JButton btnPlanTrip;
 	private JButton btnNow;
-
-	// all labels from panelMap that are dynamic
+	//
+	// Labels from panelMap that are dynamic
 	private JLabel lblDepartureTimeTxt;
 	private JLabel lblArrivalTimeTxt;
 	private JLabel lblTotalTimeTxt;
 	private JLabel lblDistanceTxt;
 	private JLabel lblTrackDepartureTxt;
 	private JLabel lblTrackArrivalTxt;
-
+	//
 	private JButton btnLocationChange;
 	private JLabel lblLocationDestination;
 	private JLabel lblLocationDeparture;
 	private JLabel lblLocationDepartureType;
 	private JTable tableDelays;
-	private Translate Translate;
 	private JLabel lblDepartureTime;
 	private JLabel lblArrivalTime;
 	private JLabel lblTrackDeparture;
@@ -124,8 +134,7 @@ public class OvApp
 	private JTable tableSaved;
 	
 	JInternalFrame internalFrame;
-	
-	
+
 	 private static final int MIN_ZOOM = 0;
 	 private static final int MAX_ZOOM = 21;
 	 private static final String setMarkerScript =
@@ -218,7 +227,7 @@ public class OvApp
 		DefaultTableModel defaultTableModel = new DefaultTableModel(new Object[][]{}, header);
 
 		DBHandler dbHandler = new DBHandler();
-		List<SavedTime> savedTimes = dbHandler.getSavedTimes(newProfile.getId());
+		List<SavedTime> savedTimes = dbHandler.getSavedTimes(profile.getId());
 
 		for (SavedTime savedTime : savedTimes)
 		{
@@ -277,7 +286,7 @@ public class OvApp
 
 					while (rs.next())
 					{
-						newProfile = new Profile(rs.getInt("ID"), rs.getInt("age"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("streetName"), rs.getString("residence"), rs.getString("card"));
+						profile = new Profile(rs.getInt("ID"), rs.getInt("age"), rs.getString("firstName"), rs.getString("lastName"), rs.getString("streetName"), rs.getString("residence"), rs.getString("card"));
 						userid.setText(String.valueOf(rs.getInt("ID")));
 						cardtxt.setText(rs.getString("card"));
 						firstnametxt.setText(rs.getString("firstName"));
@@ -452,7 +461,6 @@ public class OvApp
 							lastnametxt.setEnabled(true);
 							editButton.setText("Opslaan");
 						}
-						
 						else
 						{
 							cardtxt.setEnabled(false);
@@ -1329,7 +1337,7 @@ public class OvApp
 					travelTime.getArrivalTime(),
 					travelTime.getDestination(),
 					selectedTransportType,
-					newProfile.getId());
+					profile.getId());
 		});
 	}
 
