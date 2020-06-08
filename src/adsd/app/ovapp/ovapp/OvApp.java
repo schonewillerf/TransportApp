@@ -1405,23 +1405,22 @@ public class OvApp
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
             BrowserView view = BrowserView.newInstance(browser);
-
-
             internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            internalFrame.add(view, BorderLayout.CENTER);
+            internalFrame.add(view,BorderLayout.CENTER);
             internalFrame.setSize(276, 276);
-            panelMap.add(internalFrame);
-            internalFrame.setVisible(true);
-            BasicInternalFrameTitlePane titlePane = (BasicInternalFrameTitlePane) ((BasicInternalFrameUI) internalFrame.getUI()).getNorthPane();
-            internalFrame.remove(titlePane);
-            BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
-            for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners())
-            {
-                basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
-            }
-
-        });
-
-    }
+    		panelMap.add(internalFrame);
+    		internalFrame.setVisible(true);
+    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
+    		internalFrame.remove(titlePane);
+    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
+    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
+    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
+    		}
+    		//test
+        });  
+		
+	}
 }
+
+
 
