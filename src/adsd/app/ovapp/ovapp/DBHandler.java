@@ -53,9 +53,28 @@ public class DBHandler
                          String departure,
                          String arrivalTime,
                          String destination,
-                         int transportType,
+                         String transportType,
                          int loggedInUser)
     {
+        int transportNumber = 0;
+
+        if (transportType.equals("Bus"))
+        {
+            transportNumber = 1;
+        }
+        else if (transportType.equals("Metro"))
+        {
+            transportNumber = 2;
+        }
+        else if (transportType.equals("Train"))
+        {
+            transportNumber = 3;
+        }
+        else if (transportType.equals("Tram"))
+        {
+            transportNumber = 4;
+        }
+
         try
         {
             connection = Connection();
@@ -67,7 +86,7 @@ public class DBHandler
             preparedStatement.setString(2, departure);
             preparedStatement.setString(3, arrivalTime);
             preparedStatement.setString(4, destination);
-            preparedStatement.setInt(5, transportType);
+            preparedStatement.setInt(5, transportNumber);
             preparedStatement.setInt(6, loggedInUser);
 
             int row = preparedStatement.executeUpdate();
