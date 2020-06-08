@@ -1452,7 +1452,7 @@ public class OvApp
     		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
     		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
     		}
-    		
+    		//test
         });  
 		
 	}
