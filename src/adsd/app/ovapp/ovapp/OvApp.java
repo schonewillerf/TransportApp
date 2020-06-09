@@ -590,16 +590,16 @@ public class OvApp
 				btnLanguage.addActionListener(new ActionListener() 
 				{
 					public void actionPerformed(ActionEvent e) 
-					{
-						if (Translate.Language.equals("EN")) //display Language Dutch
+					{	//display Language Dutch
+						if (Translate.Language.equals("EN")) 
 						{
 							Translate.Language = "NL";
 							System.out.println(Translate.Language);
 							tabTxtNl();
 							btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryEnglish.png")));
 							btnLanguage.setText(Translate.TransLang(("EN")));
-						}
-						else if (Translate.Language.equals("NL")) //display Language English
+						}//display Language English
+						else if (Translate.Language.equals("NL")) 
 						{
 							Translate.Language = "EN";
 							System.out.println(Translate.Language);
