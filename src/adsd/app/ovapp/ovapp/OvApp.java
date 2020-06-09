@@ -811,6 +811,7 @@ public class OvApp
     {
         //creates a new panel
         panelTravelPlanner = new JPanel();
+
         //buttons for different search options
         JButton btnBus = new JButton("");
         btnBus.setIcon(new ImageIcon(OvApp.class.getResource("/resources/bus_50.png")));
@@ -824,30 +825,36 @@ public class OvApp
         lblDeparture = new JLabel("Vertrek" + ":");
         lblDestination = new JLabel("Aankomst:");
         btnPlanTrip = new JButton("Zoeken");
+
         // ActionListener for search button
         btnPlanTrip.addActionListener(actionEvent ->
         {
+            // Retrieve search criteria
             String selectedDeparture = txtFieldDeparture.getText();
             String selectedDestination = txtFieldDestination.getText();
 
+            // Set labels to display used search criteria
             lblDynamicDeparture.setText(selectedDeparture);
             lblDynamicDestination.setText(selectedDestination);
             lblDynamicTransportType.setText(selectedTransportType);
 
+            // Create a header for the table
             String[] header = {Translate.TransLang("Vertrektijd"), "Spoor/Halte", Translate.TransLang("Bestemming")};
             header[1] = selectedTransportType.equals("Bus") ? Translate.TransLang("Halte") : Translate.TransLang("Spoor");
 
+            // Create a new TableModel and apply it to the Table
             DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, header);
             tableLocation.setModel(dtm);
 
+            // Create a list for storing TravelTime objects
             List<TravelTime> travelTimes = new ArrayList<>();
 
-            // Here the new data for selected transport type will be added to the table
+            // TravelTime objects for the appropriate travel type are retrieved from database
             if (selectedTransportType.equals("Bus"))
             {
                 // Create the correct dataModel for the travel type
                 BusDataModel dataModel = new BusDataModel();
-                // Use the getArrivalTimes() method to get all arraval time in the travelTimes variable
+                // Use the getArrivalTimes() method to get all arrival time in the travelTimes variable
                 travelTimes = dataModel.getArrivalTimes();
             }
             else if (selectedTransportType.equals("Train"))
