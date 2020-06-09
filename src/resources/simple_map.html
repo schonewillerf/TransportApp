@@ -23,23 +23,28 @@
     <script>
 
       function initMap() {
-        var myLatLng = {lat: 52.159336, lng: 5.379889};										//positie hu amersfoort op de kaart
+        	//positie hu amersfoort op de kaart
+        var myLatLng = {lat: 52.159336, lng: 5.379889};									
 
-        var map = new google.maps.Map(document.getElementById('map'), {						
-          zoom: 4,																			                    //zoom in lvl 4
-          center: myLatLng																	                //center op de map naar de hu locatie"mijn locatie"
+        var map = new google.maps.Map(document.getElementById('map'), {		
+          //zoom in lvl 4				
+          zoom: 4,			
+           //center op de map naar de hu locatie"mijn locatie"																                    
+          center: myLatLng																	               
         });
-
-        var marker = new google.maps.Marker({												        //maak een googlemaps marker aan
-          position: myLatLng,																                // zet de marker op de positie van mijn locatie hu amersfoort
+        //maak een googlemaps marker aan
+        var marker = new google.maps.Marker({		
+          // zet de marker op de positie van mijn locatie hu amersfoort										        
+          position: myLatLng,																                
           map: map,
+          //marker title hu amersfoort
           title:"HU Amersfoort"
          
         });
 
 		infoWindow = new google.maps.InfoWindow;
 		
-		                                                                         // Try HTML5 geolocation.
+		     // HTML5 geolocation.                                                                    
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
@@ -55,7 +60,7 @@
             handleLocationError(true, infoWindow, map.getCenter());
           });
         } else {
-                                                                               // Browser doesn't support Geolocation
+          // Browser doesn't support Geolocation                                                                     
           handleLocationError(false, infoWindow, map.getCenter());
         }
       }
