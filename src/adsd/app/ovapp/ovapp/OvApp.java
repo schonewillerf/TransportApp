@@ -50,6 +50,7 @@ public class OvApp
     private Profile profile;
     private Translate Translate;
     private TravelTime travelTime;
+    private DynamicMap dynamicMap;
     //
     // String
     private String selectedTransportType;
@@ -144,7 +145,7 @@ public class OvApp
     private JButton btnBackSaved;
     private JButton btnBackReminder;
     
-
+    /*
     JInternalFrame internalFrame;
 
     private static final int MIN_ZOOM = 0;
@@ -157,7 +158,7 @@ public class OvApp
                     "    title: 'Hello World!'\n" +
                     "});";
     private static int zoomValue = 4;
-
+	*/
     //newscreen is a alias for OvApp, here is Ovapp opened as a new main program
     public static void newScreen()
     {
@@ -1154,8 +1155,8 @@ public class OvApp
      */
     private void panelMap()
     {
-        open_map();
-
+        DynamicMap.open_map();
+    	
         panelMap = new JPanel();// make a new panel named panelMap
         panelMap.setBackground(Color.WHITE);// set the background to the color white
         //tabbedPane.addTab("Kaart", null, panelMap, null);
@@ -1320,12 +1321,7 @@ public class OvApp
         lblDistanceTxt.setBounds(348, 170, 70, 23);
         panelMap.add(lblDistanceTxt);
 
-        internalFrame = new JInternalFrame("Map");
-        internalFrame.setToolTipText("");
-        internalFrame.setFrameIcon(null);
-        internalFrame.setBorder(null);
-        internalFrame.setBounds(10, 233, 262, 282);
-        panelMap.add(internalFrame);
+        
 
         // Add an ActionListener to save Traject to DB
         btnSaveTraject.addActionListener(actionEvent ->
@@ -1422,6 +1418,7 @@ public class OvApp
     /**
      * This method contains all of the code for creating events
      */
+    /*
     private void open_map()
     {
         System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
@@ -1456,9 +1453,9 @@ public class OvApp
             }
             //test
         });
-
+	
     }
-
+	*/
 }
 
 
