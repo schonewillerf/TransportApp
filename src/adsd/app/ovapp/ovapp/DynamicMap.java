@@ -70,7 +70,7 @@ public class DynamicMap extends OvApp
 
 	        Browser browser = engine.newBrowser();
 	        // Loading the required web page
-	        browser.navigation().loadUrl("file:///C:/GoogleMaps/map2.html");
+	        browser.navigation().loadUrl("file:///C:/googlemapsHTML/simple_map.html");
 	       
 
 	        SwingUtilities.invokeLater(() -> {

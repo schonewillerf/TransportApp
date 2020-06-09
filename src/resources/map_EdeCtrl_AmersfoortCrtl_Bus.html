@@ -1,0 +1,68 @@
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&callback=map_init"></script>
+    <script type="text/javascript">
+        function InitializeMap() {
+            var ltlng = [];
+
+            ltlng.push(new google.maps.LatLng(51.924177, 4.469868));
+            ltlng.push(new google.maps.LatLng(52.028357, 5.671445));
+            ltlng.push(new google.maps.LatLng(52.147045, 5.392072));
+
+            // var latlng = new google.maps.LatLng(-34.397, 150.644);
+            var myOptions = {
+                zoom: 10,
+                //center: latlng,
+                center: ltlng[0],
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+            for (var i = 0; i < ltlng.length; i++) {
+                var marker = new google.maps.Marker
+                    (
+                    {
+                        // position: new google.maps.LatLng(-34.397, 150.644),
+                        position: ltlng[i],
+                        map: map,
+                        title: 'Click me'
+                    }
+                    );
+            }
+            //***********ROUTING****************//
+
+            //Intialize the Path Array
+            var path = new google.maps.MVCArray();
+
+            //Intialize the Direction Service
+            var service = new google.maps.DirectionsService();
+
+            //Set the Path Stroke Color
+            var poly = new google.maps.Polyline({ map: map, strokeColor: '#4986E7' });
+            //Loop and Draw Path Route between the Points on MAP
+            for (var i = 0; i < ltlng.length; i++)
+            {
+                if ((i + 1) < ltlng.length) {
+                    var src = ltlng[i];
+                    var des = ltlng[i + 1];
+                    path.push(src);
+                    poly.setPath(path);
+                    service.route({
+                        origin: src,
+                        destination: des,
+                        travelMode: google.maps.DirectionsTravelMode.DRIVING
+                    }, function (result, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            for (var i = 0, len = result.routes[0].overview_path.length; i < len; i++) {
+                                path.push(result.routes[0].overview_path[i]);
+                            }
+                        }
+                    });
+                }
+            }
+
+        }
+
+        window.onload = InitializeMap;
+
+    </script>
+    
+    <div id="map" style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229,227,223);"></div>
