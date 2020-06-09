@@ -1090,6 +1090,7 @@ public class OvApp
                         lblTrackDepartureTxt.setText(travelTime.getPlatform()+ " "+ travelTime.getStationName());
                         lblTrackArrivalTxt.setText(travelTime.getDestination());
                         
+                        
                         // Refresh map here  
                        
                     }
@@ -1317,7 +1318,7 @@ public class OvApp
         lblDistance_1.setBounds(282, 167, 84, 25);
         panelMap.add(lblDistance_1);
 
-        lblDistanceTxt = new JLabel("<dynamic>");
+        lblDistanceTxt = new JLabel("");
         lblDistanceTxt.setBounds(348, 170, 70, 23);
         panelMap.add(lblDistanceTxt);
 
