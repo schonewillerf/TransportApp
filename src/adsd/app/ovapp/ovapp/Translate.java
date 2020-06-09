@@ -49,7 +49,7 @@ public class Translate
         languageMap.put("Vertrektijd", "Departure time");
         languageMap.put("Aankomsttijd", "Arrival time");
         languageMap.put("Totale tijd", "Overall time");
-        languageMap.put("Overdracht", "Transfer");
+        languageMap.put("Opslaan", "Save");
         languageMap.put("Spoor", "Platform");
         languageMap.put("Prijs", "Price");
         languageMap.put("Afstand", "Distance");
@@ -61,6 +61,17 @@ public class Translate
         languageMap.put("Aankomst station", "Arrival station");
         languageMap.put("Vertraging", "Delay");
         languageMap.put("Vertrek station", "Departure station");
+        //Tabs
+        languageMap.put("Login", "Login");
+        languageMap.put("Profiel", "Profile");
+        languageMap.put("Reisplanner", "Travel Planner");
+        languageMap.put("Details", "Details");
+        languageMap.put("Opgeslagen", "Saved");
+        languageMap.put("Favorieten", "Favourites");
+        languageMap.put("Herinneringen", "Reminders");
+        languageMap.put("Locatie", "Location");
+        languageMap.put("Vertragingen", "Delays");
+        languageMap.put("Terug", "Back");
     }
     
     //gets the translated word from languagemap and returns the word.
