@@ -1155,7 +1155,7 @@ public class OvApp
      */
     private void panelMap()
     {
-        DynamicMap.open_map();
+        DynamicMap.set_Location_Tram();
     	
         panelMap = new JPanel();// make a new panel named panelMap
         panelMap.setBackground(Color.WHITE);// set the background to the color white
