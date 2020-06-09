@@ -18,12 +18,23 @@ import com.teamdev.jxbrowser.view.swing.BrowserView;
 
 //extends ovapp means you can use the protected information in ovapp
 public class DynamicMap extends OvApp 
-{
-	static JInternalFrame internalFrame;
-	
+{		
+	   static JInternalFrame internalFrame;
+
+	    private static final int MIN_ZOOM = 0;
+	    private static final int MAX_ZOOM = 21;
+	    private static final String setMarkerScript =
+	            "var myLatlng = new google.maps.LatLng(48.4431727,23.0488126);\n" +
+	                    "var marker = new google.maps.Marker({\n" +
+	                    "    position: myLatlng,\n" +
+	                    "    map: map,\n" +
+	                    "    title: 'Hello World!'\n" +
+	                    "});";
+	    private static int zoomValue = 4;
+	    
 	public DynamicMap() 
 	{
-	open_map();
+	
 	}
 	
 	public static void open_map() 
@@ -45,7 +56,12 @@ public class DynamicMap extends OvApp
             // loaded in the given Browser instance
             BrowserView view = BrowserView.newInstance(browser);
             
-            
+            internalFrame = new JInternalFrame("Map");
+            internalFrame.setToolTipText("");
+            internalFrame.setFrameIcon(null);
+            internalFrame.setBorder(null);
+            internalFrame.setBounds(10, 233, 262, 282);
+            panelMap.add(internalFrame);
             internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             internalFrame.add(view,BorderLayout.CENTER);
             internalFrame.setSize(276, 276);
