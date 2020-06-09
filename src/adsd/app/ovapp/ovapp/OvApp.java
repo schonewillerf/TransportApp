@@ -1061,9 +1061,9 @@ public class OvApp
                     lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
                     lblTotalTimeTxt.setText(travelTime.getDuration());
                     lblDistanceTxt.setText(travelTime.getDistance());
-                    lblTrackDepartureTxt.setText(travelTime.getPlatform());
+                    lblTrackDepartureTxt.setText(travelTime.getPlatform()+ " "+ travelTime.getStationName());
                     lblTrackArrivalTxt.setText(travelTime.getDestination());
-
+                    
                     // Switch to the panelMap
                     showPanels("Details");
                 }
@@ -1183,11 +1183,11 @@ public class OvApp
         panelMap.add(lblTotalTimeTxt);
 
         lblTrackDepartureTxt = new JLabel("<dynamic>");
-        lblTrackDepartureTxt.setBounds(348, 40, 70, 23);
+        lblTrackDepartureTxt.setBounds(348, 40, 132, 23);
         panelMap.add(lblTrackDepartureTxt);
 
         lblTrackArrivalTxt = new JLabel("<dynamic>");
-        lblTrackArrivalTxt.setBounds(348, 75, 70, 23);
+        lblTrackArrivalTxt.setBounds(348, 75, 132, 23);
         panelMap.add(lblTrackArrivalTxt);
 
         JLabel lblPriceTxt = new JLabel("<dynamic>");
