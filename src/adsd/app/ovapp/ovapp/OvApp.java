@@ -4,6 +4,7 @@ import adsd.app.ovapp.bus.BusDataModel;
 import adsd.app.ovapp.metro.MetroDataModel;
 import adsd.app.ovapp.train.TrainDataModel;
 import adsd.app.ovapp.tram.TramDataModel;
+import adsd.app.ovapp.ovapp.DynamicMap;
 
 import java.awt.EventQueue;
 import java.awt.Toolkit;
@@ -49,6 +50,7 @@ public class OvApp
 	private Profile profile = new Profile();
 	private Translate Translate;
 	private TravelTime travelTime;
+	private DynamicMap DynamicMap;
 	//
 	// String
 	// Bus is assumed to be default for simplicity
@@ -63,7 +65,7 @@ public class OvApp
 	private JPanel panelLogin;
 	private JPanel panelTravelPlanner;
 	private JPanel panelLocation;
-	private JPanel panelMap;
+	protected static JPanel panelMap;
 	private JPanel panelDelays;
 	private JPanel panelFavorites;
 	private JPanel panelSaved;
@@ -134,7 +136,8 @@ public class OvApp
 	private JLabel lblVertragingen;
 	private JTable tableSaved;
 	
-	JInternalFrame internalFrame;
+	//protected from being used in other files, it is only usable within the extended classes
+	protected static JInternalFrame internalFrame;
 
 	 private static final int MIN_ZOOM = 0;
 	 private static final int MAX_ZOOM = 21;
@@ -1162,9 +1165,14 @@ public class OvApp
 	}
 	
 	private void panelMap() 
-	{
-        open_map();   
-        
+	{	
+		
+
+		DynamicMap = new DynamicMap();
+		//hier word aan gewerkt
+		DynamicMap();
+		
+     
         // make a new panel named panelMap
 		panelMap = new JPanel();	
 		// set the background to the color white
@@ -1359,6 +1367,7 @@ public class OvApp
 		});
 	}
 
+
 	/**
 	 * Create tab for displaying hard-coded delays
 	 */
@@ -1438,42 +1447,7 @@ public class OvApp
 	/**
 	 * This method contains all of the code for creating events
 	 */
-	private void open_map() 
-	{
-		System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
-    	System.setProperty("teamdev.license.info", "true");
-    	
-    	// Creating and running Chromium engine
-        Engine engine = Engine.newInstance(
-                EngineOptions.newBuilder(HARDWARE_ACCELERATED).build());
 
-        Browser browser = engine.newBrowser();
-        // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/simple_map.html");
-       
-
-        SwingUtilities.invokeLater(() -> {
-            // Creating Swing component for rendering web content
-            // loaded in the given Browser instance
-            BrowserView view = BrowserView.newInstance(browser);
-            
-          
-           
-            internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            internalFrame.add(view,BorderLayout.CENTER);
-            internalFrame.setSize(276, 276);
-    		panelMap.add(internalFrame);
-    		internalFrame.setVisible(true);
-    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
-    		internalFrame.remove(titlePane);
-    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
-    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
-    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
-    		}
-    		//test
-        });  
-		
-	}
 }
 
 
