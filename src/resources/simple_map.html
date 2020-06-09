@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Simple Markers</title>
+    <title>Google maps</title>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -26,18 +26,20 @@
         var myLatLng = {lat: 52.159336, lng: 5.379889};										//positie hu amersfoort op de kaart
 
         var map = new google.maps.Map(document.getElementById('map'), {						
-          zoom: 4,																			//zoom in lvl 4
-          center: myLatLng																	//center op de map naar de hu locatie"mijn locatie"
+          zoom: 4,																			                    //zoom in lvl 4
+          center: myLatLng																	                //center op de map naar de hu locatie"mijn locatie"
         });
 
-        var marker = new google.maps.Marker({												//maak een googlemaps marker aan
-          position: myLatLng,																// zet de marker op de positie van mijn locatie hu amersfoort
+        var marker = new google.maps.Marker({												        //maak een googlemaps marker aan
+          position: myLatLng,																                // zet de marker op de positie van mijn locatie hu amersfoort
           map: map,
+          title:"HU Amersfoort"
          
         });
+
 		infoWindow = new google.maps.InfoWindow;
 		
-		 // Try HTML5 geolocation.
+		                                                                         // Try HTML5 geolocation.
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
@@ -53,7 +55,7 @@
             handleLocationError(true, infoWindow, map.getCenter());
           });
         } else {
-          // Browser doesn't support Geolocation
+                                                                               // Browser doesn't support Geolocation
           handleLocationError(false, infoWindow, map.getCenter());
         }
       }
