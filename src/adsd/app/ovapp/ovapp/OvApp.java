@@ -715,14 +715,14 @@ public class OvApp
                                         {"Delft", "Groningen", "00:15"},
                                 },
                         new String[]
-                                {
-                                        Translate.TransLang("Vertrek station"), Translate.TransLang("Aankomst station"), Translate.TransLang("Vertraging")    //Translating the label words
+                                {//Translating the label words
+                                        Translate.TransLang("Vertrek station"), Translate.TransLang("Aankomst station"), Translate.TransLang("Vertraging")    
                                 }
                 ));
             }
         });
-        
-        btnLanguage.setBounds(389, 11, 74, 23);                                        //set he line out for the buttondesign
+      //set he line out for the buttondesign
+        btnLanguage.setBounds(389, 11, 74, 23);                                       
         panelProfile.add(btnLanguage);
         //buttons "back"
         btnBackFavorites = new JButton("Terug");
