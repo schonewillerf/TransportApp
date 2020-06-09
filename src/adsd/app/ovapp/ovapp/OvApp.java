@@ -1317,9 +1317,8 @@ public class OvApp
      */
     private void panelDelays()
     {
-        // Create the panel and add it as tab
+        // Create the panel
         panelDelays = new JPanel();
-        //tabbedPane.addTab("Vertragingen", null, panelDelays, null);
 
         // Add a label above table
         lblVertragingen = new JLabel("Vertragingen" + ":");
