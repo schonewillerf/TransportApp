@@ -160,8 +160,10 @@ public class OvApp
             {
                 try
                 {
-                    OvApp window = new OvApp();// window is new dialog opening for OvApp
-                    window.frame.setVisible(true);// show the window
+                    // window is new dialog opening for OvApp
+                    OvApp window = new OvApp();
+                    // show the window
+                    window.frame.setVisible(true);
                 }
                 catch (Exception e)
                 {
