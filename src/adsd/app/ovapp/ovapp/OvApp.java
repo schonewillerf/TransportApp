@@ -145,20 +145,6 @@ public class OvApp
     private JButton btnBackSaved;
     private JButton btnBackReminder;
     
-    /*
-    JInternalFrame internalFrame;
-
-    private static final int MIN_ZOOM = 0;
-    private static final int MAX_ZOOM = 21;
-    private static final String setMarkerScript =
-            "var myLatlng = new google.maps.LatLng(48.4431727,23.0488126);\n" +
-                    "var marker = new google.maps.Marker({\n" +
-                    "    position: myLatlng,\n" +
-                    "    map: map,\n" +
-                    "    title: 'Hello World!'\n" +
-                    "});";
-    private static int zoomValue = 4;
-	*/
     //newscreen is a alias for OvApp, here is Ovapp opened as a new main program
     public static void newScreen()
     {
