@@ -51,7 +51,8 @@ public class OvApp
 	private TravelTime travelTime;
 	//
 	// String
-	private String selectedTransportType = "Bus"; 	// Bus is assumed to be default for simplicity
+	// Bus is assumed to be default for simplicity
+	private String selectedTransportType = "Bus"; 	
 	//
 	// Java Swing Components
 	//
@@ -145,17 +146,18 @@ public class OvApp
 	                    "    title: 'Hello World!'\n" +
 	                    "});";
 	 private static int zoomValue = 4;
-	
-	public static void newScreen()						//newscreen is a alias for OvApp, here is Ovapp opened as a new main program
+	//newscreen is a alias for OvApp, here is Ovapp opened as a new main program
+	public static void newScreen()						
 	{
 		EventQueue.invokeLater(new Runnable() 
 		{
 			public void run() 
 			{
 				try 
-				{
-					OvApp window = new OvApp();			//window is new dialog opening for OvApp
-					window.frame.setVisible(true);		// show the window
+				{	//window is new dialog opening for OvApp
+					OvApp window = new OvApp();		
+					// show the window
+					window.frame.setVisible(true);		
 				} catch (Exception e) 	
 				{
 					e.printStackTrace();
@@ -163,10 +165,10 @@ public class OvApp
 			}
 		});
 	}
-
-	public void switchPanels()							//a methode made so this can be used in a single word for removing all the panels
-	{
-		tabbedPane.removeAll();							// the code used for removing all paneltabs at once
+	//a methode made so this can be used in a single word for removing all the panels
+	public void switchPanels()							
+	{	// the code used for removing all paneltabs at once
+		tabbedPane.removeAll();							
 	}
 	
 	private void tabTxtEn()
@@ -189,16 +191,18 @@ public class OvApp
         tabbedPane.addTab("Vertragingen", null, panelDelays, null);
     }
 
-	private void addPanels()													//methode for adding all panels at once through one word. It keeps yur code clean and out of duplication
-	{
-		tabbedPane.addTab("Profiel", null, panelProfile, null);				//Panel is added to the tabbedpaneframe
+	private void addPanels()													
+	{	//methode for adding all panels at once through one word. It keeps yur code clean and out of duplication
+		//Panel is added to the tabbedpaneframe
+		tabbedPane.addTab("Profiel", null, panelProfile, null);				
 		tabbedPane.addTab("Reisplanner", null, panelTravelPlanner, null);
 		tabbedPane.addTab("Locatie", null, panelLocation, null);
 		tabbedPane.addTab("Kaart", null, panelMap, null);
 		tabbedPane.addTab("Vertragingen", null, panelDelays, null);
 	}
 	
-	public OvApp() 															//This is where the app is made and starts
+	//This is where the app is made and starts
+	public OvApp() 															
 	{
 		languageMap = new HashMap();
 		frame = new JFrame();
@@ -324,9 +328,10 @@ public class OvApp
 		panelLogin.add(btnLogin);
 		
 	}
-
-	private void panelProfile() 										//methode for panel profile, everything is that is made in profile panel is in this methode.
-	{																	// you can call the methode and get all this code working with just one word of code.
+	//methode for panel profile, everything is that is made in profile panel is in this methode.
+	// you can call the methode and get all this code working with just one word of code.
+	private void panelProfile() 										
+	{																	
 				panelProfile = new JPanel();
 				panelProfile.setBackground(Color.WHITE);
 				panelProfile.setLayout(null);
@@ -335,7 +340,8 @@ public class OvApp
 				//Labels
 				JLabel lbimage = new JLabel();
 				lbimage.setBackground(UIManager.getColor("ToolBar.highlight"));
-				lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));		//image added to the label
+				//image added to the label
+				lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));		
 				lbimage.setBounds(24, 21, 207, 222);
 				panelProfile.add(lbimage);
 				//Map
@@ -444,13 +450,15 @@ public class OvApp
 				textPane.setBounds(24, 505, 386, 111);
 				panelProfile.add(textPane);
 				//buttons
-				editButton = new JButton("Wijzig profiel");									//button for changing profile
+				//button for changing profile
+				editButton = new JButton("Wijzig profiel");									
 				// Action Event for 
-				editButton.addActionListener(new ActionListener()							//by click the action will be performed with the code  below
+				//by click the action will be performed with the code  below
+				editButton.addActionListener(new ActionListener()							
 				{
 					public void actionPerformed(ActionEvent e) 
-					{
-						if (("Wijzig profiel").equals(editButton.getText()))				// . equals is the same for..
+					{	// . equals is the same for..
+						if (("Wijzig profiel").equals(editButton.getText()))				
 						{
 							cardtxt.setEnabled(true);
 							firstnametxt.setEnabled(true);
@@ -634,7 +642,8 @@ public class OvApp
 						lblPrice.setText(Translate.TransLang("Prijs")+":");
 						lblDistance_1.setText(Translate.TransLang("Afstand")+":");
 						lblDepartureTime.setText(Translate.TransLang("Vertrektijd")+":");
-						tableMap.setModel(new DefaultTableModel(					//comments for the model start at 1176
+						//comments for the model start at 1176
+						tableMap.setModel(new DefaultTableModel(					
 							new Object[][] 
 							{				
 								{null, null},										
@@ -688,7 +697,8 @@ public class OvApp
 						}
 					
 				});
-				btnLanguage.setBounds(389, 11, 74, 23);										//set he line out for the buttondesign
+				//set the line out for the buttondesign
+				btnLanguage.setBounds(389, 11, 74, 23);										
 				panelProfile.add(btnLanguage);
 				//buttons "back"
 				JButton btnBackFavorites = new JButton("Terug");
@@ -1154,9 +1164,11 @@ public class OvApp
 	private void panelMap() 
 	{
         open_map();   
-		
-		panelMap = new JPanel();																	// make a new panel named panelMap
-		panelMap.setBackground(Color.WHITE);														// set the background to the color white
+        
+        // make a new panel named panelMap
+		panelMap = new JPanel();	
+		// set the background to the color white
+		panelMap.setBackground(Color.WHITE);														
 		tabbedPane.addTab("Kaart", null, panelMap, null);
 		panelMap.setLayout(null);
 		
@@ -1166,9 +1178,12 @@ public class OvApp
 		lblDepartureTime.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panelMap.add(lblDepartureTime);
 		
-		lblArrivalTime = new JLabel("Aankomsttijd:");										// make new label named lblArrivalTime
-		lblArrivalTime.setBounds(44, 75, 84, 25);													//Set the outlining design for the button
-		lblArrivalTime.setFont(new Font("Tahoma", Font.BOLD, 11));									//set the text in a new design, called "font" in programming
+		// make new label named lblArrivalTime
+		lblArrivalTime = new JLabel("Aankomsttijd:");	
+		//Set the outlining design for the button
+		lblArrivalTime.setBounds(44, 75, 84, 25);	
+		//set the text in a new design, called "font" in programming
+		lblArrivalTime.setFont(new Font("Tahoma", Font.BOLD, 11));									
 		panelMap.add(lblArrivalTime);
 		
 		lblTotalTime = new JLabel("Totale tijd:");
@@ -1269,10 +1284,13 @@ public class OvApp
 		panelMap.add(scrollPaneMap);
 		
 		//table
-		tableMap = new JTable();									//make a new table named tableMap
-		tableMap.setModel(new DefaultTableModel(					//set a model for tableMap	
-			new Object[][] {				
-				{null, null},										// all empty"null" for show in gui.
+		//make a new table named tableMap
+		tableMap = new JTable();	
+		//set a model for tableMap	
+		tableMap.setModel(new DefaultTableModel(					
+			new Object[][] {	
+				// all empty"null" for show in gui.
+				{null, null},										
 				{null, null},
 				{null, null},
 				{null, null},
@@ -1296,12 +1314,12 @@ public class OvApp
 			},
 			
 			new String[] 
-			{											//naming for the colums/rows
+			{	//naming for the colums/rows
 				"Tijd", "Stop"
 			}
 		));
-		
-		scrollPaneMap.setViewportView(tableMap);					// set the tableMap in scrollpane, this will make the table scrollable
+		// set the tableMap in scrollpane, this will make the table scrollable
+		scrollPaneMap.setViewportView(tableMap);					
 		
 		JButton btnDistance = new JButton("");
 		btnDistance.setBackground(Color.WHITE);
