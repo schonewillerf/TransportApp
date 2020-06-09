@@ -22,6 +22,7 @@ public class DynamicMap extends OvApp
 	   private static JInternalFrame internalFrame;
 	   
 	   private static Browser browser;
+	   private static BrowserView view;
 	   
 	    private static final int MIN_ZOOM = 0;
 	    private static final int MAX_ZOOM = 21;
@@ -34,6 +35,29 @@ public class DynamicMap extends OvApp
 	                    "});";
 	    private static int zoomValue = 4;
 
+	    
+		public static void internalFrame() 
+		{
+			
+	        internalFrame = new JInternalFrame("Map");
+	        internalFrame.setToolTipText("");
+	        internalFrame.setFrameIcon(null);
+	        internalFrame.setBorder(null);
+	        internalFrame.setBounds(10, 233, 262, 282);
+	        panelMap.add(internalFrame);
+	        internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	        internalFrame.add(view,BorderLayout.CENTER);
+	        internalFrame.setSize(276, 276);
+			panelMap.add(internalFrame);
+			internalFrame.setVisible(true);
+			BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
+			internalFrame.remove(titlePane);
+			BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
+			for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
+			    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
+			}  
+			
+		}
 	
 	    public static void open_map() 
 		{
@@ -52,29 +76,11 @@ public class DynamicMap extends OvApp
 	        SwingUtilities.invokeLater(() -> {
 	            // Creating Swing component for rendering web content
 	            // loaded in the given Browser instance
-	            BrowserView view = BrowserView.newInstance(browser);
-	            
-	            internalFrame = new JInternalFrame("Map");
-	            internalFrame.setToolTipText("");
-	            internalFrame.setFrameIcon(null);
-	            internalFrame.setBorder(null);
-	            internalFrame.setBounds(10, 233, 262, 282);
-	            panelMap.add(internalFrame);
-	            internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-	            internalFrame.add(view,BorderLayout.CENTER);
-	            internalFrame.setSize(276, 276);
-	    		panelMap.add(internalFrame);
-	    		internalFrame.setVisible(true);
-	    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
-	    		internalFrame.remove(titlePane);
-	    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
-	    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
-	    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
-	    		}
-	    		//test
-	        });  
-			
+	            view = BrowserView.newInstance(browser);
+	            internalFrame();
+	            });
 		}
+	
 
 
 	public static void set_Location_Tram() {
@@ -94,25 +100,8 @@ public class DynamicMap extends OvApp
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
-            BrowserView view = BrowserView.newInstance(browser);
-            
-            internalFrame = new JInternalFrame("Map");
-            internalFrame.setToolTipText("");
-            internalFrame.setFrameIcon(null);
-            internalFrame.setBorder(null);
-            internalFrame.setBounds(10, 233, 262, 282);
-            panelMap.add(internalFrame);
-            internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            internalFrame.add(view,BorderLayout.CENTER);
-            internalFrame.setSize(276, 276);
-    		panelMap.add(internalFrame);
-    		internalFrame.setVisible(true);
-    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
-    		internalFrame.remove(titlePane);
-    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
-    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
-    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
-    		}
+            view = BrowserView.newInstance(browser);
+            internalFrame();
     		
         }); 
 	}
@@ -133,26 +122,9 @@ public class DynamicMap extends OvApp
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
-            BrowserView view = BrowserView.newInstance(browser);
-            
-            internalFrame = new JInternalFrame("Map");
-            internalFrame.setToolTipText("");
-            internalFrame.setFrameIcon(null);
-            internalFrame.setBorder(null);
-            internalFrame.setBounds(10, 233, 262, 282);
-            panelMap.add(internalFrame);
-            internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            internalFrame.add(view,BorderLayout.CENTER);
-            internalFrame.setSize(276, 276);
-    		panelMap.add(internalFrame);
-    		internalFrame.setVisible(true);
-    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
-    		internalFrame.remove(titlePane);
-    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
-    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
-    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
-    		}
-    		
+           view = BrowserView.newInstance(browser);
+            internalFrame();
+             		
         }); 
 		
 	}
@@ -173,25 +145,8 @@ public class DynamicMap extends OvApp
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
-            BrowserView view = BrowserView.newInstance(browser);
-            
-            internalFrame = new JInternalFrame("Map");
-            internalFrame.setToolTipText("");
-            internalFrame.setFrameIcon(null);
-            internalFrame.setBorder(null);
-            internalFrame.setBounds(10, 233, 262, 282);
-            panelMap.add(internalFrame);
-            internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            internalFrame.add(view,BorderLayout.CENTER);
-            internalFrame.setSize(276, 276);
-    		panelMap.add(internalFrame);
-    		internalFrame.setVisible(true);
-    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
-    		internalFrame.remove(titlePane);
-    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
-    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
-    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
-    		}
+            view = BrowserView.newInstance(browser);
+            internalFrame();
     		
         }); 
 		
@@ -213,25 +168,9 @@ public class DynamicMap extends OvApp
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
-            BrowserView view = BrowserView.newInstance(browser);
+            view = BrowserView.newInstance(browser);
+            internalFrame();
             
-            internalFrame = new JInternalFrame("Map");
-            internalFrame.setToolTipText("");
-            internalFrame.setFrameIcon(null);
-            internalFrame.setBorder(null);
-            internalFrame.setBounds(10, 233, 262, 282);
-            panelMap.add(internalFrame);
-            internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            internalFrame.add(view,BorderLayout.CENTER);
-            internalFrame.setSize(276, 276);
-    		panelMap.add(internalFrame);
-    		internalFrame.setVisible(true);
-    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
-    		internalFrame.remove(titlePane);
-    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
-    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
-    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
-    		}
     		
         }); 
 		
@@ -253,25 +192,10 @@ public class DynamicMap extends OvApp
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
-            BrowserView view = BrowserView.newInstance(browser);
+            view = BrowserView.newInstance(browser);
+            internalFrame();
             
-            internalFrame = new JInternalFrame("Map");
-            internalFrame.setToolTipText("");
-            internalFrame.setFrameIcon(null);
-            internalFrame.setBorder(null);
-            internalFrame.setBounds(10, 233, 262, 282);
-            panelMap.add(internalFrame);
-            internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            internalFrame.add(view,BorderLayout.CENTER);
-            internalFrame.setSize(276, 276);
-    		panelMap.add(internalFrame);
-    		internalFrame.setVisible(true);
-    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
-    		internalFrame.remove(titlePane);
-    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
-    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
-    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
-    		}
+ 
     		
         }); 
 		
@@ -293,25 +217,8 @@ public class DynamicMap extends OvApp
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
-            BrowserView view = BrowserView.newInstance(browser);
-            
-            internalFrame = new JInternalFrame("Map");
-            internalFrame.setToolTipText("");
-            internalFrame.setFrameIcon(null);
-            internalFrame.setBorder(null);
-            internalFrame.setBounds(10, 233, 262, 282);
-            panelMap.add(internalFrame);
-            internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            internalFrame.add(view,BorderLayout.CENTER);
-            internalFrame.setSize(276, 276);
-    		panelMap.add(internalFrame);
-    		internalFrame.setVisible(true);
-    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
-    		internalFrame.remove(titlePane);
-    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
-    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
-    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
-    		}
+            view = BrowserView.newInstance(browser);
+            internalFrame();
     		
         }); 
 		
@@ -334,25 +241,9 @@ public class DynamicMap extends OvApp
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
-            BrowserView view = BrowserView.newInstance(browser);
-            
-            internalFrame = new JInternalFrame("Map");
-            internalFrame.setToolTipText("");
-            internalFrame.setFrameIcon(null);
-            internalFrame.setBorder(null);
-            internalFrame.setBounds(10, 233, 262, 282);
-            panelMap.add(internalFrame);
-            internalFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            internalFrame.add(view,BorderLayout.CENTER);
-            internalFrame.setSize(276, 276);
-    		panelMap.add(internalFrame);
-    		internalFrame.setVisible(true);
-    		BasicInternalFrameTitlePane titlePane =(BasicInternalFrameTitlePane)((BasicInternalFrameUI)internalFrame.getUI()).getNorthPane();
-    		internalFrame.remove(titlePane);
-    		BasicInternalFrameUI basicInternalFrameUI = ((javax.swing.plaf.basic.BasicInternalFrameUI) internalFrame.getUI());
-    		for (MouseListener listener : basicInternalFrameUI.getNorthPane().getMouseListeners()) {
-    		    basicInternalFrameUI.getNorthPane().removeMouseListener(listener);
-    		}
+        	view = BrowserView.newInstance(browser);
+            internalFrame();
+           
     		
         }); 
 		
