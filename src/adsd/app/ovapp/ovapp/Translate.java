@@ -49,7 +49,7 @@ public class Translate
         languageMap.put("Vertrektijd", "Departure time");
         languageMap.put("Aankomsttijd", "Arrival time");
         languageMap.put("Totale tijd", "Overall time");
-        languageMap.put("Overdracht", "Transfer");
+        languageMap.put("Opslaan", "Save");
         languageMap.put("Spoor", "Platform");
         languageMap.put("Prijs", "Price");
         languageMap.put("Afstand", "Distance");

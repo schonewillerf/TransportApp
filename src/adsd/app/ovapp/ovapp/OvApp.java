@@ -664,7 +664,7 @@ public class OvApp
                 //lblDeparture.setText(Translate.TransLang("Vertrektijd")+":");
                 lblArrivalTime.setText(Translate.TransLang("Aankomsttijd") + ":");
                 lblTotalTime.setText(Translate.TransLang("Totale tijd") + ":");
-                lblSaveTraject.setText(Translate.TransLang("Overdracht") + ":");
+                lblSaveTraject.setText(Translate.TransLang("Opslaan") + ":");
                 lblTrackArrival.setText(Translate.TransLang("Spoor") + ":");
                 lblTrackDeparture.setText(Translate.TransLang("Spoor") + ":");
                 lblPrice.setText(Translate.TransLang("Prijs") + ":");
@@ -1178,7 +1178,7 @@ public class OvApp
         lblTotalTime.setFont(new Font("Tahoma", Font.BOLD, 11));
         panelMap.add(lblTotalTime);
 
-        lblSaveTraject = new JLabel("Traject Opslaan");
+        lblSaveTraject = new JLabel("Opslaan");
         lblSaveTraject.setBounds(44, 169, 84, 25);
         lblSaveTraject.setFont(new Font("Tahoma", Font.BOLD, 11));
         panelMap.add(lblSaveTraject);
