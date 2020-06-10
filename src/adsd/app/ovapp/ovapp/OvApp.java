@@ -55,6 +55,9 @@ public class OvApp
     // String
     private String selectedTransportType;
     //
+    // Boolean
+    private boolean editMode;
+    //
     // Java Swing Components
     //
     // Frame and Panels
@@ -244,10 +247,9 @@ public class OvApp
         tabbedPane.setBounds(10, 11, 485, 655);
         frame.getContentPane().add(tabbedPane);
         profile = new Profile();
-        //Create empty traveltime
-        //travelTime = new BusTime("","","","","","",0);
         Translate = new Translate("NL"); //standard language
         selectedTransportType = "Bus";    // Bus is assumed to be default for simplicity
+        editMode = false;
         initialize();
         panelProfile();
         panelLogin();
