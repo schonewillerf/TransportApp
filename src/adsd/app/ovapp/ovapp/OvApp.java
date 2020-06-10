@@ -763,7 +763,22 @@ public class OvApp
                             departure,
                             arrivalTime,
                             destination
-                    );
+                    ); 
+                    
+                    if (travelTime.getDestination().equals("Ede"))
+                    {
+                    	 
+                         dynamicMap.set_Location_Bus1();
+                    }
+                    else if (travelTime.getDestination().equals("Amersfoort")) 
+                    	
+                    {	
+                    	dynamicMap.set_Location_Bus2();
+                    }
+                    else if (travelTime.getDestination().equals("Utrecht")) 
+                    {	
+                    	dynamicMap.set_Location_Bus3();
+                    }
                 }
                 else if (selectedTransportType.equals("Metro"))
                 {
@@ -774,6 +789,7 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
+                   dynamicMap.set_Location_Metro1();
                 }
                 else if (selectedTransportType.equals("Trein"))
                 {
@@ -784,6 +800,7 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
+                    dynamicMap.set_Location_Trein1();
                 }
                 else if (selectedTransportType.equals("Tram"))
                 {
@@ -794,6 +811,7 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
+                    dynamicMap.set_Location_Tram();
                 }
 
                 // Set labels to the selected TravelTime
@@ -806,7 +824,7 @@ public class OvApp
                 
                 //To do refresh map for Joel & Danielle
                 //Traveltime can be used here
-                
+               
                 
             }
         });
@@ -1039,6 +1057,21 @@ public class OvApp
                                     platform,
                                     destination
                             );
+                    
+                            if (travelTime.getDestination().equals("Ede"))
+                            {
+                            	 
+                                 dynamicMap.set_Location_Bus1();
+                            }
+                            else if (travelTime.getDestination().equals("Amersfoort")) 
+                            	
+                            {	
+                            	dynamicMap.set_Location_Bus2();
+                            }
+                            else if (travelTime.getDestination().equals("Utrecht")) 
+                            {	
+                            	dynamicMap.set_Location_Bus3();
+                            }
                         }
                         else if (selectedTransportType.equals("Train"))
                         {
@@ -1048,6 +1081,9 @@ public class OvApp
                                     platform,
                                     destination
                             );
+                            
+                           dynamicMap.set_Location_Trein1();
+                           System.out.println("treinmap werkt");
                         }
                         else if (selectedTransportType.equals("Tram"))
                         {
@@ -1057,6 +1093,10 @@ public class OvApp
                                     platform,
                                     destination
                             );
+                            
+                           	dynamicMap.set_Location_Tram();
+                         
+                           
                         }
                         else if (selectedTransportType.equals("Metro"))
                         {
@@ -1066,6 +1106,8 @@ public class OvApp
                                     platform,
                                     destination
                             );
+                            
+                            dynamicMap.set_Location_Metro2();
                         }
                         
                         // Set labels to the selected TravelTime
@@ -1142,7 +1184,7 @@ public class OvApp
      */
     private void panelMap()
     {
-        DynamicMap.set_Location_Tram();
+        //dynamicMap.set_Location_Trein1();
     	
         panelMap = new JPanel();// make a new panel named panelMap
         panelMap.setBackground(Color.WHITE);// set the background to the color white
@@ -1324,6 +1366,7 @@ public class OvApp
                     selectedTransportType,
                     profile.getId());
         });
+        
 
         // Quick test for returning to results panel
         // TODO

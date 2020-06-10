@@ -176,7 +176,7 @@ public class DynamicMap extends OvApp
 		
 	}
 	
-	public static void set_Location_Trein2() {
+	public static void set_Location_Bus3() {
 		System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
     	System.setProperty("teamdev.license.info", "true");
     	
@@ -211,7 +211,7 @@ public class DynamicMap extends OvApp
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_EdeCtrl_AmersfoortCrtl_Bus.html");
+        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_EdeCtrl_RotterdamCrtl_Bus.html");
        
 
         SwingUtilities.invokeLater(() -> {
