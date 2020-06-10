@@ -1,7 +1,6 @@
 package adsd.app.ovapp.ovapp;
 
 import adsd.app.ovapp.bus.BusDataModel;
-import adsd.app.ovapp.bus.BusTime;
 import adsd.app.ovapp.metro.MetroDataModel;
 import adsd.app.ovapp.train.TrainDataModel;
 import adsd.app.ovapp.tram.TramDataModel;
@@ -13,13 +12,9 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,14 +23,8 @@ import java.util.*;
 import java.awt.event.ActionEvent;
 
 import static adsd.app.ovapp.ovapp.DBConnection.Connection;
-import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 
 import javax.swing.table.DefaultTableModel;
-
-import com.teamdev.jxbrowser.browser.Browser;
-import com.teamdev.jxbrowser.engine.Engine;
-import com.teamdev.jxbrowser.engine.EngineOptions;
-import com.teamdev.jxbrowser.view.swing.BrowserView;
 
 public class OvApp
 {
@@ -54,6 +43,7 @@ public class OvApp
     //
     // String
     private String selectedTransportType;
+
     //
     // Java Swing Components
     //
@@ -78,11 +68,22 @@ public class OvApp
     private JEditorPane citytxt;
     private JEditorPane streettxt;
     private JEditorPane agetxt;
+
+
     //
     // Planner Components
-    private JTextField txtFieldDeparture;
-    private JTextField txtFieldDestination;
+    public JTextField txtFieldDeparture;
+    public JTextField txtFieldDestination;
     private JSpinner SpnrDateTime;
+
+
+    public static String selectedDeparture;
+    public static String selectedDestination;
+
+
+    public static JLabel lblPriceTxt;
+
+
     //
     // Login Components
     private JTextField userName;
@@ -118,6 +119,7 @@ public class OvApp
     private JLabel lblDistanceTxt;
     private JLabel lblTrackDepartureTxt;
     private JLabel lblTrackArrivalTxt;
+    //public JLabel lblPriceTxt;
     //
     // Labels from panelLocation that are dynamic
     private JLabel lblDynamicDeparture;
@@ -130,7 +132,7 @@ public class OvApp
     private JLabel lblLocationDepartureType;
     private JTable tableDelays;
     private JLabel lblDepartureTime;
-    private JLabel lblArrivalTime;
+    public JLabel lblArrivalTime;
     private JLabel lblTrackDeparture;
     private JLabel lblTrackArrival;
     private JLabel lblPrice;
@@ -165,6 +167,18 @@ public class OvApp
                 }
             }
         });
+    }
+
+    public static String selectedDeparture() {
+        return selectedDeparture;
+    }
+
+    public static String selectedDestination() {
+        return selectedDestination;
+    }
+
+    public static JLabel lblPriceTxt() {
+        return lblPriceTxt;
     }
 
     /**
@@ -765,22 +779,7 @@ public class OvApp
                             departure,
                             arrivalTime,
                             destination
-                    ); 
-                    
-                    if (travelTime.getDestination().equals("Ede"))
-                    {
-                    	 
-                         dynamicMap.set_Location_Bus1();
-                    }
-                    else if (travelTime.getDestination().equals("Amersfoort")) 
-                    	
-                    {	
-                    	dynamicMap.set_Location_Bus2();
-                    }
-                    else if (travelTime.getDestination().equals("Utrecht")) 
-                    {	
-                    	dynamicMap.set_Location_Bus3();
-                    }
+                    );
                 }
                 else if (selectedTransportType.equals("Metro"))
                 {
@@ -791,7 +790,6 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
-                   dynamicMap.set_Location_Metro1();
                 }
                 else if (selectedTransportType.equals("Trein"))
                 {
@@ -802,7 +800,6 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
-                    dynamicMap.set_Location_Trein1();
                 }
                 else if (selectedTransportType.equals("Tram"))
                 {
@@ -813,7 +810,6 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
-                    dynamicMap.set_Location_Tram();
                 }
 
                 // Set labels to the selected TravelTime
@@ -826,7 +822,7 @@ public class OvApp
                 
                 //To do refresh map for Joel & Danielle
                 //Traveltime can be used here
-               
+                
                 
             }
         });
@@ -862,14 +858,16 @@ public class OvApp
         {
         	//Switch to resultsPanel
         	showPanels("Results");
-        	
+
+
             // Retrieve search criteria
-            String selectedDeparture = txtFieldDeparture.getText();
-            String selectedDestination = txtFieldDestination.getText();
+            selectedDeparture = txtFieldDeparture.getText();
+            selectedDestination = txtFieldDestination.getText();
+
 
             // Set labels to display used search criteria
-            lblDynamicDeparture.setText(selectedDeparture);
-            lblDynamicDestination.setText(selectedDestination);
+            lblDynamicDeparture.setText(txtFieldDeparture.getText());
+            lblDynamicDestination.setText(txtFieldDestination.getText());
             lblDynamicTransportType.setText(selectedTransportType);
 
             // Create a header for the table
@@ -933,7 +931,7 @@ public class OvApp
         //button that will show the current time
         btnNow = new JButton("Nu");
 
-        txtFieldDeparture = new JTextField();
+        txtFieldDeparture = new JTextField("");
         txtFieldDeparture.setColumns(10);
 
         //automatically groups the buttons at the same height.
@@ -1059,21 +1057,6 @@ public class OvApp
                                     platform,
                                     destination
                             );
-                    
-                            if (travelTime.getDestination().equals("Ede"))
-                            {
-                            	 
-                                 dynamicMap.set_Location_Bus1();
-                            }
-                            else if (travelTime.getDestination().equals("Amersfoort")) 
-                            	
-                            {	
-                            	dynamicMap.set_Location_Bus2();
-                            }
-                            else if (travelTime.getDestination().equals("Utrecht")) 
-                            {	
-                            	dynamicMap.set_Location_Bus3();
-                            }
                         }
                         else if (selectedTransportType.equals("Train"))
                         {
@@ -1083,9 +1066,6 @@ public class OvApp
                                     platform,
                                     destination
                             );
-                            
-                           dynamicMap.set_Location_Trein1();
-                           System.out.println("treinmap werkt");
                         }
                         else if (selectedTransportType.equals("Tram"))
                         {
@@ -1095,10 +1075,6 @@ public class OvApp
                                     platform,
                                     destination
                             );
-                            
-                           	dynamicMap.set_Location_Tram();
-                         
-                           
                         }
                         else if (selectedTransportType.equals("Metro"))
                         {
@@ -1108,8 +1084,6 @@ public class OvApp
                                     platform,
                                     destination
                             );
-                            
-                            dynamicMap.set_Location_Metro2();
                         }
                         
                         // Set labels to the selected TravelTime
@@ -1120,7 +1094,7 @@ public class OvApp
                         lblTrackDepartureTxt.setText(travelTime.getPlatform()+ " "+ travelTime.getStationName());
                         lblTrackArrivalTxt.setText(travelTime.getDestination());
                         
-                        
+
                         // Refresh map here  
                        
                     }
@@ -1186,7 +1160,7 @@ public class OvApp
      */
     private void panelMap()
     {
-        //dynamicMap.set_Location_Trein1();
+        DynamicMap.set_Location_Tram();
     	
         panelMap = new JPanel();// make a new panel named panelMap
         panelMap.setBackground(Color.WHITE);// set the background to the color white
@@ -1250,7 +1224,7 @@ public class OvApp
         lblTrackArrivalTxt.setBounds(348, 75, 132, 23);
         panelMap.add(lblTrackArrivalTxt);
 
-        JLabel lblPriceTxt = new JLabel("<dynamic>");
+        lblPriceTxt = new JLabel("<dynamic>");
         lblPriceTxt.setBounds(348, 135, 70, 23);
         panelMap.add(lblPriceTxt);
 
@@ -1368,7 +1342,6 @@ public class OvApp
                     selectedTransportType,
                     profile.getId());
         });
-        
 
         // Quick test for returning to results panel
         // TODO
