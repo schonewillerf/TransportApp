@@ -14,12 +14,12 @@ public class Translate
     {
         Language = language;
         languageMap = new HashMap();
-        FillLanguageMap();
+        fillLanguageMap();
     }
-    //puts a new value into the language list.
-    private void FillLanguageMap() 
+    // Puts a new value into the language list.
+    private void fillLanguageMap() 
     {
-    	//Profile
+    	// Profile
         languageMap.put("Wijzig profiel", "Edit profile");
         languageMap.put("Favorieten", "Favorites");
         languageMap.put("Opgeslagen", "Saved");
@@ -32,20 +32,19 @@ public class Translate
         languageMap.put("Stad", "City");
         languageMap.put("Straatnaam", "Streetname");
         languageMap.put("EN", "NL");
-        //TravelPlanner
+        // TravelPlanner
         languageMap.put("Aankomst", "Destination");
         languageMap.put("Vertrek", "Departure");
         languageMap.put("Nu", "Now");
         languageMap.put("Zoeken", "Search");
-        //Location
+        // Location
         languageMap.put("Bestemming", "Destination");
         languageMap.put("Vervoerstype", "Transport type");
         languageMap.put("Wijzig reis", "Change trip");
         languageMap.put("Vertrektijd", "Departure time");
         languageMap.put("Halte", "Bus stop");
         languageMap.put("Spoor", "Platform");
-        //languageMap.put("Bestemming", "Destination");
-        //Map
+        // Map
         languageMap.put("Vertrektijd", "Departure time");
         languageMap.put("Aankomsttijd", "Arrival time");
         languageMap.put("Totale tijd", "Overall time");
@@ -55,13 +54,13 @@ public class Translate
         languageMap.put("Afstand", "Distance");
         languageMap.put("Tijd", "Time");
         languageMap.put("Stop", "Stop");
-        //Delays
+        // Delays
         languageMap.put("Vertragingen", "Delays");
-        //TableDelay
+        // TableDelay
         languageMap.put("Aankomst station", "Arrival station");
         languageMap.put("Vertraging", "Delay");
         languageMap.put("Vertrek station", "Departure station");
-        //Tabs
+        // Tabs
         languageMap.put("Login", "Login");
         languageMap.put("Profiel", "Profile");
         languageMap.put("Reisplanner", "Travel Planner");
@@ -74,8 +73,8 @@ public class Translate
         languageMap.put("Terug", "Back");
     }
     
-    //gets the translated word from languagemap and returns the word.
-    public String TransLang(String word) 
+    // Gets the translated word from fillLanguagemap and returns the word.
+    public String transLang(String word) 
     {
         if (Language == "EN")
         {
