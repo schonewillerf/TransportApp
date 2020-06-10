@@ -53,6 +53,4 @@ public class TrainTime extends TravelTime
     }
 
 
-
-
 }
