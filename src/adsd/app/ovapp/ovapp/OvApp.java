@@ -498,8 +498,8 @@ public class OvApp
         // Action Event for
         //by click the action will be performed with the code  below
         editButton.addActionListener(e ->
-        {
-            if (("Wijzig profiel").equals(editButton.getText())) // . equals is the same for..
+        {	// . equals is the same for..
+            if (("Wijzig profiel").equals(editButton.getText())) 
             {
                 cardtxt.setEnabled(true);
                 firstnametxt.setEnabled(true);
@@ -547,10 +547,12 @@ public class OvApp
         editButton.setBounds(55, 240, 120, 20);
         panelProfile.add(editButton);
 
-        JButton btnPencil = new JButton("");
+        JButton btnPencil = new JButton("Write");
         btnPencil.setForeground(Color.WHITE);
         btnPencil.setBackground(Color.WHITE);
         btnPencil.setIcon(new ImageIcon(OvApp.class.getResource("/resources/toolpencil.png")));
+        textPane.setEditable(false);
+        btnPencil.addActionListener(e -> textPane.setEditable(true));
         btnPencil.setBounds(24, 464, 24, 23);
         panelProfile.add(btnPencil);
 
