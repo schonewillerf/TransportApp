@@ -1,52 +1,99 @@
 package adsd.app.ovapp.train;
 
-import adsd.app.ovapp.metro.MetroTime;
+import adsd.app.ovapp.ovapp.OvApp;
 import adsd.app.ovapp.ovapp.TravelTime;
+import adsd.app.ovapp.train.NScontent.NStrain;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import org.codehaus.jackson.map.ObjectMapper;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import static adsd.app.ovapp.ovapp.DBConnection.Connection;
 
-public class TrainDataModel
-{
+public class TrainDataModel {
+
     private List<TravelTime> trainTimesList = new ArrayList<TravelTime>();
-    private Connection connection;
 
     public void parseDataAndBuildList()
     {
         trainTimesList.clear();
 
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        ObjectMapper mapper = new ObjectMapper();
+
         try
         {
-            connection = Connection();
-            String SQL = "SELECT * FROM trainTime";
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            String url = "https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips";
+            URIBuilder builder = new URIBuilder(url);
 
-            while (resultSet.next())
+            builder.setParameter("dateTime", "2020-06-10T10:59:00+0200");
+            builder.setParameter("fromStation", OvApp.selectedDeparture());
+            builder.setParameter("toStation", OvApp.selectedDestination());
+
+            HttpGet request = new HttpGet(builder.build());
+            request.setHeader("Ocp-Apim-Subscription-Key", "ecea2783032c441fb813a07205d4cd80");
+
+            HttpResponse response = httpclient.execute(request);
+            HttpEntity entity = response.getEntity();
+
+            NStrain nstrain = mapper.readValue(EntityUtils.toString(entity), NStrain.class);
+
+            for (int i = 0; i < 6; i++)
             {
-                trainTimesList.add(new MetroTime(
-                        resultSet.getString("arrivalTime"),
-                        resultSet.getString("departureTime"),
-                        resultSet.getString("platform"),
-                        resultSet.getString("departure"),
-                        resultSet.getString("destination"),
-                        resultSet.getString("route"),
+                String DepartureName = nstrain.trips[i].legs[0].origin.getName();
+                String DepartureTrack = nstrain.trips[i].legs[0].origin.getPlannedTrack();
+                String inptDepartureDateTime = nstrain.trips[i].legs[0].origin.getPlannedDateTime();
+                String Direction = nstrain.trips[i].legs[0].getDirection();
+                String DestinationName = nstrain.trips[i].legs[0].destination.getName();
+                String DestinationTrack = nstrain.trips[i].legs[0].destination.getPlannedTrack();
+                String inptDestinationDateTime = nstrain.trips[i].legs[0].destination.getPlannedDateTime();
+
+                SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'SSSS");
+                SimpleDateFormat output = new SimpleDateFormat("HH:mm");
+
+                Date dest = null;
+                Date dep = null;
+                try
+                {
+                    dest = input.parse(inptDestinationDateTime);
+                    dep = input.parse(inptDepartureDateTime);
+                }
+                catch (ParseException e)
+                {
+                    e.printStackTrace();
+                }
+                String DestinationDateTime = output.format(dest);
+                String DepartureDateTime = output.format(dep);
+
+                trainTimesList.add(new TrainTime(
+                        DestinationDateTime,
+                        DepartureDateTime,
+                        DepartureTrack,
+                        DepartureName,
+                        DestinationName,
+                        Direction,
                         9000
-                        //resultSet.getInt("distance")
                 ));
             }
-        }
-        catch (SQLException throwables)
+        } catch (IOException | URISyntaxException e)
         {
-            throwables.printStackTrace();
+            e.printStackTrace();
         }
-
     }
 
     public List<TravelTime> getArrivalTimes()
@@ -55,84 +102,118 @@ public class TrainDataModel
         return trainTimesList;
     }
 
-    public TravelTime getTravelTime(String departureTime, String platform, String destination)
-    {
-        String SQL = "SELECT * FROM trainTime WHERE departureTime=? AND platform=? AND destination=?;";
+    public TravelTime getTravelTime(String departureTime, String platform, String destination) {
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        ObjectMapper mapper = new ObjectMapper();
 
         try
         {
-            connection = Connection();
+            URIBuilder builder = new URIBuilder("https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips");
 
-            // Actually prepare the SQL statement with parameters from selected travelTime
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setString(1, departureTime);
-            preparedStatement.setString(2, platform);
-            preparedStatement.setString(3, destination);
+            builder.setParameter("dateTime", "2020-06-10T"+departureTime+":00+0200");
+            builder.setParameter("fromStation", OvApp.selectedDeparture());
+            builder.setParameter("toStation",OvApp.selectedDestination());
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            URI uri = builder.build();
+            HttpGet request = new HttpGet(uri);
+            request.setHeader("Ocp-Apim-Subscription-Key", "ecea2783032c441fb813a07205d4cd80");
 
-            // Execute if there is a result in the DB
-            if (resultSet.next())
+            HttpResponse response = httpclient.execute(request);
+            HttpEntity entity = response.getEntity();
+
+            NStrain nstrain = mapper.readValue(EntityUtils.toString(entity), NStrain.class);
+
+            String DepartureName = nstrain.trips[0].legs[0].origin.getName();
+            String DepartureTrack = nstrain.trips[0].legs[0].origin.getPlannedTrack();
+            String inptDepartureDateTime = nstrain.trips[0].legs[0].origin.getPlannedDateTime();
+            String Direction = nstrain.trips[0].legs[0].getDirection();
+            String DestinationName = nstrain.trips[0].legs[0].destination.getName();
+            String DestinationTrack = nstrain.trips[0].legs[0].destination.getPlannedTrack();
+            String inptDestinationDateTime = nstrain.trips[0].legs[0].destination.getPlannedDateTime();
+            String priceTicket =  nstrain.trips[0].productFare.getPriceInCents();
+
+            OvApp.lblPriceTxt.setText(priceTicket);
+
+            SimpleDateFormat inputTwo = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+'SSSS");
+            SimpleDateFormat outputTwo = new SimpleDateFormat("HH:mm");
+
+            Date dest = null;
+            Date depTwo = null;
+            try
             {
-                TrainTime trainTime = new TrainTime(
-                        resultSet.getString("arrivalTime"),
-                        resultSet.getString("departureTime"),
-                        resultSet.getString("platform"),
-                        resultSet.getString("departure"),
-                        resultSet.getString("destination"),
-                        resultSet.getString("route"),
+                dest = inputTwo.parse(inptDestinationDateTime);
+                depTwo = inputTwo.parse(inptDepartureDateTime);
+            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+            String DestinationDateTime = outputTwo.format(dest);
+            String DepartureDateTime = outputTwo.format(depTwo);
+
+            TrainTime trainTime = new TrainTime(
+                        DestinationDateTime,
+                        DepartureDateTime,
+                        DepartureTrack,
+                        DepartureName,
+                        DestinationName,
+                        Direction,
                         9000
                 );
-
-                return trainTime;
-            }
+            return trainTime;
         }
-        catch (SQLException throwables)
+        catch (IOException | URISyntaxException e)
         {
-            throwables.printStackTrace();
+            e.printStackTrace();
         }
-
-        return null; // Should check if return is not null when using this method
+        return null;
     }
-    
-    public TravelTime getSavedTravelTime(String departureTime, String departure, String arrivalTime, String destination)
+
+    public TrainTime getSavedTravelTime(String departureTime, String departure, String arrivalTime, String destination)
     {
-        String SQL = "SELECT * FROM trainTime WHERE departureTime=? AND departure=? AND arrivalTime=? AND destination=?;";
+        CloseableHttpClient httpclient = HttpClients.createDefault();
+        ObjectMapper mapper = new ObjectMapper();
 
         try
         {
-            connection = Connection();
+            URIBuilder builder = new URIBuilder("https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips");
 
-            // Actually prepare the SQL statement with parameters from selected travelTime
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setString(1, departureTime);
-			preparedStatement.setString(2, departure);
-			preparedStatement.setString(3, arrivalTime);
-			preparedStatement.setString(4, destination);
+            builder.setParameter("dateTime", "2020-06-10T" + arrivalTime + ":00+0200");
+            builder.setParameter("fromStation", departure);
+            builder.setParameter("toStation", destination);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            URI uri = builder.build();
+            HttpGet request = new HttpGet(uri);
+            request.setHeader("Ocp-Apim-Subscription-Key", "ecea2783032c441fb813a07205d4cd80");
 
-            // Execute if there is a result in the DB
-            if (resultSet.next())
-            {
-                TrainTime trainTime = new TrainTime(
-                        resultSet.getString("arrivalTime"),
-                        resultSet.getString("departureTime"),
-                        resultSet.getString("platform"),
-                        resultSet.getString("departure"),
-                        resultSet.getString("destination"),
-                        resultSet.getString("route"),
-                        9000
-                );
+            HttpResponse response = httpclient.execute(request);
+            HttpEntity entity = response.getEntity();
 
-                return trainTime;
-            }
-        }
-        catch (SQLException throwables)
+            NStrain nstrain = mapper.readValue(EntityUtils.toString(entity), NStrain.class);
+
+            String DepartureName = nstrain.trips[0].legs[0].origin.getName();
+            String DepartureTrack = nstrain.trips[0].legs[0].origin.getPlannedTrack();
+            String DepartureDateTime = nstrain.trips[0].legs[0].origin.getPlannedDateTime();
+            String Direction = nstrain.trips[0].legs[0].getDirection();
+            String DestinationName = nstrain.trips[0].legs[0].destination.getName();
+            String DestinationTrack = nstrain.trips[0].legs[0].destination.getPlannedTrack();
+            String DestinationDateTime = nstrain.trips[0].legs[0].destination.getPlannedDateTime();
+
+            TrainTime trainTime = new TrainTime(
+                    DestinationDateTime,
+                    DepartureDateTime,
+                    DepartureTrack,
+                    DepartureName,
+                    DestinationName,
+                    Direction,
+                    9000
+            );
+            return trainTime;
+
+        } catch (IOException | URISyntaxException e)
         {
-            throwables.printStackTrace();
+            e.printStackTrace();
         }
-
         return null; // Should check if return is not null when using this method
     }
 }

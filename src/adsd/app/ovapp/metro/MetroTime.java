@@ -51,4 +51,5 @@ public class MetroTime extends TravelTime
     {
         return String.format("%s m", distance);
     }
+
 }
