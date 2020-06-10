@@ -1,6 +1,7 @@
 package adsd.app.ovapp.metro;
 
 import adsd.app.ovapp.bus.BusTime;
+import adsd.app.ovapp.ovapp.OvApp;
 import adsd.app.ovapp.ovapp.TravelTime;
 
 import java.sql.Connection;
@@ -16,6 +17,8 @@ public class MetroDataModel
 {
 	private ArrayList<TravelTime> metroTimeList = new ArrayList<>();
 	private Connection connection;
+
+
 
 	private void parseDataAndBuildList() 
 	{
@@ -131,6 +134,7 @@ public class MetroDataModel
 
 				return metroTime;
 			}
+
 		}
 		catch (SQLException throwables)
 		{
