@@ -2,18 +2,13 @@ package adsd.app.ovapp.train;
 
 public class TestTrainDataModel
 {
-    /*
     private static Boolean overallTestResult = true;
 
     /**
-     * Default constructor for test class TestTraintDataModel
-     *
-     * @param traintime
-     *
-
+     * Default constructor for test class TestTrainDataModel
+     */
     public static Boolean runTester()
     {
-
         System.out.println("\nRun tester..");
 
 
@@ -28,24 +23,35 @@ public class TestTrainDataModel
         //testcase 2 short
         printTestResult(2, testCase2());
 
-
         return overallTestResult;
-
     }
 
     private static Boolean testCase1()
     {
-
-        TrainTime departureTime = new TrainTime();
-        departureTime.setDepartureTime("14:00");
+        TrainTime departureTime = new TrainTime(
+                "",
+                "14:00",
+                "",
+                "",
+                "",
+                "",
+                0
+        );
 
         return setOverallTestResult(String.valueOf(departureTime.getDepartureTime()).equals("14:00"));
     }
 
     private static Boolean testCase2()
     {
-        TrainTime stationName = new TrainTime();
-        stationName.setStationName("Amersfoort");
+        TrainTime stationName = new TrainTime(
+                "",
+                "14:00",
+                "",
+                "Amersfoort",
+                "",
+                "",
+                0
+        );
 
         return setOverallTestResult(String.valueOf(stationName.getStationName()).equals("Amersfoort"));
     }
@@ -54,7 +60,6 @@ public class TestTrainDataModel
 
     private static Boolean setOverallTestResult(Boolean testResult)
     {
-
         if (!testResult)
         {
             overallTestResult = false;
@@ -66,19 +71,13 @@ public class TestTrainDataModel
 
     private static void printTestResult(int testCase, Boolean testResult)
     {
-
-        // System.out.println("\t#Test result @testCase " + String.valueOf(testCase) + ": " + testResult);
+        System.out.println("\t#Test result @testCase " + String.valueOf(testCase) + ": " + testResult);
     }
 
     public static void main(String[] args)
     {
-
-
         System.out.println("\n[!] Overall test result: " + runTester() + "\n");
-
     }
-
-     */
 }
 
 
