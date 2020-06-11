@@ -1,6 +1,7 @@
 package adsd.app.ovapp.ovapp;
 
 import adsd.app.ovapp.bus.BusDataModel;
+import adsd.app.ovapp.bus.BusTime;
 import adsd.app.ovapp.metro.MetroDataModel;
 import adsd.app.ovapp.train.TrainDataModel;
 import adsd.app.ovapp.tram.TramDataModel;
@@ -39,11 +40,14 @@ public class OvApp
     private Profile profile;
     private Translate Translate;
     private TravelTime travelTime;
+    private TravelTime travelTimeBack;
     private DynamicMap dynamicMap;
     //
     // String
     private String selectedTransportType;
-
+    //
+    // Boolean
+    private boolean editMode;
     //
     // Java Swing Components
     //
@@ -68,21 +72,15 @@ public class OvApp
     private JEditorPane citytxt;
     private JEditorPane streettxt;
     private JEditorPane agetxt;
-
-
     //
     // Planner Components
     public JTextField txtFieldDeparture;
     public JTextField txtFieldDestination;
     private JSpinner SpnrDateTime;
 
-
     public static String selectedDeparture;
     public static String selectedDestination;
-
-
     public static JLabel lblPriceTxt;
-
 
     //
     // Login Components
@@ -139,6 +137,7 @@ public class OvApp
     private JLabel lblDistance_1;
     private JLabel lblTotalTime;
     private JLabel lblSaveTraject;
+    private JLabel lblEditTraject;
     private JLabel lblVertragingen;
     private JTable tableSaved;
     
@@ -146,7 +145,8 @@ public class OvApp
     private JButton btnBackFavorites;
     private JButton btnBackSaved;
     private JButton btnBackReminder;
-    
+    private JButton btnBackMap;
+
     //newscreen is a alias for OvApp, here is Ovapp opened as a new main program
     public static void newScreen()
     {
@@ -261,10 +261,9 @@ public class OvApp
         tabbedPane.setBounds(10, 11, 485, 655);
         frame.getContentPane().add(tabbedPane);
         profile = new Profile();
-        //Create empty traveltime
-        //travelTime = new BusTime("","","","","","",0);
         Translate = new Translate("NL"); //standard language
         selectedTransportType = "Bus";    // Bus is assumed to be default for simplicity
+        editMode = false;
         initialize();
         panelProfile();
         panelLogin();
@@ -733,7 +732,11 @@ public class OvApp
         btnBackFavorites.setBounds(364, 28, 89, 23);
         panelFavorites.add(btnBackFavorites);
         btnBackSaved = new JButton("Terug");
-        btnBackSaved.addActionListener(e -> showPanels("Profile"));
+        btnBackSaved.addActionListener(e ->
+        {
+            editMode = false;
+            showPanels("Profile");
+        });
 
         btnBackSaved.setBounds(12, 12, 89, 23);
         panelSaved.add(btnBackSaved);
@@ -757,6 +760,9 @@ public class OvApp
             // Will run if there is a selected row
             if (selectedRow >= 0)
             {
+                // Set edit mode true
+                editMode = true;
+
                 // Show panel with TravelTime details
                 showPanels("Details");
 
@@ -780,6 +786,23 @@ public class OvApp
                             departure,
                             arrivalTime,
                             destination
+<<<<<<< src/adsd/app/ovapp/ovapp/OvApp.java
+                    );
+
+                    if (travelTime.getDestination().equals("Ede"))
+                    {
+
+                        dynamicMap.set_Location_Bus1();
+                    }
+                    else if (travelTime.getDestination().equals("Amersfoort"))
+
+                    {
+                        dynamicMap.set_Location_Bus2();
+                    }
+                    else if (travelTime.getDestination().equals("Utrecht"))
+                    {
+                        dynamicMap.set_Location_Bus3();
+=======
                     ); 
                     
                     if (travelTime.getDestination().equals("Ede"))
@@ -795,6 +818,7 @@ public class OvApp
                     else if (travelTime.getDestination().equals("Utrecht")) 
                     {	
                     	dynamicMap.set_Location_Bus3();
+>>>>>>> src/adsd/app/ovapp/ovapp/OvApp.java
                     }
                 }
                 else if (selectedTransportType.equals("Metro"))
@@ -806,7 +830,11 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
+<<<<<<< src/adsd/app/ovapp/ovapp/OvApp.java
+                    dynamicMap.set_Location_Metro1();
+=======
                    dynamicMap.set_Location_Metro1();
+>>>>>>> src/adsd/app/ovapp/ovapp/OvApp.java
                 }
                 else if (selectedTransportType.equals("Trein"))
                 {
@@ -828,6 +856,10 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
+<<<<<<< src/adsd/app/ovapp/ovapp/OvApp.java
+
+=======
+>>>>>>> src/adsd/app/ovapp/ovapp/OvApp.java
                     dynamicMap.set_Location_Tram();
                 }
 
@@ -1069,6 +1101,22 @@ public class OvApp
                                     platform,
                                     destination
                             );
+<<<<<<< src/adsd/app/ovapp/ovapp/OvApp.java
+
+                            if (travelTime.getDestination().equals("Ede"))
+                            {
+
+                                dynamicMap.set_Location_Bus1();
+                            }
+                            else if (travelTime.getDestination().equals("Amersfoort"))
+
+                            {
+                                dynamicMap.set_Location_Bus2();
+                            }
+                            else if (travelTime.getDestination().equals("Utrecht"))
+                            {
+                                dynamicMap.set_Location_Bus3();
+=======
                     
                             if (travelTime.getDestination().equals("Ede"))
                             {
@@ -1083,6 +1131,7 @@ public class OvApp
                             else if (travelTime.getDestination().equals("Utrecht")) 
                             {	
                             	dynamicMap.set_Location_Bus3();
+>>>>>>> src/adsd/app/ovapp/ovapp/OvApp.java
                             }
                         }
                         else if (selectedTransportType.equals("Train"))
@@ -1093,9 +1142,15 @@ public class OvApp
                                     platform,
                                     destination
                             );
+<<<<<<< src/adsd/app/ovapp/ovapp/OvApp.java
+
+                            dynamicMap.set_Location_Trein1();
+                            System.out.println("treinmap werkt");
+=======
                             
                            dynamicMap.set_Location_Trein1();
                            System.out.println("treinmap werkt");
+>>>>>>> src/adsd/app/ovapp/ovapp/OvApp.java
                         }
                         else if (selectedTransportType.equals("Tram"))
                         {
@@ -1105,10 +1160,15 @@ public class OvApp
                                     platform,
                                     destination
                             );
+<<<<<<< src/adsd/app/ovapp/ovapp/OvApp.java
+
+                            dynamicMap.set_Location_Tram();
+=======
                             
                            	dynamicMap.set_Location_Tram();
                          
                            
+>>>>>>> src/adsd/app/ovapp/ovapp/OvApp.java
                         }
                         else if (selectedTransportType.equals("Metro"))
                         {
@@ -1118,7 +1178,11 @@ public class OvApp
                                     platform,
                                     destination
                             );
+<<<<<<< src/adsd/app/ovapp/ovapp/OvApp.java
+
+=======
                             
+>>>>>>> src/adsd/app/ovapp/ovapp/OvApp.java
                             dynamicMap.set_Location_Metro2();
                         }
                         // Set labels to the selected TravelTime
@@ -1224,6 +1288,11 @@ public class OvApp
         lblSaveTraject.setFont(new Font("Tahoma", Font.BOLD, 11));
         panelMap.add(lblSaveTraject);
 
+        lblEditTraject = new JLabel("Wijzigen");
+        lblEditTraject.setBounds(44, 203, 84, 25);
+        lblEditTraject.setFont(new Font("Tahoma", Font.BOLD, 11));
+        panelMap.add(lblEditTraject);
+
         lblTrackDeparture = new JLabel("Spoor:");
         lblTrackDeparture.setFont(new Font("Tahoma", Font.BOLD, 11));
         lblTrackDeparture.setBounds(282, 39, 56, 25);
@@ -1264,6 +1333,22 @@ public class OvApp
         panelMap.add(lblPriceTxt);
 
         // Buttons
+        btnBackMap = new JButton("Terug");
+        btnBackMap.setBounds(12, 12, 89, 23);
+        panelMap.add(btnBackMap);
+
+        btnBackMap.addActionListener(e ->
+        {
+            if (editMode)
+            {
+                showPanels("Saved");
+            }
+            else
+            {
+                showPanels("Results");
+            }
+        });
+
         JButton btnLocationArrival = new JButton("");
         btnLocationArrival.setBounds(10, 76, 25, 23);
         btnLocationArrival.setBackground(Color.WHITE);
@@ -1287,6 +1372,98 @@ public class OvApp
         btnSaveTraject.setBackground(Color.WHITE);
         btnSaveTraject.setIcon(new ImageIcon(OvApp.class.getResource("/resources/saved.png")));
         panelMap.add(btnSaveTraject);
+
+        JButton btnEditTraject = new JButton("");
+        btnEditTraject.setBounds(10, 203, 25, 23);
+        btnEditTraject.setBackground(Color.WHITE);
+        btnEditTraject.setIcon(new ImageIcon(OvApp.class.getResource("/resources/transfer.png")));
+        panelMap.add(btnEditTraject);
+
+        btnEditTraject.addActionListener(e ->
+        {
+            if (editMode)
+            {
+                travelTimeBack = new BusTime(
+                        travelTime.getArrivalTime(),
+                        travelTime.getDepartureTime(),
+                        travelTime.getPlatform(),
+                        travelTime.getStationName(),
+                        travelTime.getDestination(),
+                        travelTime.getRoute(),
+                        1
+                );
+
+                //Switch to resultsPanel
+                showPanels("Results");
+
+                // Store search criteria
+                String selectedDeparture = travelTime.getStationName();
+                String selectedDestination = travelTime.getDestination();
+
+                txtFieldDeparture.setText(selectedDeparture);
+                txtFieldDestination.setText(selectedDestination);
+
+                // Set labels to display used search criteria
+                lblDynamicDeparture.setText(selectedDeparture);
+                lblDynamicDestination.setText(selectedDestination);
+                lblDynamicTransportType.setText(selectedTransportType);
+
+                // Create a header for the table
+                String[] header = {Translate.transLang("Vertrektijd"), "Spoor/Halte", Translate.transLang("Bestemming")};
+                header[1] = selectedTransportType.equals("Bus") ? Translate.transLang("Halte") : Translate.transLang("Spoor");
+
+
+                // Create a new TableModel and apply it to the Table
+                DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, header);
+                tableLocation.setModel(dtm);
+
+                // Create a list for storing TravelTime objects
+                List<TravelTime> travelTimes = new ArrayList<>();
+
+                // TravelTime objects for the appropriate travel type are retrieved from database
+                if (selectedTransportType.equals("Bus"))
+                {
+                    // Create the correct dataModel for the travel type
+                    BusDataModel dataModel = new BusDataModel();
+                    // Use the getArrivalTimes() method to get all arrival time in the travelTimes variable
+                    travelTimes = dataModel.getArrivalTimes();
+                }
+                else if (selectedTransportType.equals("Train"))
+                {
+                    TrainDataModel dataModel = new TrainDataModel();
+                    travelTimes = dataModel.getArrivalTimes();
+                }
+                else if (selectedTransportType.equals("Tram"))
+                {
+                    TramDataModel dataModel = new TramDataModel();
+                    travelTimes = dataModel.getArrivalTimes();
+                }
+                else if (selectedTransportType.equals("Metro"))
+                {
+                    MetroDataModel dataModel = new MetroDataModel();
+                    travelTimes = dataModel.getArrivalTimes();
+                }
+
+                // Loop over items in the travelTimes list
+                for (TravelTime travelTime : travelTimes)
+                {
+                    // Check if to and from fields in search panel match departure and arrival
+                    if (travelTime.getDestination().contains(selectedDestination) &&
+                            travelTime.getStationName().contains(selectedDeparture))
+                    {
+                        // Add row to table if filter criteria are met
+                        dtm.addRow(new Object[]
+                                {
+                                        // Add data to columns
+                                        travelTime.getDepartureTime(),
+                                        travelTime.getPlatform(),
+                                        travelTime.getDestination(),
+                                }
+                        );
+                    }
+                }
+            }
+        });
 
         JButton btnTrackDeparture = new JButton("");
         btnTrackDeparture.setBounds(247, 40, 25, 23);
@@ -1366,17 +1543,30 @@ public class OvApp
         // Add an ActionListener to save Traject to DB
         btnSaveTraject.addActionListener(actionEvent ->
         {
-            DBHandler dbHandler = new DBHandler();
+            if (editMode)
+            {
+                System.out.println("learn to edit a saved mode");
 
-            // Save the travelTime to DB
-            dbHandler.saveTime(
-                    travelTime.getDepartureTime(),
-                    travelTime.getStationName(),
-                    travelTime.getArrivalTime(),
-                    travelTime.getDestination(),
-                    selectedTransportType,
-                    profile.getId());
+                System.out.println(travelTimeBack.getDestination());
+                System.out.println(travelTimeBack.getDepartureTime());
+
+            }
+            else
+            {
+                DBHandler dbHandler = new DBHandler();
+
+                // Save the travelTime to DB
+                dbHandler.saveTime(
+                        travelTime.getDepartureTime(),
+                        travelTime.getStationName(),
+                        travelTime.getArrivalTime(),
+                        travelTime.getDestination(),
+                        selectedTransportType,
+                        profile.getId());
+            }
+
         });
+
 
         // Quick test for returning to results panel
         // TODO

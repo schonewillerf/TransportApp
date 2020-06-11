@@ -65,7 +65,7 @@ public class DynamicMap extends OvApp
 
 	        Browser browser = engine.newBrowser();
 	        // Loading the required web page
-	        browser.navigation().loadUrl("file:///C:/googlemapsHTML/simple_map.html");
+	        browser.navigation().loadUrl("//resources/simple_map.html");
 	       
 	        SwingUtilities.invokeLater(() -> 
 	        {
@@ -87,7 +87,7 @@ public class DynamicMap extends OvApp
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_1aAmstelStation_AmsterdamCtrl_Tram.html");
+        browser.navigation().loadUrl("//resources/map_AmersfoortCtrl_AmersfoortZuid_Bus.html");
        
 
         SwingUtilities.invokeLater(() -> 
@@ -110,7 +110,7 @@ public class DynamicMap extends OvApp
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_2eCtrl_Zuidplein_Metro.html");
+        browser.navigation().loadUrl("//resources/map_2eCtrl_Zuidplein_Metro.html");
        
 
         SwingUtilities.invokeLater(() -> 
@@ -134,7 +134,7 @@ public class DynamicMap extends OvApp
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_3BWillemshaven_DeMarkt_Metro.html");
+        browser.navigation().loadUrl("//resources/map_3BWillemshaven_DeMarkt_Metro.html");
        
         SwingUtilities.invokeLater(() -> 
         {
@@ -157,7 +157,7 @@ public class DynamicMap extends OvApp
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_AmersfoortCtrl_AmsterdamCtrl_Trein.html");
+        browser.navigation().loadUrl("//resources/map_AmersfoortCtrl_AmsterdamCtrl_Trein.html");
        
         SwingUtilities.invokeLater(() -> 
         {
@@ -180,7 +180,7 @@ public class DynamicMap extends OvApp
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_AmersfoortCtrl_UtrechtCtrl_Trein.html");
+        browser.navigation().loadUrl("//resources/map_AmersfoortCtrl_UtrechtCtrl_Trein.html");
        
         SwingUtilities.invokeLater(() -> 
         {
@@ -203,7 +203,7 @@ public class DynamicMap extends OvApp
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_EdeCtrl_RotterdamCrtl_Bus.html");
+        browser.navigation().loadUrl("//resources/map_EdeCtrl_AmersfoortCrtl_Bus.html");
        
         SwingUtilities.invokeLater(() -> 
         {
