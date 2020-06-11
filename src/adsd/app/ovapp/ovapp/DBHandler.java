@@ -1,7 +1,5 @@
 package adsd.app.ovapp.ovapp;
 
-import adsd.app.ovapp.bus.BusTime;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +35,7 @@ public class DBHandler
                         resultSet.getString("departure"),
                         resultSet.getString("arrivalTime"),
                         resultSet.getString("destination"),
-                        resultSet.getInt("transportType")
+                        resultSet.getString("transportType")
                 ));
             }
         }
@@ -49,32 +47,10 @@ public class DBHandler
         return savedTimes;
     }
 
-    public void saveTime(String departureTime,
-                         String departure,
-                         String arrivalTime,
-                         String destination,
+    public void saveTime(TravelTime travelTime,
                          String transportType,
                          int loggedInUser)
     {
-        int transportNumber = 0;
-
-        if (transportType.equals("Bus"))
-        {
-            transportNumber = 1;
-        }
-        else if (transportType.equals("Metro"))
-        {
-            transportNumber = 2;
-        }
-        else if (transportType.equals("Train"))
-        {
-            transportNumber = 3;
-        }
-        else if (transportType.equals("Tram"))
-        {
-            transportNumber = 4;
-        }
-
         try
         {
             connection = Connection();
@@ -82,12 +58,50 @@ public class DBHandler
             String SQL = "INSERT INTO savedRoute VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(SQL);
-            preparedStatement.setString(1, departureTime);
-            preparedStatement.setString(2, departure);
-            preparedStatement.setString(3, arrivalTime);
-            preparedStatement.setString(4, destination);
-            preparedStatement.setInt(5, transportNumber);
+            preparedStatement.setString(1, travelTime.getDepartureTime());
+            preparedStatement.setString(2, travelTime.getStationName());
+            preparedStatement.setString(3, travelTime.getArrivalTime());
+            preparedStatement.setString(4, travelTime.getDestination());
+            preparedStatement.setString(5, transportType);
             preparedStatement.setInt(6, loggedInUser);
+
+            int row = preparedStatement.executeUpdate();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void editTime(
+            TravelTime travelTimeBack,
+            TravelTime travelTime,
+            String transportType,
+            int id
+    )
+    {
+        try
+        {
+            connection = Connection();
+
+            String SQL = "UPDATE savedRoute " +
+                    "SET departureTime = ?, departure = ?, arrivalTime = ?, destination = ?, transportType = ?, loggedInUser = ? " +
+                    "WHERE departureTime = ? AND departure = ? AND arrivalTime = ? AND destination = ? AND loggedInUser = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+
+            preparedStatement.setString(1, travelTime.getDepartureTime());
+            preparedStatement.setString(2, travelTime.getStationName());
+            preparedStatement.setString(3, travelTime.getArrivalTime());
+            preparedStatement.setString(4, travelTime.getDestination());
+            preparedStatement.setString(5, transportType);
+            preparedStatement.setInt(6, id);
+
+            preparedStatement.setString(7, travelTimeBack.getDepartureTime());
+            preparedStatement.setString(8, travelTimeBack.getStationName());
+            preparedStatement.setString(9, travelTimeBack.getArrivalTime());
+            preparedStatement.setString(10, travelTimeBack.getDestination());
+            preparedStatement.setInt(11, id);
 
             int row = preparedStatement.executeUpdate();
         }

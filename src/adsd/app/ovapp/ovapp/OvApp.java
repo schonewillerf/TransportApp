@@ -578,8 +578,10 @@ public class OvApp
         JButton btnSaved = new JButton();
         btnSaved.addActionListener(e ->
         {
-            setPanelSaved();
+            // Show the Saved Routes Panel
             showPanels("Saved");
+            // Load the saved Routes Panel
+            setPanelSaved();
         });
 
         btnSaved.setForeground(Color.WHITE);
@@ -749,9 +751,6 @@ public class OvApp
             // Will run if there is a selected row
             if (selectedRow >= 0)
             {
-                // Set edit mode true
-                editMode = true;
-
                 // Show panel with TravelTime details
                 showPanels("Details");
 
@@ -836,8 +835,20 @@ public class OvApp
                 
                 //To do refresh map for Joel & Danielle
                 //Traveltime can be used here
-               
-                
+
+                // Set edit mode true
+                editMode = true;
+
+                // Create backup of selected travelTime to be edited
+                travelTimeBack = new BusTime(
+                        travelTime.getArrivalTime(),
+                        travelTime.getDepartureTime(),
+                        travelTime.getPlatform(),
+                        travelTime.getStationName(),
+                        travelTime.getDestination(),
+                        travelTime.getRoute(),
+                        1
+                );
             }
         });
 
@@ -1278,13 +1289,18 @@ public class OvApp
                 {
                     if (editMode)
                     {
+                        // Show the Saved Routes Panel
                         showPanels("Saved");
+                        // Load the saved Routes Panel
+                        setPanelSaved();
                     }
                     else
                     {
+                        // Show the Route Planner Results Panel
                         showPanels("Results");
                     }
-                });
+                }
+        );
 
         JButton btnLocationArrival = new JButton("");
         btnLocationArrival.setBounds(10, 76, 25, 23);
@@ -1320,16 +1336,6 @@ public class OvApp
         {
             if (editMode)
             {
-                travelTimeBack = new BusTime(
-                        travelTime.getArrivalTime(),
-                        travelTime.getDepartureTime(),
-                        travelTime.getPlatform(),
-                        travelTime.getStationName(),
-                        travelTime.getDestination(),
-                        travelTime.getRoute(),
-                        1
-                );
-
                 //Switch to resultsPanel
                 showPanels("Results");
 
@@ -1479,36 +1485,28 @@ public class OvApp
         // Add an ActionListener to save Traject to DB
         btnSaveTraject.addActionListener(actionEvent ->
         {
+            DBHandler dbHandler = new DBHandler();
+
             if (editMode)
             {
-                System.out.println("learn to edit a saved mode");
-
-                System.out.println(travelTimeBack.getDestination());
-                System.out.println(travelTimeBack.getDepartureTime());
-
+                // Edit the travelTime in DB
+                dbHandler.editTime(
+                        travelTimeBack,
+                        travelTime,
+                        selectedTransportType,
+                        profile.getId()
+                );
             }
             else
             {
-                DBHandler dbHandler = new DBHandler();
-
-                // Save the travelTime to DB
+                // Add the travelTime to DB
                 dbHandler.saveTime(
-                        travelTime.getDepartureTime(),
-                        travelTime.getStationName(),
-                        travelTime.getArrivalTime(),
-                        travelTime.getDestination(),
+                        travelTime,
                         selectedTransportType,
-                        profile.getId());
+                        profile.getId()
+                );
             }
-
         });
-        
-
-        // Quick test for returning to results panel
-        // TODO
-        // Add a real return button in this panel
-        // Replace button name in line below
-        btnLocationArrival.addActionListener(e -> showPanels("Results"));
     }
 
     /**
