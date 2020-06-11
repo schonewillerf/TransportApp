@@ -769,7 +769,7 @@ public class OvApp
                 String destination = String.valueOf(tableSaved.getModel().getValueAt(selectedRow, 4));
                 System.out.println(destination);
 
-                // Retrieve TravelTime from DB with corresponding TravelDataModel
+             // Retrieve TravelTime from DB with corresponding TravelDataModel
                 if (selectedTransportType.equals("Bus"))
                 {
                     // Using the BusDataModel
@@ -780,7 +780,22 @@ public class OvApp
                             departure,
                             arrivalTime,
                             destination
-                    );
+                    ); 
+                    
+                    if (travelTime.getDestination().equals("Ede"))
+                    {
+                    	 
+                         dynamicMap.set_Location_Bus1();
+                    }
+                    else if (travelTime.getDestination().equals("Amersfoort")) 
+                    	
+                    {	
+                    	dynamicMap.set_Location_Bus2();
+                    }
+                    else if (travelTime.getDestination().equals("Utrecht")) 
+                    {	
+                    	dynamicMap.set_Location_Bus3();
+                    }
                 }
                 else if (selectedTransportType.equals("Metro"))
                 {
@@ -791,6 +806,7 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
+                   dynamicMap.set_Location_Metro1();
                 }
                 else if (selectedTransportType.equals("Trein"))
                 {
@@ -801,6 +817,7 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
+                    dynamicMap.set_Location_Trein1();
                 }
                 else if (selectedTransportType.equals("Tram"))
                 {
@@ -811,6 +828,7 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
+                    dynamicMap.set_Location_Tram();
                 }
 
                 // Set labels to the selected TravelTime
@@ -1034,7 +1052,7 @@ public class OvApp
                     // If there is a selected row it will be stored in the private variable travelTime
                     if (selectedRow >= 0)
                     {
-                    	// Switch to the panelMap
+                    	//Switch to the panelMap
                         showPanels("Details");
                     	
                         // Retrieve selected info
@@ -1051,6 +1069,21 @@ public class OvApp
                                     platform,
                                     destination
                             );
+                    
+                            if (travelTime.getDestination().equals("Ede"))
+                            {
+                            	 
+                                 dynamicMap.set_Location_Bus1();
+                            }
+                            else if (travelTime.getDestination().equals("Amersfoort")) 
+                            	
+                            {	
+                            	dynamicMap.set_Location_Bus2();
+                            }
+                            else if (travelTime.getDestination().equals("Utrecht")) 
+                            {	
+                            	dynamicMap.set_Location_Bus3();
+                            }
                         }
                         else if (selectedTransportType.equals("Train"))
                         {
@@ -1060,6 +1093,9 @@ public class OvApp
                                     platform,
                                     destination
                             );
+                            
+                           dynamicMap.set_Location_Trein1();
+                           System.out.println("treinmap werkt");
                         }
                         else if (selectedTransportType.equals("Tram"))
                         {
@@ -1069,6 +1105,10 @@ public class OvApp
                                     platform,
                                     destination
                             );
+                            
+                           	dynamicMap.set_Location_Tram();
+                         
+                           
                         }
                         else if (selectedTransportType.equals("Metro"))
                         {
@@ -1078,8 +1118,9 @@ public class OvApp
                                     platform,
                                     destination
                             );
+                            
+                            dynamicMap.set_Location_Metro2();
                         }
-                        
                         // Set labels to the selected TravelTime
                         lblDepartureTimeTxt.setText(travelTime.getDepartureTime());
                         lblArrivalTimeTxt.setText(travelTime.getArrivalTime());
@@ -1154,7 +1195,7 @@ public class OvApp
      */
     private void panelMap()
     {
-        DynamicMap.set_Location_Tram();
+        DynamicMap.open_map();
     	
         panelMap = new JPanel();// Make a new panel named panelMap
         panelMap.setBackground(Color.WHITE);// Set the background to the color white
