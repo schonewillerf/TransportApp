@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class TrainDataModel 
+public class TrainDataModel
 {
     private List<TravelTime> trainTimesList = new ArrayList<TravelTime>();
 
@@ -152,14 +152,14 @@ public class TrainDataModel
             String DepartureDateTime = outputTwo.format(depTwo);
 
             TrainTime trainTime = new TrainTime(
-                        DestinationDateTime,
-                        DepartureDateTime,
-                        DepartureTrack,
-                        DepartureName,
-                        DestinationName,
-                        Direction,
-                        9000
-                );
+                    DestinationDateTime,
+                    DepartureDateTime,
+                    DepartureTrack,
+                    DepartureName,
+                    DestinationName,
+                    Direction,
+                    9000
+            );
             return trainTime;
         }
         catch (IOException | URISyntaxException e)
