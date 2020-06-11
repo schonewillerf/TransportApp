@@ -25,8 +25,8 @@ import java.util.Date;
 import java.util.List;
 
 
-public class TrainDataModel {
-
+public class TrainDataModel 
+{
     private List<TravelTime> trainTimesList = new ArrayList<TravelTime>();
 
     public void parseDataAndBuildList()
