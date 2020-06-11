@@ -140,7 +140,7 @@ public class OvApp
     private JLabel lblEditTraject;
     private JLabel lblVertragingen;
     private JTable tableSaved;
-    
+    //
     //Buttons
     private JButton btnBackFavorites;
     private JButton btnBackSaved;
@@ -591,8 +591,10 @@ public class OvApp
         JButton btnSaved = new JButton();
         btnSaved.addActionListener(e ->
         {
-            setPanelSaved();
+            // Show the Saved Routes Panel
             showPanels("Saved");
+            // Load the saved Routes Panel
+            setPanelSaved();
         });
 
         btnSaved.setForeground(Color.WHITE);
@@ -843,6 +845,20 @@ public class OvApp
                 lblDistanceTxt.setText(travelTime.getDistance());
                 lblTrackDepartureTxt.setText(travelTime.getPlatform());
                 lblTrackArrivalTxt.setText(travelTime.getDestination());
+
+                // Set edit mode true
+                editMode = true;
+
+                // Create backup of selected travelTime to be edited
+                travelTimeBack = new BusTime(
+                        travelTime.getArrivalTime(),
+                        travelTime.getDepartureTime(),
+                        travelTime.getPlatform(),
+                        travelTime.getStationName(),
+                        travelTime.getDestination(),
+                        travelTime.getRoute(),
+                        1
+                );
             }
         });
 
@@ -1278,16 +1294,21 @@ public class OvApp
         panelMap.add(btnBackMap);
 
         btnBackMap.addActionListener(e ->
-        {
-            if (editMode)
-            {
-                showPanels("Saved");
-            }
-            else
-            {
-                showPanels("Results");
-            }
-        });
+                {
+                    if (editMode)
+                    {
+                        // Show the Saved Routes Panel
+                        showPanels("Saved");
+                        // Load the saved Routes Panel
+                        setPanelSaved();
+                    }
+                    else
+                    {
+                        // Show the Route Planner Results Panel
+                        showPanels("Results");
+                    }
+                }
+        );
 
         JButton btnLocationArrival = new JButton("");
         btnLocationArrival.setBounds(10, 76, 25, 23);
@@ -1323,16 +1344,6 @@ public class OvApp
         {
             if (editMode)
             {
-                travelTimeBack = new BusTime(
-                        travelTime.getArrivalTime(),
-                        travelTime.getDepartureTime(),
-                        travelTime.getPlatform(),
-                        travelTime.getStationName(),
-                        travelTime.getDestination(),
-                        travelTime.getRoute(),
-                        1
-                );
-
                 //Switch to resultsPanel
                 showPanels("Results");
 
@@ -1351,7 +1362,6 @@ public class OvApp
                 // Create a header for the table
                 String[] header = {Translate.transLang("Vertrektijd"), "Spoor/Halte", Translate.transLang("Bestemming")};
                 header[1] = selectedTransportType.equals("Bus") ? Translate.transLang("Halte") : Translate.transLang("Spoor");
-
 
                 // Create a new TableModel and apply it to the Table
                 DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, header);
@@ -1483,36 +1493,28 @@ public class OvApp
         // Add an ActionListener to save Traject to DB
         btnSaveTraject.addActionListener(actionEvent ->
         {
+            DBHandler dbHandler = new DBHandler();
+
             if (editMode)
             {
-                System.out.println("learn to edit a saved mode");
-
-                System.out.println(travelTimeBack.getDestination());
-                System.out.println(travelTimeBack.getDepartureTime());
-
+                // Edit the travelTime in DB
+                dbHandler.editTime(
+                        travelTimeBack,
+                        travelTime,
+                        selectedTransportType,
+                        profile.getId()
+                );
             }
             else
             {
-                DBHandler dbHandler = new DBHandler();
-
-                // Save the travelTime to DB
+                // Add the travelTime to DB
                 dbHandler.saveTime(
-                        travelTime.getDepartureTime(),
-                        travelTime.getStationName(),
-                        travelTime.getArrivalTime(),
-                        travelTime.getDestination(),
+                        travelTime,
                         selectedTransportType,
-                        profile.getId());
+                        profile.getId()
+                );
             }
-
         });
-
-
-        // Quick test for returning to results panel
-        // TODO
-        // Add a real return button in this panel
-        // Replace button name in line below
-        btnLocationArrival.addActionListener(e -> showPanels("Results"));
     }
 
     /**

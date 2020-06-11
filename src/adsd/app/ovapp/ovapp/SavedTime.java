@@ -1,14 +1,20 @@
 package adsd.app.ovapp.ovapp;
 
+/**
+ * SavedTime class used for storing TravelTimes in DB
+ */
+
 public class SavedTime
 {
+    // Instance Variables
     private String departureTime;
     private String departure;
     private String arrivalTime;
     private String destination;
-    private int transportType;
+    private String transportType;
 
-    public SavedTime(String departureTime, String departure, String arrivalTime, String destination, int transportType)
+    // Constructor
+    public SavedTime(String departureTime, String departure, String arrivalTime, String destination, String transportType)
     {
         this.departureTime = departureTime;
         this.departure = departure;
@@ -17,6 +23,7 @@ public class SavedTime
         this.transportType = transportType;
     }
 
+    // Getter methods
     public String getDepartureTime()
     {
         return departureTime;
@@ -39,23 +46,7 @@ public class SavedTime
 
     public String getTransportType()
     {
-        if (transportType == 1)
-        {
-            return "Bus";
-        }
-        else if (transportType == 2)
-        {
-            return "Metro";
-        }
-        else if (transportType == 3)
-        {
-            return "Train";
-        }
-        else
-        {
-            return "Tram";
-        }
+        return transportType;
     }
     // Seanan was here
-    
 }
