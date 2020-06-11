@@ -789,16 +789,16 @@ public class OvApp
                     if (travelTime.getDestination().equals("Ede"))
                     {
 
-                        dynamicMap.set_Location_Bus1();
+                        dynamicMap.setLocationBus1();
                     }
                     else if (travelTime.getDestination().equals("Amersfoort"))
 
                     {
-                        dynamicMap.set_Location_Bus2();
+                        dynamicMap.setLocationBus2();
                     }
                     else if (travelTime.getDestination().equals("Utrecht"))
                     {
-                        dynamicMap.set_Location_Bus3();
+                        dynamicMap.setLocationBus3();
                     }
                 }
                 else if (selectedTransportType.equals("Metro"))
@@ -810,7 +810,7 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
-                    dynamicMap.set_Location_Metro1();
+                    dynamicMap.setLocationMetro1();
                 }
                 else if (selectedTransportType.equals("Trein"))
                 {
@@ -821,7 +821,7 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
-                    dynamicMap.set_Location_Trein1();
+                    dynamicMap.setLocationTrein1();
                 }
                 else if (selectedTransportType.equals("Tram"))
                 {
@@ -833,7 +833,7 @@ public class OvApp
                             destination
                     );
 
-                    dynamicMap.set_Location_Tram();
+                    dynamicMap.setLocationTram();
                 }
 
                 // Set labels to the selected TravelTime
@@ -1078,16 +1078,16 @@ public class OvApp
                             if (travelTime.getDestination().equals("Ede"))
                             {
 
-                                dynamicMap.set_Location_Bus1();
+                                dynamicMap.setLocationBus1();
                             }
                             else if (travelTime.getDestination().equals("Amersfoort"))
 
                             {
-                                dynamicMap.set_Location_Bus2();
+                                dynamicMap.setLocationBus2();
                             }
                             else if (travelTime.getDestination().equals("Utrecht"))
                             {
-                                dynamicMap.set_Location_Bus3();
+                                dynamicMap.setLocationBus3();
                             }
                         }
                         else if (selectedTransportType.equals("Train"))
@@ -1099,7 +1099,7 @@ public class OvApp
                                     destination
                             );
 
-                            dynamicMap.set_Location_Trein1();
+                            dynamicMap.setLocationTrein1();
                             System.out.println("treinmap werkt");
                         }
                         else if (selectedTransportType.equals("Tram"))
@@ -1111,7 +1111,7 @@ public class OvApp
                                     destination
                             );
 
-                            dynamicMap.set_Location_Tram();
+                            dynamicMap.setLocationTram();
                         }
                         else if (selectedTransportType.equals("Metro"))
                         {
@@ -1122,7 +1122,7 @@ public class OvApp
                                     destination
                             );
 
-                            dynamicMap.set_Location_Metro2();
+                            dynamicMap.setLocationMetro2();
                         }
                         
                         // Set labels to the selected TravelTime
@@ -1199,7 +1199,7 @@ public class OvApp
      */
     private void panelMap()
     {
-        dynamicMap.open_map();
+        dynamicMap.openMap();
     	
         panelMap = new JPanel();// Make a new panel named panelMap
         panelMap.setBackground(Color.WHITE);// Set the background to the color white
