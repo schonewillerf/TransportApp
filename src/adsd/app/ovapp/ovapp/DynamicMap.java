@@ -70,8 +70,8 @@ public class DynamicMap extends OvApp
 
 	        Browser browser = engine.newBrowser();
 	        // Loading the required web page
-	        browser.navigation().loadUrl("file:///C:/googlemapsHTML/simple_map.html");
-	       
+	        browser.navigation().loadUrl("file:////Users/vandewater/GitLab/ovapp/src/resources/simple_map.html");
+
 
 	        SwingUtilities.invokeLater(() -> {
 	            // Creating Swing component for rendering web content
@@ -80,138 +80,138 @@ public class DynamicMap extends OvApp
 	            internalFrame();
 	            });
 		}
-	
+
 
 
 	public static void set_Location_Tram() {
-		
+
 		System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
     	System.setProperty("teamdev.license.info", "true");
-    	
+
     	// Creating and running Chromium engine
         Engine engine = Engine.newInstance(
                 EngineOptions.newBuilder(HARDWARE_ACCELERATED).build());
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_1aAmstelStation_AmsterdamCtrl_Tram.html");
-       
+        browser.navigation().loadUrl("file:////Users/vandewater/GitLab/ovapp/src/resources/map_1aAmstelStation_AmsterdamCtrl_Tram.html");
+
 
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
             view = BrowserView.newInstance(browser);
             internalFrame();
-    		
-        }); 
+
+        });
 	}
-	
+
 	public static void set_Location_Metro1() {
 		System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
     	System.setProperty("teamdev.license.info", "true");
-    	
+
     	// Creating and running Chromium engine
         Engine engine = Engine.newInstance(
                 EngineOptions.newBuilder(HARDWARE_ACCELERATED).build());
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_2eCtrl_Zuidplein_Metro.html");
-       
+        browser.navigation().loadUrl("file:////Users/vandewater/GitLab/ovapp/src/resources/map_2eCtrl_Zuidplein_Metro.html");
+
 
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
            view = BrowserView.newInstance(browser);
             internalFrame();
-             		
-        }); 
-		
+
+        });
+
 	}
-	
+
 	public static void set_Location_Metro2() {
 		System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
     	System.setProperty("teamdev.license.info", "true");
-    	
+
     	// Creating and running Chromium engine
         Engine engine = Engine.newInstance(
                 EngineOptions.newBuilder(HARDWARE_ACCELERATED).build());
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_3BWillemshaven_DeMarkt_Metro.html");
-       
+        browser.navigation().loadUrl("file:////Users/vandewater/GitLab/ovapp/src/resources/map_3BWillemshaven_DeMarkt_Metro.html");
+
 
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
             view = BrowserView.newInstance(browser);
             internalFrame();
-    		
-        }); 
-		
+
+        });
+
 	}
-	
+
 	public static void set_Location_Trein1() {
 		System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
     	System.setProperty("teamdev.license.info", "true");
-    	
+
     	// Creating and running Chromium engine
         Engine engine = Engine.newInstance(
                 EngineOptions.newBuilder(HARDWARE_ACCELERATED).build());
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_AmersfoortCtrl_AmsterdamCtrl_Trein.html");
-       
+        browser.navigation().loadUrl("file:////Users/vandewater/GitLab/ovapp/src/resources/map_AmersfoortCtrl_AmsterdamCtrl_Trein.html");
+
 
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
             view = BrowserView.newInstance(browser);
             internalFrame();
-            
-    		
-        }); 
-		
+
+
+        });
+
 	}
-	
+
 	public static void set_Location_Bus3() {
 		System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
     	System.setProperty("teamdev.license.info", "true");
-    	
+
     	// Creating and running Chromium engine
         Engine engine = Engine.newInstance(
                 EngineOptions.newBuilder(HARDWARE_ACCELERATED).build());
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_AmersfoortCtrl_UtrechtCtrl_Trein.html");
-       
+        browser.navigation().loadUrl("file:////Users/vandewater/GitLab/ovapp/src/resources/map_AmersfoortCtrl_UtrechtCtrl_Trein.html");
+
 
         SwingUtilities.invokeLater(() -> {
             // Creating Swing component for rendering web content
             // loaded in the given Browser instance
             view = BrowserView.newInstance(browser);
             internalFrame();
-            
- 
-    		
-        }); 
-		
+
+
+
+        });
+
 	}
-	
+
 	public static void set_Location_Bus1() {
 		System.setProperty("jxbrowser.license.key", "6P830J66YAN5IR2Z6GR197J3OHDLYJNT0WAO11SZM8RRGG9S816S0QPEY2NCP251WS5J");
     	System.setProperty("teamdev.license.info", "true");
-    	
+
     	// Creating and running Chromium engine
         Engine engine = Engine.newInstance(
                 EngineOptions.newBuilder(HARDWARE_ACCELERATED).build());
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_EdeCtrl_RotterdamCrtl_Bus.html");
+        browser.navigation().loadUrl("file:////Users/vandewater/GitLab/ovapp/src/resources/map_EdeCtrl_RotterdamCrtl_Bus.html");
        
 
         SwingUtilities.invokeLater(() -> {
@@ -235,7 +235,7 @@ public class DynamicMap extends OvApp
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_AmersfoortCtrl_AmersfoortZuid_Bus.html");
+        browser.navigation().loadUrl("file:////Users/vandewater/GitLab/ovapp/src/resources/map_AmersfoortCtrl_EdeCtrm_Bus.html");
        
 
         SwingUtilities.invokeLater(() -> {

@@ -41,7 +41,7 @@ public class Trips {
     }
 
     public ProductFare getProductFare() {
-        return productFare;
+        return productFare ;
     }
 
     public void setProductFare(ProductFare productFare) {

@@ -13,13 +13,9 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,14 +24,8 @@ import java.util.*;
 import java.awt.event.ActionEvent;
 
 import static adsd.app.ovapp.ovapp.DBConnection.Connection;
-import static com.teamdev.jxbrowser.engine.RenderingMode.HARDWARE_ACCELERATED;
 
 import javax.swing.table.DefaultTableModel;
-
-import com.teamdev.jxbrowser.browser.Browser;
-import com.teamdev.jxbrowser.engine.Engine;
-import com.teamdev.jxbrowser.engine.EngineOptions;
-import com.teamdev.jxbrowser.view.swing.BrowserView;
 
 public class OvApp
 {
@@ -84,9 +74,14 @@ public class OvApp
     private JEditorPane agetxt;
     //
     // Planner Components
-    private JTextField txtFieldDeparture;
-    private JTextField txtFieldDestination;
+    public JTextField txtFieldDeparture;
+    public JTextField txtFieldDestination;
     private JSpinner SpnrDateTime;
+
+    public static String selectedDeparture;
+    public static String selectedDestination;
+    public static JLabel lblPriceTxt;
+
     //
     // Login Components
     private JTextField userName;
@@ -122,6 +117,7 @@ public class OvApp
     private JLabel lblDistanceTxt;
     private JLabel lblTrackDepartureTxt;
     private JLabel lblTrackArrivalTxt;
+    //public JLabel lblPriceTxt;
     //
     // Labels from panelLocation that are dynamic
     private JLabel lblDynamicDeparture;
@@ -134,7 +130,7 @@ public class OvApp
     private JLabel lblLocationDepartureType;
     private JTable tableDelays;
     private JLabel lblDepartureTime;
-    private JLabel lblArrivalTime;
+    public JLabel lblArrivalTime;
     private JLabel lblTrackDeparture;
     private JLabel lblTrackArrival;
     private JLabel lblPrice;
@@ -150,7 +146,7 @@ public class OvApp
     private JButton btnBackSaved;
     private JButton btnBackReminder;
     private JButton btnBackMap;
-    
+
     //newscreen is a alias for OvApp, here is Ovapp opened as a new main program
     public static void newScreen()
     {
@@ -173,6 +169,21 @@ public class OvApp
         });
     }
 
+    public static String selectedDeparture() 
+    {
+        return selectedDeparture;
+    }
+
+    public static String selectedDestination() 
+    {
+        return selectedDestination;
+    }
+
+    public static JLabel lblPriceTxt() 
+    {
+        return lblPriceTxt;
+    }
+
     /**
      * This method controls what panels to display
      *
@@ -186,52 +197,52 @@ public class OvApp
         // Display login or profile tab appropriately
         if (profile.getId() == 0)
         {
-            tabbedPane.addTab(Translate.TransLang("Login"), null, panelLogin, null);
+            tabbedPane.addTab(Translate.transLang("Login"), null, panelLogin, null);
         }
         else
         {
-            tabbedPane.addTab(Translate.TransLang("Profiel"), null, panelProfile, null);
+            tabbedPane.addTab(Translate.transLang("Profiel"), null, panelProfile, null);
         }
 
         // Add second tab appropriately
         if (panelToDisplay.equals("Planner"))
         {
-            tabbedPane.addTab(Translate.TransLang("Reisplanner"), null, panelTravelPlanner, null);
+            tabbedPane.addTab(Translate.transLang("Reisplanner"), null, panelTravelPlanner, null);
             tabbedPane.setSelectedIndex(1);
         }
         else if (panelToDisplay.equals("Results"))
         {
-            tabbedPane.addTab(Translate.TransLang("Locatie"), null, panelLocation, null);
+            tabbedPane.addTab(Translate.transLang("Locatie"), null, panelLocation, null);
             tabbedPane.setSelectedIndex(1);
         }
         else if (panelToDisplay.equals("Details"))
         {
-            tabbedPane.addTab(Translate.TransLang("Details"), null, panelMap, null);
+            tabbedPane.addTab(Translate.transLang("Details"), null, panelMap, null);
             tabbedPane.setSelectedIndex(1);
         }
         else if (panelToDisplay.equals("Saved"))
         {
-            tabbedPane.addTab(Translate.TransLang("Opgeslagen"), null, panelSaved, null);
+            tabbedPane.addTab(Translate.transLang("Opgeslagen"), null, panelSaved, null);
             tabbedPane.setSelectedIndex(1);
         }
         else if (panelToDisplay.equals("Favourites"))
         {
-            tabbedPane.addTab(Translate.TransLang("Favorieten"), null, panelFavorites, null);
+            tabbedPane.addTab(Translate.transLang("Favorieten"), null, panelFavorites, null);
             tabbedPane.setSelectedIndex(1);
         }
         else if (panelToDisplay.equals("Reminders"))
         {
-            tabbedPane.addTab(Translate.TransLang("Herinneringen"), null , panelReminder, null);
+            tabbedPane.addTab(Translate.transLang("Herinneringen"), null , panelReminder, null);
             tabbedPane.setSelectedIndex(1);
         }
         else
         {
-            tabbedPane.addTab(Translate.TransLang("Reisplanner"), null, panelTravelPlanner, null);
+            tabbedPane.addTab(Translate.transLang("Reisplanner"), null, panelTravelPlanner, null);
             tabbedPane.setSelectedIndex(0);
         }
 
         // Always add the delays tab
-        tabbedPane.addTab(Translate.TransLang("Vertragingen"), null, panelDelays, null);
+        tabbedPane.addTab(Translate.transLang("Vertragingen"), null, panelDelays, null);
     }
 
     // This is where the app is made and starts
@@ -268,12 +279,14 @@ public class OvApp
     {
         // Header for table with saved travelTimes
         //String[] header = {"Vervoerstype", "Vertrektijd", "Vertrek", "Aankomsttijd", "Bestemming"};
-    	String[] header = {
-    			Translate.TransLang("Vervoerstype"),
-    			Translate.TransLang("Vertrektijd"),
-    			Translate.TransLang("Vertrek"),
-    			Translate.TransLang("Aankomsttijd"),
-    			Translate.TransLang("Bestemming")};
+    	String[] header = 
+    		{
+    			Translate.transLang("Vervoerstype"),
+    			Translate.transLang("Vertrektijd"),
+    			Translate.transLang("Vertrek"),
+    			Translate.transLang("Aankomsttijd"),
+    			Translate.transLang("Bestemming")
+    		};
         // Create a tableModel with empty Object[][] as data and header as label
         DefaultTableModel defaultTableModel = new DefaultTableModel(new Object[][]{}, header);
 
@@ -381,51 +394,51 @@ public class OvApp
     // Method for panel profile, everything is that is made in profile panel is in this methode.
     private void panelProfile()
     {
-        // you can call the methode and get all this code working with just one word of code.
+        // You can call the methode and get all this code working with just one word of code.
         panelProfile = new JPanel();
         panelProfile.setBackground(Color.WHITE);
         panelProfile.setLayout(null);
-        // we need this to store userid
+        // We need this to store userid
         userid = new JLabel("");
-        //Labels
+        // Labels
         JLabel lbimage = new JLabel();
         lbimage.setBackground(UIManager.getColor("ToolBar.highlight"));
-        //image added to the label
+        // Image added to the label
         lbimage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/rsz_1profile.jpg")));
         lbimage.setBounds(24, 21, 207, 222);
         panelProfile.add(lbimage);
-        //Map
+        // Map
         lbMyCard = new JLabel("Kaart");
         lbMyCard.setFont(new Font("Tahoma", Font.BOLD, 11));
         lbMyCard.setBounds(55, 280, 74, 20);
         panelProfile.add(lbMyCard);
-        //Name
+        // Name
         lbMyFirstName = new JLabel("Naam" + ":");
         lbMyFirstName.setFont(new Font("Tahoma", Font.BOLD, 11));
         lbMyFirstName.setBounds(55, 310, 74, 20);
         panelProfile.add(lbMyFirstName);
-        //LastName
+        // LastName
         lbMyLastName = new JLabel("Achternaam" + ":");
         lbMyLastName.setFont(new Font("Tahoma", Font.BOLD, 11));
         lbMyLastName.setBounds(55, 340, 74, 20);
         panelProfile.add(lbMyLastName);
-        //age
+        // Age
         lbMyAge = new JLabel("Leeftijd" + ":");
         lbMyAge.setFont(new Font("Tahoma", Font.BOLD, 11));
         lbMyAge.setBounds(55, 370, 74, 20);
         panelProfile.add(lbMyAge);
-        //city
+        // City
         lbMyCity = new JLabel("Stad" + ":");
         lbMyCity.setFont(new Font("Tahoma", Font.BOLD, 11));
         lbMyCity.setBounds(55, 400, 74, 20);
         panelProfile.add(lbMyCity);
-        //streetadress
+        // Streetadress
         lbMyStreet = new JLabel("Straatnaam" + ":");
         lbMyStreet.setFont(new Font("Tahoma", Font.BOLD, 11));
         lbMyStreet.setBounds(55, 430, 74, 20);
         panelProfile.add(lbMyStreet);
 
-        //editorpanes profilepanel
+        // Editorpanes profilepanel
         cardtxt = new JEditorPane();
         cardtxt.setFont(new Font("Tahoma", Font.BOLD, 11));
         cardtxt.setText("naam");
@@ -493,15 +506,15 @@ public class OvApp
         lbHome.setHorizontalAlignment(SwingConstants.LEFT);
         lbHome.setBounds(24, 430, 24, 27);
         panelProfile.add(lbHome);
-        //textpanes
+        // Textpanes
         JTextPane textPane = new JTextPane();
         textPane.setBackground(new Color(211, 211, 211));
         textPane.setBounds(24, 505, 386, 111);
         panelProfile.add(textPane);
-        //buttons
-        editButton = new JButton("Wijzig profiel");//button for changing profile
+        // Buttons
+        editButton = new JButton("Wijzig profiel");// Button for changing profile
         // Action Event for
-        //by click the action will be performed with the code  below
+        // By click the action will be performed with the code  below
         editButton.addActionListener(e ->
         {
             if (("Wijzig profiel").equals(editButton.getText())) // . equals is the same for..
@@ -607,65 +620,60 @@ public class OvApp
         {
             public void actionPerformed(ActionEvent e)
             {
-                if (Translate.Language.equals("EN")) //display Language Dutch
+                if (Translate.Language.equals("EN")) // Display Language Dutch
                 {
                     Translate.Language = "NL";
                     System.out.println(Translate.Language);
-                    //tabTxtNl();
                     showPanels("Profile");
                     btnLanguage.setIcon(new ImageIcon(OvApp.class.getResource("/resources/countryEnglish.png")));
-                    btnLanguage.setText(Translate.TransLang(("EN")));
+                    btnLanguage.setText(Translate.transLang(("EN")));
                 }
-                else if (Translate.Language.equals("NL")) //display Language English
+                else if (Translate.Language.equals("NL")) // Display Language English
                 {
                     Translate.Language = "EN";
                     System.out.println(Translate.Language);
-                    //tabTxtEn();
                     showPanels("Profile");
-                    btnLanguage.setIcon(
-                            new ImageIcon(OvApp.class.getResource("/resources/countryNetherlands.png")));
-                    btnLanguage.setText(Translate.TransLang(("EN")));
+                    btnLanguage.setIcon
+                    (new ImageIcon(OvApp.class.getResource("/resources/countryNetherlands.png")));
+                    btnLanguage.setText(Translate.transLang(("EN")));
                 }
-                //Test
-                btnBackReminder.setText(Translate.TransLang("Terug"));
-                btnBackFavorites.setText(Translate.TransLang("Terug"));
-                btnBackSaved.setText(Translate.TransLang("Terug"));
-                //Profile
-                lbMyFirstName.setText(Translate.TransLang("Naam") + ":");
-                lbFavorites.setText(Translate.TransLang("Favorieten") + ":");
-                lbSaved.setText(Translate.TransLang("Opgeslagen") + ":");
-                lbReminders.setText(Translate.TransLang("Herinneringen:") + ":");
-                editButton.setText(Translate.TransLang("Wijzig profiel"));
-                lbMyCard.setText(Translate.TransLang("Kaart") + ":");
-                lbMyLastName.setText(Translate.TransLang("Achternaam") + ":");
-                lbMyAge.setText(Translate.TransLang("Leeftijd") + ":");
-                lbMyCity.setText(Translate.TransLang("Stad") + ":");
-                lbMyStreet.setText(Translate.TransLang("Straatnaam") + ":");
-                lbMyDescription.setText(Translate.TransLang("Mijn beschrijving") + ":");
-                //TravelPlanner
-                lblDestination.setText(Translate.TransLang("Aankomst") + ":");
-                lblDeparture.setText(Translate.TransLang("Vertrek") + ":");
-                btnPlanTrip.setText(Translate.TransLang("Zoeken"));
-                btnNow.setText(Translate.TransLang("Nu"));
-                //Location
-                btnLocationChange.setText(Translate.TransLang("Wijzig reis"));
-                lblLocationDestination.setText(Translate.TransLang("Aankomst") + ":");
-                lblLocationDeparture.setText(Translate.TransLang("Vertrek") + ":");
-                lblLocationDepartureType.setText(Translate.TransLang("Vervoerstype") + ":");
-                //Saved
-
-                //Map
-                //lblDeparture.setText(Translate.TransLang("Vertrektijd")+":");
-                lblArrivalTime.setText(Translate.TransLang("Aankomsttijd") + ":");
-                lblTotalTime.setText(Translate.TransLang("Totale tijd") + ":");
-                lblSaveTraject.setText(Translate.TransLang("Opslaan") + ":");
-                lblTrackArrival.setText(Translate.TransLang("Spoor") + ":");
-                lblTrackDeparture.setText(Translate.TransLang("Spoor") + ":");
-                lblPrice.setText(Translate.TransLang("Prijs") + ":");
-                lblDistance_1.setText(Translate.TransLang("Afstand") + ":");
-                lblDepartureTime.setText(Translate.TransLang("Vertrektijd") + ":");
+                // Back button
+                btnBackReminder.setText(Translate.transLang("Terug"));
+                btnBackFavorites.setText(Translate.transLang("Terug"));
+                btnBackSaved.setText(Translate.transLang("Terug"));
+                // Profile
+                lbMyFirstName.setText(Translate.transLang("Naam") + ":");
+                lbFavorites.setText(Translate.transLang("Favorieten") + ":");
+                lbSaved.setText(Translate.transLang("Opgeslagen") + ":");
+                lbReminders.setText(Translate.transLang("Herinneringen:") + ":");
+                editButton.setText(Translate.transLang("Wijzig profiel"));
+                lbMyCard.setText(Translate.transLang("Kaart") + ":");
+                lbMyLastName.setText(Translate.transLang("Achternaam") + ":");
+                lbMyAge.setText(Translate.transLang("Leeftijd") + ":");
+                lbMyCity.setText(Translate.transLang("Stad") + ":");
+                lbMyStreet.setText(Translate.transLang("Straatnaam") + ":");
+                lbMyDescription.setText(Translate.transLang("Mijn beschrijving") + ":");
+                // TravelPlanner
+                lblDestination.setText(Translate.transLang("Aankomst") + ":");
+                lblDeparture.setText(Translate.transLang("Vertrek") + ":");
+                btnPlanTrip.setText(Translate.transLang("Zoeken"));
+                btnNow.setText(Translate.transLang("Nu"));
+                // Location
+                btnLocationChange.setText(Translate.transLang("Wijzig reis"));
+                lblLocationDestination.setText(Translate.transLang("Aankomst") + ":");
+                lblLocationDeparture.setText(Translate.transLang("Vertrek") + ":");
+                lblLocationDepartureType.setText(Translate.transLang("Vervoerstype") + ":");
+                // Map
+                lblArrivalTime.setText(Translate.transLang("Aankomsttijd") + ":");
+                lblTotalTime.setText(Translate.transLang("Totale tijd") + ":");
+                lblSaveTraject.setText(Translate.transLang("Opslaan") + ":");
+                lblTrackArrival.setText(Translate.transLang("Spoor") + ":");
+                lblTrackDeparture.setText(Translate.transLang("Spoor") + ":");
+                lblPrice.setText(Translate.transLang("Prijs") + ":");
+                lblDistance_1.setText(Translate.transLang("Afstand") + ":");
+                lblDepartureTime.setText(Translate.transLang("Vertrektijd") + ":");
                 tableMap.setModel(new DefaultTableModel(
-                        // Data
+                        // Only way to translate the labels here.
                         new Object[][]
                                 {
                                         {null, null},
@@ -690,16 +698,16 @@ public class OvApp
                                         {null, null},
                                         {null, null},
                                 },
-                        // Header
+                        
                         new String[]
                                 {
-                                        //Translating the label words
-                                        Translate.TransLang("Tijd"), Translate.TransLang("Stop")
+                                        // Translating the label words
+                                        Translate.transLang("Tijd"), Translate.transLang("Stop")
                                 }
                 ));
 
-                //Delays
-                lblVertragingen.setText(Translate.TransLang("Vertragingen") + ":");
+                
+                lblVertragingen.setText(Translate.transLang("Vertragingen") + ":");
                 tableDelays.setModel(new DefaultTableModel(
                         new Object[][]
                                 {
@@ -708,16 +716,17 @@ public class OvApp
                                         {"Delft", "Groningen", "00:15"},
                                 },
                         new String[]
-                                {//Translating the label words
-                                        Translate.TransLang("Vertrek station"), Translate.TransLang("Aankomst station"), Translate.TransLang("Vertraging")    
+                                {		// Translating the label words
+                                        Translate.transLang("Vertrek station"), Translate.transLang("Aankomst station"), Translate.transLang("Vertraging")    
                                 }
                 ));
             }
         });
-      //set he line out for the buttondesign
+        
+        // Set the line out for the buttondesign
         btnLanguage.setBounds(389, 11, 74, 23);                                       
         panelProfile.add(btnLanguage);
-        //buttons "back"
+        // Buttons "back"
         btnBackFavorites = new JButton("Terug");
         btnBackFavorites.addActionListener(e -> showPanels("Profile"));
         btnBackFavorites.setBounds(364, 28, 89, 23);
@@ -751,6 +760,9 @@ public class OvApp
             // Will run if there is a selected row
             if (selectedRow >= 0)
             {
+                // Set edit mode true
+                editMode = true;
+
                 // Show panel with TravelTime details
                 showPanels("Details");
 
@@ -774,21 +786,21 @@ public class OvApp
                             departure,
                             arrivalTime,
                             destination
-                    ); 
-                    
+                    );
+
                     if (travelTime.getDestination().equals("Ede"))
                     {
-                    	 
-                         dynamicMap.set_Location_Bus1();
+
+                        dynamicMap.set_Location_Bus1();
                     }
-                    else if (travelTime.getDestination().equals("Amersfoort")) 
-                    	
-                    {	
-                    	dynamicMap.set_Location_Bus2();
+                    else if (travelTime.getDestination().equals("Amersfoort"))
+
+                    {
+                        dynamicMap.set_Location_Bus2();
                     }
-                    else if (travelTime.getDestination().equals("Utrecht")) 
-                    {	
-                    	dynamicMap.set_Location_Bus3();
+                    else if (travelTime.getDestination().equals("Utrecht"))
+                    {
+                        dynamicMap.set_Location_Bus3();
                     }
                 }
                 else if (selectedTransportType.equals("Metro"))
@@ -800,7 +812,7 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
-                   dynamicMap.set_Location_Metro1();
+                    dynamicMap.set_Location_Metro1();
                 }
                 else if (selectedTransportType.equals("Trein"))
                 {
@@ -822,6 +834,7 @@ public class OvApp
                             arrivalTime,
                             destination
                     );
+
                     dynamicMap.set_Location_Tram();
                 }
 
@@ -832,9 +845,6 @@ public class OvApp
                 lblDistanceTxt.setText(travelTime.getDistance());
                 lblTrackDepartureTxt.setText(travelTime.getPlatform());
                 lblTrackArrivalTxt.setText(travelTime.getDestination());
-                
-                //To do refresh map for Joel & Danielle
-                //Traveltime can be used here
 
                 // Set edit mode true
                 editMode = true;
@@ -861,10 +871,10 @@ public class OvApp
 
     private void panelTravelPlanner()
     {
-        //creates a new panel
+        // Creates a new panel
         panelTravelPlanner = new JPanel();
 
-        //buttons for different search options
+        // Buttons for different search options
         JButton btnBus = new JButton("");
         btnBus.setIcon(new ImageIcon(OvApp.class.getResource("/resources/bus_50.png")));
         JButton btnTrain = new JButton("");
@@ -883,19 +893,19 @@ public class OvApp
         {
         	//Switch to resultsPanel
         	showPanels("Results");
-        	
+
             // Retrieve search criteria
-            String selectedDeparture = txtFieldDeparture.getText();
-            String selectedDestination = txtFieldDestination.getText();
+            selectedDeparture = txtFieldDeparture.getText();
+            selectedDestination = txtFieldDestination.getText();
 
             // Set labels to display used search criteria
-            lblDynamicDeparture.setText(selectedDeparture);
-            lblDynamicDestination.setText(selectedDestination);
+            lblDynamicDeparture.setText(txtFieldDeparture.getText());
+            lblDynamicDestination.setText(txtFieldDestination.getText());
             lblDynamicTransportType.setText(selectedTransportType);
 
             // Create a header for the table
-            String[] header = {Translate.TransLang("Vertrektijd"), "Spoor/Halte", Translate.TransLang("Bestemming")};
-            header[1] = selectedTransportType.equals("Bus") ? Translate.TransLang("Halte") : Translate.TransLang("Spoor");
+            String[] header = {Translate.transLang("Vertrektijd"), "Spoor/Halte", Translate.transLang("Bestemming")};
+            header[1] = selectedTransportType.equals("Bus") ? Translate.transLang("Halte") : Translate.transLang("Spoor");
 
             // Create a new TableModel and apply it to the Table
             DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, header);
@@ -954,7 +964,7 @@ public class OvApp
         //button that will show the current time
         btnNow = new JButton("Nu");
 
-        txtFieldDeparture = new JTextField();
+        txtFieldDeparture = new JTextField("");
         txtFieldDeparture.setColumns(10);
 
         //automatically groups the buttons at the same height.
@@ -1080,20 +1090,20 @@ public class OvApp
                                     platform,
                                     destination
                             );
-                    
+
                             if (travelTime.getDestination().equals("Ede"))
                             {
-                            	 
-                                 dynamicMap.set_Location_Bus1();
+
+                                dynamicMap.set_Location_Bus1();
                             }
-                            else if (travelTime.getDestination().equals("Amersfoort")) 
-                            	
-                            {	
-                            	dynamicMap.set_Location_Bus2();
+                            else if (travelTime.getDestination().equals("Amersfoort"))
+
+                            {
+                                dynamicMap.set_Location_Bus2();
                             }
-                            else if (travelTime.getDestination().equals("Utrecht")) 
-                            {	
-                            	dynamicMap.set_Location_Bus3();
+                            else if (travelTime.getDestination().equals("Utrecht"))
+                            {
+                                dynamicMap.set_Location_Bus3();
                             }
                         }
                         else if (selectedTransportType.equals("Train"))
@@ -1104,9 +1114,9 @@ public class OvApp
                                     platform,
                                     destination
                             );
-                            
-                           dynamicMap.set_Location_Trein1();
-                           System.out.println("treinmap werkt");
+
+                            dynamicMap.set_Location_Trein1();
+                            System.out.println("treinmap werkt");
                         }
                         else if (selectedTransportType.equals("Tram"))
                         {
@@ -1116,10 +1126,8 @@ public class OvApp
                                     platform,
                                     destination
                             );
-                            
-                           	dynamicMap.set_Location_Tram();
-                         
-                           
+
+                            dynamicMap.set_Location_Tram();
                         }
                         else if (selectedTransportType.equals("Metro"))
                         {
@@ -1129,7 +1137,7 @@ public class OvApp
                                     platform,
                                     destination
                             );
-                            
+
                             dynamicMap.set_Location_Metro2();
                         }
                         
@@ -1141,7 +1149,7 @@ public class OvApp
                         lblTrackDepartureTxt.setText(travelTime.getPlatform()+ " "+ travelTime.getStationName());
                         lblTrackArrivalTxt.setText(travelTime.getDestination());
                         
-                        
+
                         // Refresh map here  
                        
                     }
@@ -1150,7 +1158,7 @@ public class OvApp
                 }
         );
 
-        //From here on only auto generated styling and adding of components
+        // From here on only auto generated styling and adding of components
         GroupLayout gl_panelLocation = new GroupLayout(panelLocation);
         gl_panelLocation.setHorizontalGroup(
                 gl_panelLocation.createParallelGroup(Alignment.TRAILING)
@@ -1207,14 +1215,14 @@ public class OvApp
      */
     private void panelMap()
     {
-        //dynamicMap.set_Location_Trein1();
+        dynamicMap.open_map();
     	
-        panelMap = new JPanel();// make a new panel named panelMap
-        panelMap.setBackground(Color.WHITE);// set the background to the color white
-        //tabbedPane.addTab("Kaart", null, panelMap, null);
+        panelMap = new JPanel();// Make a new panel named panelMap
+        panelMap.setBackground(Color.WHITE);// Set the background to the color white
+        // TabbedPane.addTab("Kaart", null, panelMap, null);
         panelMap.setLayout(null);
 
-        //labels
+        // Labels
         lblDepartureTime = new JLabel("Vertrek" + ":");
         lblDepartureTime.setBounds(44, 39, 84, 25);
         lblDepartureTime.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -1222,7 +1230,7 @@ public class OvApp
 
         lblArrivalTime = new JLabel("Aankomsttijd:");// make new label named lblArrivalTime
         lblArrivalTime.setBounds(44, 75, 84, 25);//Set the outlining design for the button
-        //set the text in a new design, called "font" in programming
+        // Set the text in a new design, called "font" in programming
         lblArrivalTime.setFont(new Font("Tahoma", Font.BOLD, 11));
         panelMap.add(lblArrivalTime);
 
@@ -1276,11 +1284,11 @@ public class OvApp
         lblTrackArrivalTxt.setBounds(348, 75, 132, 23);
         panelMap.add(lblTrackArrivalTxt);
 
-        JLabel lblPriceTxt = new JLabel("<dynamic>");
+        lblPriceTxt = new JLabel("<dynamic>");
         lblPriceTxt.setBounds(348, 135, 70, 23);
         panelMap.add(lblPriceTxt);
 
-        //buttons
+        // Buttons
         btnBackMap = new JButton("Terug");
         btnBackMap.setBounds(12, 12, 89, 23);
         panelMap.add(btnBackMap);
@@ -1352,8 +1360,8 @@ public class OvApp
                 lblDynamicTransportType.setText(selectedTransportType);
 
                 // Create a header for the table
-                String[] header = {Translate.TransLang("Vertrektijd"), "Spoor/Halte", Translate.TransLang("Bestemming")};
-                header[1] = selectedTransportType.equals("Bus") ? Translate.TransLang("Halte") : Translate.TransLang("Spoor");
+                String[] header = {Translate.transLang("Vertrektijd"), "Spoor/Halte", Translate.transLang("Bestemming")};
+                header[1] = selectedTransportType.equals("Bus") ? Translate.transLang("Halte") : Translate.transLang("Spoor");
 
                 // Create a new TableModel and apply it to the Table
                 DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, header);
@@ -1425,12 +1433,12 @@ public class OvApp
         btnPrice.setIcon(new ImageIcon(OvApp.class.getResource("/resources/pay.png")));
         panelMap.add(btnPrice);
 
-        //srollpane
+        // Srollpane
         JScrollPane scrollPaneMap = new JScrollPane();
         scrollPaneMap.setBounds(296, 233, 184, 276);
         panelMap.add(scrollPaneMap);
 
-        //table
+        // Table
         tableMap = new JTable();                                    //make a new table named tableMap
         tableMap.setModel(new DefaultTableModel(                    //set a model for tableMap
                 new Object[][]{
@@ -1578,10 +1586,6 @@ public class OvApp
         panelReminder.setBackground(Color.WHITE);
         panelReminder.setLayout(null);
     }
-
-    /**
-     * This method contains all of the code for creating events
-     */
 
 }
 

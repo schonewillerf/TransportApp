@@ -52,7 +52,9 @@ public class NSapi {
 
 
             if (entity != null) {
+
                 NStrain nstrain = mapper.readValue(EntityUtils.toString(entity), NStrain.class);
+
                 System.out.println(nstrain.trips[0].legs[0].name);
                 System.out.println(nstrain.trips[0].legs[0].getDirection());
                 System.out.println(nstrain.trips[0].legs[0].destination.getName());

@@ -59,5 +59,6 @@ public class BusTime extends TravelTime
     {
         return String.format("%s km", distance / 1000);
     }
+
 }
 
