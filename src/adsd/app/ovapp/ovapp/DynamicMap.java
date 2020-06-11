@@ -235,7 +235,7 @@ public class DynamicMap extends OvApp
 
        Browser browser = engine.newBrowser();
         // Loading the required web page
-        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_AmersfoortCtrl_AmersfoortZuid_Bus.html");
+        browser.navigation().loadUrl("file:///C:/googlemapsHTML/map_AmersfoortCtrl_EdeCtrm_Bus.html");
        
 
         SwingUtilities.invokeLater(() -> {
